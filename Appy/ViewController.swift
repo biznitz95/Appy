@@ -15,6 +15,8 @@ class ViewController: VideoSplashViewController {
     @IBOutlet weak var usernameText: UITextField!
     @IBOutlet weak var passwordText: UITextField!
     @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var registerButton: UIButton!
+    @IBOutlet weak var forgotButton: UIButton!
     
     
     override func viewDidLoad() {
@@ -23,11 +25,21 @@ class ViewController: VideoSplashViewController {
         // Modify button for Login
         modifyLoginButton()
         
+        // Modify button for Register
+        modifyCreateButton()
+        
+        // Modify forgot button
+        modifyForgotButton()
+        
         // Modify textfields
         modifyTextFields()
         
         // Add backgroudn video
         addVideo(videoName: "test", videoType: "mp4")
+        
+        // Make keyboard go away if tapped anywhere
+        keyboardDismiss()
+        
     }
 
     // User pressed Login
@@ -41,7 +53,15 @@ class ViewController: VideoSplashViewController {
         
     }
     
-
+    // User pressed Create New Account
+    @IBAction func pressedRegister(_ sender: UIButton) {
+        #warning("Implement registration")
+    }
+    
+    @IBAction func pressedForgot(_ sender: UIButton) {
+    }
+    
+    
     // Add Video Function
     func addVideo(videoName name: String, videoType type: String) -> Void {
         guard let myBundle = Bundle.main.path(forResource: name, ofType: type) else {fatalError("Could not find video!")}
@@ -62,11 +82,16 @@ class ViewController: VideoSplashViewController {
     func modifyLoginButton() -> Void {
         loginButton.layer.cornerRadius = 5
         loginButton.backgroundColor = UIColor.flatSkyBlueColorDark()
-        
-        usernameText.layer.cornerRadius = 5
-        usernameText.backgroundColor = .clear
-        usernameText.layer.borderWidth = 1
-        usernameText.layer.borderColor = UIColor.flatSkyBlue()?.cgColor
+    }
+    
+    func modifyCreateButton() -> Void {
+        registerButton.layer.cornerRadius = 5
+        registerButton.backgroundColor = UIColor.flatSkyBlueColorDark()
+    }
+    
+    func modifyForgotButton() -> Void {
+        forgotButton.layer.cornerRadius = 5
+        forgotButton.tintColor = UIColor.flatPowderBlue()
     }
     
     // Textfields modifications
@@ -88,6 +113,18 @@ class ViewController: VideoSplashViewController {
         passwordText.backgroundColor = .clear
         passwordText.layer.borderWidth = 1
         passwordText.layer.borderColor = UIColor.flatSkyBlue()?.cgColor
+        
+        usernameText.layer.cornerRadius = 5
+        usernameText.backgroundColor = .clear
+        usernameText.layer.borderWidth = 1
+        usernameText.layer.borderColor = UIColor.flatSkyBlue()?.cgColor
+    }
+    
+    // Dismiss Keyboard Function
+    func keyboardDismiss() -> Void {
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
     }
 }
 

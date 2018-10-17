@@ -127,8 +127,60 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r6Q-a9-CDj">
                                 <rect key="frame" x="0.0" y="406" width="375" height="406"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NSl-4E-NoK">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="203"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7aD-7G-l8q">
+                                                <rect key="frame" x="8" y="81.666666666666686" width="359" height="40"/>
+                                                <color key="backgroundColor" red="0.1215686275" green="0.12941176469999999" blue="0.14117647059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="7aD-7G-l8q" secondAttribute="height" multiplier="359:40" id="NGL-Zo-hv3"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="28"/>
+                                                <state key="normal" title="Create New Account">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="pressedRegister:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VXj-RJ-IxZ"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="7aD-7G-l8q" firstAttribute="centerX" secondItem="NSl-4E-NoK" secondAttribute="centerX" id="9fx-Lf-T4L"/>
+                                            <constraint firstItem="7aD-7G-l8q" firstAttribute="centerY" secondItem="NSl-4E-NoK" secondAttribute="centerY" id="Fjv-9p-Zxg"/>
+                                            <constraint firstAttribute="width" secondItem="NSl-4E-NoK" secondAttribute="height" multiplier="375:203" id="aL2-uL-J5I"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a6Q-qU-Rei">
+                                        <rect key="frame" x="0.0" y="203" width="375" height="203"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ref-La-xIz">
+                                                <rect key="frame" x="83" y="86" width="208" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <state key="normal" title="Forgot Username or Password"/>
+                                                <connections>
+                                                    <action selector="pressedForgot:" destination="BYZ-38-t0r" eventType="touchUpInside" id="w48-JT-SDo"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="a6Q-qU-Rei" secondAttribute="height" multiplier="375:203" id="3Ya-xO-KMp"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="NSl-4E-NoK" secondAttribute="trailing" id="0zK-mB-B2z"/>
+                                    <constraint firstAttribute="bottom" secondItem="a6Q-qU-Rei" secondAttribute="bottom" id="3KW-Vo-mX2"/>
                                     <constraint firstAttribute="width" secondItem="r6Q-a9-CDj" secondAttribute="height" multiplier="375:406" id="82K-sF-gLz"/>
+                                    <constraint firstAttribute="trailing" secondItem="a6Q-qU-Rei" secondAttribute="trailing" id="EW1-Sk-WhE"/>
+                                    <constraint firstItem="a6Q-qU-Rei" firstAttribute="height" secondItem="NSl-4E-NoK" secondAttribute="height" id="IPZ-Wc-std"/>
+                                    <constraint firstItem="a6Q-qU-Rei" firstAttribute="top" secondItem="NSl-4E-NoK" secondAttribute="bottom" id="QWf-B7-b47"/>
+                                    <constraint firstItem="NSl-4E-NoK" firstAttribute="top" secondItem="r6Q-a9-CDj" secondAttribute="top" id="dbx-2S-iJn"/>
+                                    <constraint firstItem="NSl-4E-NoK" firstAttribute="leading" secondItem="r6Q-a9-CDj" secondAttribute="leading" id="fGV-Jm-IHB"/>
+                                    <constraint firstItem="a6Q-qU-Rei" firstAttribute="top" secondItem="NSl-4E-NoK" secondAttribute="bottom" id="hpW-PP-mlg"/>
+                                    <constraint firstItem="a6Q-qU-Rei" firstAttribute="leading" secondItem="r6Q-a9-CDj" secondAttribute="leading" id="rih-qe-5Qo"/>
+                                    <constraint firstItem="a6Q-qU-Rei" firstAttribute="width" secondItem="NSl-4E-NoK" secondAttribute="width" id="vMz-Cg-5tP"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -148,8 +200,10 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="forgotButton" destination="Ref-La-xIz" id="eL5-1X-pTl"/>
                         <outlet property="loginButton" destination="TXM-h5-oph" id="CRw-XK-UDU"/>
                         <outlet property="passwordText" destination="Mgb-Vi-qrQ" id="CfP-FB-Vol"/>
+                        <outlet property="registerButton" destination="7aD-7G-l8q" id="954-m8-xxq"/>
                         <outlet property="titleLabel" destination="bnv-ig-qcb" id="AoJ-oP-fY7"/>
                         <outlet property="usernameText" destination="E53-9f-QDh" id="zGe-1q-ZT3"/>
                     </connections>
