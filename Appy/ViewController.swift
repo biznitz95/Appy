@@ -11,13 +11,56 @@ import ChameleonFramework
 import VideoSplashKit
 
 class ViewController: VideoSplashViewController {
-
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var usernameText: UITextField!
+    @IBOutlet weak var passwordText: UITextField!
+    @IBOutlet weak var loginButton: UIButton!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loginButton.layer.cornerRadius = 5
+        loginButton.backgroundColor = UIColor.flatSkyBlueColorDark()
+        
+        usernameText.layer.cornerRadius = 5
+        usernameText.backgroundColor = .clear
+        usernameText.layer.borderWidth = 1
+        usernameText.layer.borderColor = UIColor.flatSkyBlue()?.cgColor
+        
+        //
+        var stringTitle = NSMutableAttributedString()
+        let usernameString  = "Username" // PlaceHolderText
+        let passwordString = "Password"
+        
+        stringTitle = NSMutableAttributedString(string:usernameString, attributes: [NSAttributedString.Key.font:UIFont(name: "Courier", size: 18.0)!]) // Font
+        stringTitle.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.white, range:NSRange(location:0,length:usernameString.count))    // Color
+        usernameText.attributedPlaceholder = stringTitle
+        
+        stringTitle = NSMutableAttributedString(string:passwordString, attributes: [NSAttributedString.Key.font:UIFont(name: "Courier", size: 18.0)!]) // Font
+        stringTitle.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.white, range:NSRange(location:0,length:usernameString.count))    // Color
+        passwordText.attributedPlaceholder = stringTitle
+        //
+        
+        passwordText.layer.cornerRadius = 5
+        passwordText.backgroundColor = .clear
+        passwordText.layer.borderWidth = 1
+        passwordText.layer.borderColor = UIColor.flatSkyBlue()?.cgColor
         
         addVideo(videoName: "test", videoType: "mp4")
     }
 
+    // User pressed Login
+    @IBAction func pressedLogin(_ sender: UIButton) {
+        if (usernameText.text?.isEmpty)! || (passwordText.text?.isEmpty)! {
+            return
+        }
+        
+        #warning("Take user to main page")
+        // Take User to Main Page
+        
+    }
+    
 
     // Add Video Function
     func addVideo(videoName name: String, videoType type: String) -> Void {
