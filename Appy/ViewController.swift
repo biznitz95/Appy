@@ -20,33 +20,13 @@ class ViewController: VideoSplashViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loginButton.layer.cornerRadius = 5
-        loginButton.backgroundColor = UIColor.flatSkyBlueColorDark()
+        // Modify button for Login
+        modifyLoginButton()
         
-        usernameText.layer.cornerRadius = 5
-        usernameText.backgroundColor = .clear
-        usernameText.layer.borderWidth = 1
-        usernameText.layer.borderColor = UIColor.flatSkyBlue()?.cgColor
+        // Modify textfields
+        modifyTextFields()
         
-        //
-        var stringTitle = NSMutableAttributedString()
-        let usernameString  = "Username" // PlaceHolderText
-        let passwordString = "Password"
-        
-        stringTitle = NSMutableAttributedString(string:usernameString, attributes: [NSAttributedString.Key.font:UIFont(name: "Courier", size: 18.0)!]) // Font
-        stringTitle.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.white, range:NSRange(location:0,length:usernameString.count))    // Color
-        usernameText.attributedPlaceholder = stringTitle
-        
-        stringTitle = NSMutableAttributedString(string:passwordString, attributes: [NSAttributedString.Key.font:UIFont(name: "Courier", size: 18.0)!]) // Font
-        stringTitle.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.white, range:NSRange(location:0,length:usernameString.count))    // Color
-        passwordText.attributedPlaceholder = stringTitle
-        //
-        
-        passwordText.layer.cornerRadius = 5
-        passwordText.backgroundColor = .clear
-        passwordText.layer.borderWidth = 1
-        passwordText.layer.borderColor = UIColor.flatSkyBlue()?.cgColor
-        
+        // Add backgroudn video
         addVideo(videoName: "test", videoType: "mp4")
     }
 
@@ -56,7 +36,7 @@ class ViewController: VideoSplashViewController {
             return
         }
         
-        #warning("Take user to main page")
+        #warning("Implement take user to main page")
         // Take User to Main Page
         
     }
@@ -76,6 +56,38 @@ class ViewController: VideoSplashViewController {
         self.backgroundColor = UIColor.black
         self.contentURL = url
         self.restartForeground = true
+    }
+    
+    // Login button modifications
+    func modifyLoginButton() -> Void {
+        loginButton.layer.cornerRadius = 5
+        loginButton.backgroundColor = UIColor.flatSkyBlueColorDark()
+        
+        usernameText.layer.cornerRadius = 5
+        usernameText.backgroundColor = .clear
+        usernameText.layer.borderWidth = 1
+        usernameText.layer.borderColor = UIColor.flatSkyBlue()?.cgColor
+    }
+    
+    // Textfields modifications
+    func modifyTextFields() -> Void {
+        var stringTitle = NSMutableAttributedString()
+        let usernameString  = "Username" // PlaceHolderText
+        let passwordString = "Password"
+        
+        stringTitle = NSMutableAttributedString(string:usernameString, attributes: [NSAttributedString.Key.font:UIFont(name: "Courier", size: 18.0)!]) // Font
+        stringTitle.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.white, range:NSRange(location:0,length:usernameString.count))    // Color
+        usernameText.attributedPlaceholder = stringTitle
+        
+        stringTitle = NSMutableAttributedString(string:passwordString, attributes: [NSAttributedString.Key.font:UIFont(name: "Courier", size: 18.0)!]) // Font
+        stringTitle.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.white, range:NSRange(location:0,length:usernameString.count))    // Color
+        passwordText.attributedPlaceholder = stringTitle
+        //
+        
+        passwordText.layer.cornerRadius = 5
+        passwordText.backgroundColor = .clear
+        passwordText.layer.borderWidth = 1
+        passwordText.layer.borderColor = UIColor.flatSkyBlue()?.cgColor
     }
 }
 
