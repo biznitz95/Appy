@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import ChameleonFramework
+import VideoSplashKit
 
 class ViewController: UIViewController {
 
