@@ -13,6 +13,7 @@
 		9E7ECA0E2177C1360071DD6B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E7ECA0C2177C1360071DD6B /* Main.storyboard */; };
 		9E7ECA102177C1380071DD6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E7ECA0F2177C1380071DD6B /* Assets.xcassets */; };
 		9E7ECA132177C1380071DD6B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E7ECA112177C1380071DD6B /* LaunchScreen.storyboard */; };
+		9EEF66362177C91100E84A05 /* test.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 9EEF66352177C91100E84A05 /* test.mp4 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		9E7ECA0F2177C1380071DD6B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9E7ECA122177C1380071DD6B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9E7ECA142177C1380071DD6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9EEF66352177C91100E84A05 /* test.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.mp4; sourceTree = "<group>"; };
 		C775D6898DECF58C9B402C7A /* Pods-Appy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Appy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Appy/Pods-Appy.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -43,6 +45,7 @@
 		9E7EC9FC2177C1360071DD6B = {
 			isa = PBXGroup;
 			children = (
+				9EEF66352177C91100E84A05 /* test.mp4 */,
 				9E7ECA072177C1360071DD6B /* Appy */,
 				9E7ECA062177C1360071DD6B /* Products */,
 				FF16800DCE649FF26EB10274 /* Pods */,
@@ -151,6 +154,7 @@
 				9E7ECA132177C1380071DD6B /* LaunchScreen.storyboard in Resources */,
 				9E7ECA102177C1380071DD6B /* Assets.xcassets in Resources */,
 				9E7ECA0E2177C1360071DD6B /* Main.storyboard in Resources */,
+				9EEF66362177C91100E84A05 /* test.mp4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
