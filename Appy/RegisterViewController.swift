@@ -12,10 +12,29 @@ import VideoSplashKit
 
 class RegisterViewController: VideoSplashViewController {
     
+    @IBOutlet weak var emailText: UITextField!
+    @IBOutlet weak var usernameText: UITextField!
+    @IBOutlet weak var passwordText: UITextField!
+    @IBOutlet weak var passwordConfirmText: UITextField!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         addVideo(videoName: "test2", videoType: "mp4")
+        
+        keyboardDismiss()
+    }
+    
+    @IBAction func pressedRegister(_ sender: UIButton) {
+        performSegue(withIdentifier: "goToHomePageFromRegister", sender: self)
+    }
+    
+    @IBAction func pressedLogin(_ sender: UIButton) {
+        performSegue(withIdentifier: "goToLoginFromRegister", sender: self)
+    }
+    
+    @IBAction func pressedForgot(_ sender: UIButton) {
     }
     
     // Add Video Function
@@ -32,6 +51,13 @@ class RegisterViewController: VideoSplashViewController {
         self.backgroundColor = UIColor.black
         self.contentURL = url
         self.restartForeground = true
+    }
+    
+    // Dismiss Keyboard Function
+    func keyboardDismiss() -> Void {
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
     }
 }
 

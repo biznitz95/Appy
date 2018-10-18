@@ -246,23 +246,62 @@
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SMG-Ax-w5C">
                                         <rect key="frame" x="0.0" y="102" width="375" height="102"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OLN-J3-kvQ">
+                                                <rect key="frame" x="87.666666666666686" y="36" width="200" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="OLN-J3-kvQ" secondAttribute="height" multiplier="20:3" id="B0g-B6-rzv"/>
+                                                </constraints>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="SMG-Ax-w5C" secondAttribute="height" multiplier="125:34" id="3iS-kt-nx8"/>
+                                            <constraint firstItem="OLN-J3-kvQ" firstAttribute="centerY" secondItem="SMG-Ax-w5C" secondAttribute="centerY" id="W2a-qr-XlU"/>
+                                            <constraint firstItem="OLN-J3-kvQ" firstAttribute="centerX" secondItem="SMG-Ax-w5C" secondAttribute="centerX" id="wJ4-Ml-61t"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LGh-7F-3wh">
                                         <rect key="frame" x="0.0" y="204" width="375" height="102"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Nae-Mj-8oP">
+                                                <rect key="frame" x="87.666666666666686" y="36" width="200" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="Nae-Mj-8oP" secondAttribute="height" multiplier="20:3" id="sLk-bp-AD1"/>
+                                                </constraints>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="LGh-7F-3wh" secondAttribute="height" multiplier="125:34" id="5MO-08-dak"/>
+                                            <constraint firstItem="Nae-Mj-8oP" firstAttribute="centerX" secondItem="LGh-7F-3wh" secondAttribute="centerX" id="Fjp-y9-hED"/>
+                                            <constraint firstItem="Nae-Mj-8oP" firstAttribute="centerY" secondItem="LGh-7F-3wh" secondAttribute="centerY" id="WeM-oB-Q3p"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rTB-0I-sRX">
                                         <rect key="frame" x="0.0" y="306" width="375" height="102"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qY9-kT-z5Q">
+                                                <rect key="frame" x="87.666666666666686" y="36" width="200" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="qY9-kT-z5Q" secondAttribute="height" multiplier="20:3" id="DkV-0m-mAx"/>
+                                                </constraints>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="rTB-0I-sRX" secondAttribute="height" multiplier="125:34" id="6gd-qC-zq2"/>
+                                            <constraint firstItem="qY9-kT-z5Q" firstAttribute="centerX" secondItem="rTB-0I-sRX" secondAttribute="centerX" id="Gb5-1O-84J"/>
+                                            <constraint firstItem="qY9-kT-z5Q" firstAttribute="centerY" secondItem="rTB-0I-sRX" secondAttribute="centerY" id="cS6-FK-bIX"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -289,9 +328,123 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="teH-Db-nqk">
                                 <rect key="frame" x="0.0" y="406" width="375" height="406"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PNC-G3-fUJ">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="102"/>
+                                        <subviews>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm Email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9Ib-pg-YWk">
+                                                <rect key="frame" x="87.666666666666686" y="36" width="200" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="9Ib-pg-YWk" secondAttribute="height" multiplier="20:3" id="hAQ-1Q-YRC"/>
+                                                </constraints>
+                                                <nil key="textColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="9Ib-pg-YWk" firstAttribute="centerY" secondItem="PNC-G3-fUJ" secondAttribute="centerY" id="Egj-z4-mfq"/>
+                                            <constraint firstAttribute="width" secondItem="PNC-G3-fUJ" secondAttribute="height" multiplier="125:34" id="cig-uU-gIr"/>
+                                            <constraint firstItem="9Ib-pg-YWk" firstAttribute="centerX" secondItem="PNC-G3-fUJ" secondAttribute="centerX" id="lDt-RT-aHz"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="il5-YR-Iw6">
+                                        <rect key="frame" x="0.0" y="102" width="375" height="102"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ade-Uh-dOw">
+                                                <rect key="frame" x="120" y="31" width="135" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="Ade-Uh-dOw" secondAttribute="height" multiplier="27:8" id="tQb-xC-URv"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="28"/>
+                                                <state key="normal" title="Register">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="pressedRegister:" destination="KI6-m8-khc" eventType="touchUpInside" id="ctx-RC-9es"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="Ade-Uh-dOw" firstAttribute="centerY" secondItem="il5-YR-Iw6" secondAttribute="centerY" id="6ZP-NN-HAg"/>
+                                            <constraint firstAttribute="width" secondItem="il5-YR-Iw6" secondAttribute="height" multiplier="125:34" id="N01-sQ-12N"/>
+                                            <constraint firstItem="Ade-Uh-dOw" firstAttribute="centerX" secondItem="il5-YR-Iw6" secondAttribute="centerX" id="YBm-5j-iA0"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7OD-8O-Nto">
+                                        <rect key="frame" x="0.0" y="204" width="375" height="102"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vpm-3M-Em2">
+                                                <rect key="frame" x="145" y="31" width="85" height="40"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="Vpm-3M-Em2" secondAttribute="height" multiplier="17:8" id="t4C-gN-nGi"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="28"/>
+                                                <state key="normal" title="Login">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="pressedLogin:" destination="KI6-m8-khc" eventType="touchUpInside" id="2qE-Ax-m4b"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="7OD-8O-Nto" secondAttribute="height" multiplier="125:34" id="GML-cI-XEP"/>
+                                            <constraint firstItem="Vpm-3M-Em2" firstAttribute="centerY" secondItem="7OD-8O-Nto" secondAttribute="centerY" id="V0w-Xg-psc"/>
+                                            <constraint firstItem="Vpm-3M-Em2" firstAttribute="centerX" secondItem="7OD-8O-Nto" secondAttribute="centerX" id="VYm-33-3Vz"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ef6-1Y-psu">
+                                        <rect key="frame" x="0.0" y="306" width="375" height="102"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g16-m6-bRx">
+                                                <rect key="frame" x="83.666666666666686" y="36" width="208" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="g16-m6-bRx" secondAttribute="height" multiplier="104:15" id="Hyw-be-loN"/>
+                                                </constraints>
+                                                <state key="normal" title="Forgot Username or Password"/>
+                                                <connections>
+                                                    <action selector="pressedForgot:" destination="KI6-m8-khc" eventType="touchUpInside" id="l1W-74-Hwf"/>
+                                                    <action selector="pressedForgot:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xNE-YK-xnS"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="g16-m6-bRx" firstAttribute="centerY" secondItem="ef6-1Y-psu" secondAttribute="centerY" id="G26-x8-5Ue"/>
+                                            <constraint firstAttribute="width" secondItem="ef6-1Y-psu" secondAttribute="height" multiplier="125:34" id="h4R-rq-hPk"/>
+                                            <constraint firstItem="g16-m6-bRx" firstAttribute="centerX" secondItem="ef6-1Y-psu" secondAttribute="centerX" id="sNV-48-oeD"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="ef6-1Y-psu" firstAttribute="width" secondItem="PNC-G3-fUJ" secondAttribute="width" id="34A-3p-bOU"/>
+                                    <constraint firstItem="il5-YR-Iw6" firstAttribute="width" secondItem="PNC-G3-fUJ" secondAttribute="width" id="669-if-cBp"/>
+                                    <constraint firstAttribute="trailing" secondItem="PNC-G3-fUJ" secondAttribute="trailing" id="8Y3-am-MeT"/>
+                                    <constraint firstItem="il5-YR-Iw6" firstAttribute="leading" secondItem="teH-Db-nqk" secondAttribute="leading" id="H36-Pl-NZW"/>
+                                    <constraint firstItem="7OD-8O-Nto" firstAttribute="width" secondItem="PNC-G3-fUJ" secondAttribute="width" id="Nwf-JG-IS0"/>
+                                    <constraint firstItem="il5-YR-Iw6" firstAttribute="height" secondItem="PNC-G3-fUJ" secondAttribute="height" id="R4g-qy-DgU"/>
+                                    <constraint firstItem="PNC-G3-fUJ" firstAttribute="leading" secondItem="teH-Db-nqk" secondAttribute="leading" id="S97-7c-tCK"/>
+                                    <constraint firstItem="7OD-8O-Nto" firstAttribute="leading" secondItem="teH-Db-nqk" secondAttribute="leading" id="T9g-Tc-duS"/>
+                                    <constraint firstItem="ef6-1Y-psu" firstAttribute="leading" secondItem="teH-Db-nqk" secondAttribute="leading" id="TJb-k9-b1p"/>
+                                    <constraint firstItem="7OD-8O-Nto" firstAttribute="height" secondItem="PNC-G3-fUJ" secondAttribute="height" id="TLC-7E-rFG"/>
+                                    <constraint firstAttribute="trailing" secondItem="7OD-8O-Nto" secondAttribute="trailing" id="Uh7-xi-rhP"/>
+                                    <constraint firstItem="il5-YR-Iw6" firstAttribute="top" secondItem="PNC-G3-fUJ" secondAttribute="bottom" id="VL3-H1-gnJ"/>
                                     <constraint firstAttribute="width" secondItem="teH-Db-nqk" secondAttribute="height" multiplier="375:406" id="VMu-6Y-RZ5"/>
+                                    <constraint firstAttribute="bottom" secondItem="ef6-1Y-psu" secondAttribute="bottom" constant="-2" id="Zpz-Se-8Ed"/>
+                                    <constraint firstItem="il5-YR-Iw6" firstAttribute="top" secondItem="PNC-G3-fUJ" secondAttribute="bottom" id="dkt-eO-VWR"/>
+                                    <constraint firstItem="7OD-8O-Nto" firstAttribute="top" secondItem="il5-YR-Iw6" secondAttribute="bottom" id="fNZ-iS-7Gv"/>
+                                    <constraint firstItem="ef6-1Y-psu" firstAttribute="height" secondItem="PNC-G3-fUJ" secondAttribute="height" id="hFy-Bw-H0d"/>
+                                    <constraint firstItem="ef6-1Y-psu" firstAttribute="top" secondItem="7OD-8O-Nto" secondAttribute="bottom" id="lId-bL-Fq2"/>
+                                    <constraint firstItem="PNC-G3-fUJ" firstAttribute="top" secondItem="teH-Db-nqk" secondAttribute="top" id="mGQ-tU-Vka"/>
+                                    <constraint firstItem="ef6-1Y-psu" firstAttribute="top" secondItem="7OD-8O-Nto" secondAttribute="bottom" id="nsO-H3-y1e"/>
+                                    <constraint firstAttribute="trailing" secondItem="ef6-1Y-psu" secondAttribute="trailing" id="poQ-HD-UcE"/>
+                                    <constraint firstAttribute="trailing" secondItem="il5-YR-Iw6" secondAttribute="trailing" id="vDv-xB-jM1"/>
+                                    <constraint firstItem="7OD-8O-Nto" firstAttribute="top" secondItem="il5-YR-Iw6" secondAttribute="bottom" id="xQ0-JS-dBo"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -311,7 +464,12 @@
                         <viewLayoutGuide key="safeArea" id="lps-ei-IbL"/>
                     </view>
                     <connections>
+                        <outlet property="emailText" destination="OLN-J3-kvQ" id="s1p-Df-fuv"/>
+                        <outlet property="passwordConfirmText" destination="9Ib-pg-YWk" id="Yxe-y3-uUW"/>
+                        <outlet property="passwordText" destination="qY9-kT-z5Q" id="AG0-bo-hue"/>
+                        <outlet property="usernameText" destination="Nae-Mj-8oP" id="2Ot-Mg-MA4"/>
                         <segue destination="n1W-AZ-6k8" kind="show" identifier="goToHomePageFromRegister" id="2eM-Qq-FCR"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="goToLoginFromRegister" id="RDB-II-3OY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t5w-rs-ImV" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -335,6 +493,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="mZo-eE-067"/>
+        <segue reference="2eM-Qq-FCR"/>
     </inferredMetricsTieBreakers>
 </document>
