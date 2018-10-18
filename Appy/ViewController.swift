@@ -54,15 +54,13 @@ class ViewController: VideoSplashViewController {
         performSegue(withIdentifier: "goToHomePageFromRegister", sender: self)
     }
     
-    // User pressed Create New Account
+    // User pressed Register
     @IBAction func pressedRegister(_ sender: UIButton) {
-        
         performSegue(withIdentifier: "goToRegister", sender: self)
-        
-        #warning("Implement registration")
     }
     
     @IBAction func pressedForgot(_ sender: UIButton) {
+        // Possible future feature
     }
     
     
