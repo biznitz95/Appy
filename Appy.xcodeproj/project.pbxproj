@@ -14,6 +14,9 @@
 		9E7ECA102177C1380071DD6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E7ECA0F2177C1380071DD6B /* Assets.xcassets */; };
 		9E7ECA132177C1380071DD6B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E7ECA112177C1380071DD6B /* LaunchScreen.storyboard */; };
 		9EEF66362177C91100E84A05 /* test.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 9EEF66352177C91100E84A05 /* test.mp4 */; };
+		9EFC55702178258000ADE159 /* HomePageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EFC556F2178258000ADE159 /* HomePageController.swift */; };
+		9EFC557221784F0300ADE159 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EFC557121784F0300ADE159 /* RegisterViewController.swift */; };
+		9EFC557421785E3C00ADE159 /* test2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 9EFC557321785E3C00ADE159 /* test2.mp4 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +30,9 @@
 		9E7ECA122177C1380071DD6B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9E7ECA142177C1380071DD6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9EEF66352177C91100E84A05 /* test.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = test.mp4; sourceTree = "<group>"; };
+		9EFC556F2178258000ADE159 /* HomePageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageController.swift; sourceTree = "<group>"; };
+		9EFC557121784F0300ADE159 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		9EFC557321785E3C00ADE159 /* test2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = test2.mp4; sourceTree = "<group>"; };
 		C775D6898DECF58C9B402C7A /* Pods-Appy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Appy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Appy/Pods-Appy.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -45,6 +51,7 @@
 		9E7EC9FC2177C1360071DD6B = {
 			isa = PBXGroup;
 			children = (
+				9EFC557321785E3C00ADE159 /* test2.mp4 */,
 				9EEF66352177C91100E84A05 /* test.mp4 */,
 				9E7ECA072177C1360071DD6B /* Appy */,
 				9E7ECA062177C1360071DD6B /* Products */,
@@ -66,6 +73,8 @@
 			children = (
 				9E7ECA082177C1360071DD6B /* AppDelegate.swift */,
 				9E7ECA0A2177C1360071DD6B /* ViewController.swift */,
+				9EFC557121784F0300ADE159 /* RegisterViewController.swift */,
+				9EFC556F2178258000ADE159 /* HomePageController.swift */,
 				9E7ECA0C2177C1360071DD6B /* Main.storyboard */,
 				9E7ECA0F2177C1380071DD6B /* Assets.xcassets */,
 				9E7ECA112177C1380071DD6B /* LaunchScreen.storyboard */,
@@ -155,6 +164,7 @@
 				9E7ECA102177C1380071DD6B /* Assets.xcassets in Resources */,
 				9E7ECA0E2177C1360071DD6B /* Main.storyboard in Resources */,
 				9EEF66362177C91100E84A05 /* test.mp4 in Resources */,
+				9EFC557421785E3C00ADE159 /* test2.mp4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,6 +218,8 @@
 			files = (
 				9E7ECA0B2177C1360071DD6B /* ViewController.swift in Sources */,
 				9E7ECA092177C1360071DD6B /* AppDelegate.swift in Sources */,
+				9EFC55702178258000ADE159 /* HomePageController.swift in Sources */,
+				9EFC557221784F0300ADE159 /* RegisterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

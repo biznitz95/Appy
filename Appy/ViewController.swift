@@ -44,17 +44,21 @@ class ViewController: VideoSplashViewController {
 
     // User pressed Login
     @IBAction func pressedLogin(_ sender: UIButton) {
-        if (usernameText.text?.isEmpty)! || (passwordText.text?.isEmpty)! {
+        if (usernameText.text) == "" || (passwordText.text) == "" {
+            print("Empty information")
             return
         }
         
-        #warning("Implement take user to main page")
+        #warning("Implement SQLite Verification.")
         // Take User to Main Page
-        
+        performSegue(withIdentifier: "goToHomePageFromRegister", sender: self)
     }
     
     // User pressed Create New Account
     @IBAction func pressedRegister(_ sender: UIButton) {
+        
+        performSegue(withIdentifier: "goToRegister", sender: self)
+        
         #warning("Implement registration")
     }
     
