@@ -21,11 +21,7 @@ class ViewController: VideoSplashViewController {
     
     // Databse for Appy
     var db: OpaquePointer?
-    let queryStatementString =  """
-                                    SELECT *
-                                    FROM User
-                                    WHERE (?) = user_name AND (?) = user_password;
-                                """
+    let queryStatementString = "SELECT * FROM User;"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,16 +48,21 @@ class ViewController: VideoSplashViewController {
 
     // User pressed Login
     @IBAction func pressedLogin(_ sender: UIButton) {
+        db = openDatabase()
+        
         if (usernameText.text) == "" || (passwordText.text) == "" {
-            print("Empty information")
+            usernameText.layer.borderColor = UIColor.flatRed()?.cgColor
+            passwordText.layer.borderColor = UIColor.flatRed()?.cgColor
             return
         }
         
-        
-        
-        #warning("Implement SQLite Verification.")
-        // Take User to Main Page
-        performSegue(withIdentifier: "goToHomePageFromRegister", sender: self)
+        if query(user_name: usernameText.text!, user_password: passwordText.text!) {
+            performSegue(withIdentifier: "goToHomePageFromLogin", sender: self)
+        }
+        else {
+            usernameText.layer.borderColor = UIColor.flatRed()?.cgColor
+            passwordText.layer.borderColor = UIColor.flatRed()?.cgColor
+        }
     }
     
     // User pressed Register
@@ -155,33 +156,27 @@ class ViewController: VideoSplashViewController {
         }
     }
 
-    func query(user_name: String, user_password: String) {
+    func query(user_name: String, user_password: String) -> Bool {
+        var pass = false
         var queryStatement: OpaquePointer? = nil
-        // 1
         if sqlite3_prepare_v2(db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
-            // 2
-            if sqlite3_step(queryStatement) == SQLITE_ROW {
-                // 3
-                let id = sqlite3_column_int(queryStatement, 0)
-                
-                // 4
-                //                let queryResultCol1 = sqlite3_column_text(queryStatement, 1)
-                //                let name = String(cString: queryResultCol1!)
-                let name = String(cString: sqlite3_column_text(queryStatement, 1)!)
-                
-                // 5
+            
+            while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                let queryResultCol1 = sqlite3_column_text(queryStatement, 1)
+                let name = String(cString: queryResultCol1!)
+                let queryResultCol3 = sqlite3_column_text(queryStatement, 3)
+                let password = String(cString: queryResultCol3!)
                 print("Query Result:")
-                print("\(id) | \(name)")
-                
-            } else {
-                print("Query returned no results")
+                if (user_name == name) && (user_password == password) {
+                    pass = true
+                }
             }
+            
         } else {
             print("SELECT statement could not be prepared")
         }
-        
-        // 6
         sqlite3_finalize(queryStatement)
+        return pass
     }
 }
 
