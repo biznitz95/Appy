@@ -20,6 +20,7 @@ class RegisterViewController: VideoSplashViewController {
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var forgotButton: UIButton!
+    @IBOutlet var viewToShake: UIView!
     
     var db: OpaquePointer? = nil
     
@@ -188,6 +189,7 @@ class RegisterViewController: VideoSplashViewController {
         //validating that values are not empty
         if(userEmail?.isEmpty)!{
             emailText.layer.borderColor = UIColor.red.cgColor
+            shake()
             return
         }
         else {
@@ -196,6 +198,7 @@ class RegisterViewController: VideoSplashViewController {
         
         if(userName?.isEmpty)!{
             usernameText.layer.borderColor = UIColor.red.cgColor
+            shake()
             return
         }
         else {
@@ -204,6 +207,7 @@ class RegisterViewController: VideoSplashViewController {
         
         if(userPassword?.isEmpty)!{
             passwordText.layer.borderColor = UIColor.red.cgColor
+            shake()
             return
         }
         else {
@@ -212,6 +216,7 @@ class RegisterViewController: VideoSplashViewController {
         
         if(userConfirmPassword?.isEmpty)!{
             passwordConfirmText.layer.borderColor = UIColor.red.cgColor
+            shake()
             return
         }
         else {
@@ -221,6 +226,7 @@ class RegisterViewController: VideoSplashViewController {
         if(userPassword != userConfirmPassword) {
             passwordText.layer.borderColor = UIColor.red.cgColor
             passwordConfirmText.layer.borderColor = UIColor.red.cgColor
+            shake()
             return
         }
         else {
@@ -236,6 +242,7 @@ class RegisterViewController: VideoSplashViewController {
         db = openDatabase()
         createTable()
 //        delete()
+        #warning("Stop from continuing if fail to register")
         insert(user_name: usernameText.text!, user_email: emailText.text!, user_password: passwordText.text!)
 //        query()
 //        update()
@@ -344,6 +351,17 @@ class RegisterViewController: VideoSplashViewController {
         passwordConfirmText.layer.borderWidth = 1
         passwordConfirmText.layer.borderColor = UIColor.flatSkyBlue()?.cgColor
         
+    }
+    
+    func shake() -> Void {
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = 0.07
+        animation.repeatCount = 4
+        animation.autoreverses = true
+        animation.fromValue = NSValue(cgPoint: CGPoint(x: viewToShake.center.x - 10, y: viewToShake.center.y))
+        animation.toValue = NSValue(cgPoint: CGPoint(x: viewToShake.center.x + 10, y: viewToShake.center.y))
+        
+        viewToShake.layer.add(animation, forKey: "position")
     }
 }
 

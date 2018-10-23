@@ -208,6 +208,7 @@
                         <outlet property="registerButton" destination="7aD-7G-l8q" id="954-m8-xxq"/>
                         <outlet property="titleLabel" destination="bnv-ig-qcb" id="AoJ-oP-fY7"/>
                         <outlet property="usernameText" destination="E53-9f-QDh" id="zGe-1q-ZT3"/>
+                        <outlet property="viewToShake" destination="8bC-Xf-vdC" id="JKw-m7-3UU"/>
                         <segue destination="n1W-AZ-6k8" kind="show" identifier="goToHomePageFromLogin" id="mZo-eE-067"/>
                         <segue destination="KI6-m8-khc" kind="presentation" identifier="goToRegister" modalPresentationStyle="fullScreen" modalTransitionStyle="flipHorizontal" id="2Od-IN-frb"/>
                     </connections>
@@ -471,6 +472,7 @@
                         <outlet property="passwordText" destination="qY9-kT-z5Q" id="AG0-bo-hue"/>
                         <outlet property="registerButton" destination="Ade-Uh-dOw" id="iXa-mk-tp2"/>
                         <outlet property="usernameText" destination="Nae-Mj-8oP" id="2Ot-Mg-MA4"/>
+                        <outlet property="viewToShake" destination="wAM-KY-zpp" id="Ukj-tX-OLO"/>
                         <segue destination="n1W-AZ-6k8" kind="show" identifier="goToHomePageFromRegister" id="2eM-Qq-FCR"/>
                         <segue destination="BYZ-38-t0r" kind="presentation" identifier="goToLoginFromRegister" modalPresentationStyle="fullScreen" modalTransitionStyle="flipHorizontal" id="RDB-II-3OY"/>
                     </connections>

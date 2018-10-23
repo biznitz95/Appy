@@ -18,6 +18,7 @@ class ViewController: VideoSplashViewController {
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var forgotButton: UIButton!
+    @IBOutlet var viewToShake: UIView!
     
     // Databse for Appy
     var db: OpaquePointer?
@@ -53,6 +54,9 @@ class ViewController: VideoSplashViewController {
         if (usernameText.text) == "" || (passwordText.text) == "" {
             usernameText.layer.borderColor = UIColor.flatRed()?.cgColor
             passwordText.layer.borderColor = UIColor.flatRed()?.cgColor
+            
+            shake()
+            
             return
         }
         
@@ -62,6 +66,7 @@ class ViewController: VideoSplashViewController {
         else {
             usernameText.layer.borderColor = UIColor.flatRed()?.cgColor
             passwordText.layer.borderColor = UIColor.flatRed()?.cgColor
+            shake()
         }
     }
     
@@ -177,6 +182,17 @@ class ViewController: VideoSplashViewController {
         }
         sqlite3_finalize(queryStatement)
         return pass
+    }
+    
+    func shake() -> Void {
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = 0.07
+        animation.repeatCount = 4
+        animation.autoreverses = true
+        animation.fromValue = NSValue(cgPoint: CGPoint(x: viewToShake.center.x - 10, y: viewToShake.center.y))
+        animation.toValue = NSValue(cgPoint: CGPoint(x: viewToShake.center.x + 10, y: viewToShake.center.y))
+        
+        viewToShake.layer.add(animation, forKey: "position")
     }
 }
 
