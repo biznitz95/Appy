@@ -252,7 +252,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="OLN-J3-kvQ" secondAttribute="height" multiplier="223:30" id="rr3-rE-V03"/>
                                                 </constraints>
-                                                <nil key="textColor"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
@@ -272,7 +272,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="Nae-Mj-8oP" secondAttribute="height" multiplier="223:30" id="Fmi-kH-6Ou"/>
                                                 </constraints>
-                                                <nil key="textColor"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
@@ -292,7 +292,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="qY9-kT-z5Q" secondAttribute="height" multiplier="223:30" id="Sy2-9f-6aI"/>
                                                 </constraints>
-                                                <nil key="textColor"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                             </textField>
@@ -337,7 +337,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="9Ib-pg-YWk" secondAttribute="height" multiplier="223:30" id="UPZ-dm-bK2"/>
                                                 </constraints>
-                                                <nil key="textColor"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                             </textField>

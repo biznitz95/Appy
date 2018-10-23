@@ -1,0 +1,28 @@
+PODS:
+  - ChameleonFramework (2.1.0):
+    - ChameleonFramework/Default (= 2.1.0)
+  - ChameleonFramework/Default (2.1.0)
+  - SQLite.swift (0.11.5):
+    - SQLite.swift/standard (= 0.11.5)
+  - SQLite.swift/standard (0.11.5)
+  - VideoSplashKit (1.2.1)
+
+DEPENDENCIES:
+  - ChameleonFramework
+  - SQLite.swift (~> 0.11.5)
+  - VideoSplashKit
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - ChameleonFramework
+    - SQLite.swift
+    - VideoSplashKit
+
+SPEC CHECKSUMS:
+  ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
+  SQLite.swift: 6e5356850bb1791459f8c16d6ee9195b28714a2e
+  VideoSplashKit: 9d5670948cfb0be15262d973cedbfd3faecddcad
+
+PODFILE CHECKSUM: 70ea732d28fed1263e127f6bbbfb8a03fbeed376
+
+COCOAPODS: 1.5.3

@@ -9,6 +9,7 @@
 import UIKit
 import ChameleonFramework
 import VideoSplashKit
+import SQLite3
 
 class ViewController: VideoSplashViewController {
     @IBOutlet weak var titleLabel: UILabel!
@@ -18,6 +19,13 @@ class ViewController: VideoSplashViewController {
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var forgotButton: UIButton!
     
+    // Databse for Appy
+    var db: OpaquePointer?
+    let queryStatementString =  """
+                                    SELECT *
+                                    FROM User
+                                    WHERE (?) = user_name AND (?) = user_password;
+                                """
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +56,8 @@ class ViewController: VideoSplashViewController {
             print("Empty information")
             return
         }
+        
+        
         
         #warning("Implement SQLite Verification.")
         // Take User to Main Page
@@ -127,6 +137,51 @@ class ViewController: VideoSplashViewController {
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         tap.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tap)
+    }
+    
+    // Sqlite3 Functions
+    func openDatabase() -> OpaquePointer? {
+        var db: OpaquePointer? = nil
+        #warning("Must modify line below for computer to find your own path")
+        let part1DbPath = "/Users/bizetrodriguez/Desktop/Appy/Databases/Appy.sqlite"
+        
+        if sqlite3_open(part1DbPath, &db) == SQLITE_OK {
+            print("Successfully opened connection to database at \(part1DbPath)")
+            return db
+        } else {
+            print("Unable to open database. Verify that you created the directory described " +
+                "in the Getting Started section.")
+            return nil
+        }
+    }
+
+    func query(user_name: String, user_password: String) {
+        var queryStatement: OpaquePointer? = nil
+        // 1
+        if sqlite3_prepare_v2(db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
+            // 2
+            if sqlite3_step(queryStatement) == SQLITE_ROW {
+                // 3
+                let id = sqlite3_column_int(queryStatement, 0)
+                
+                // 4
+                //                let queryResultCol1 = sqlite3_column_text(queryStatement, 1)
+                //                let name = String(cString: queryResultCol1!)
+                let name = String(cString: sqlite3_column_text(queryStatement, 1)!)
+                
+                // 5
+                print("Query Result:")
+                print("\(id) | \(name)")
+                
+            } else {
+                print("Query returned no results")
+            }
+        } else {
+            print("SELECT statement could not be prepared")
+        }
+        
+        // 6
+        sqlite3_finalize(queryStatement)
     }
 }
 
