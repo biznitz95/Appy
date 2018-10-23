@@ -10,6 +10,7 @@ import UIKit
 import ChameleonFramework
 import VideoSplashKit
 import SQLite3
+import AVFoundation
 
 class ViewController: VideoSplashViewController {
     @IBOutlet weak var titleLabel: UILabel!
@@ -26,6 +27,15 @@ class ViewController: VideoSplashViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [.mixWithOthers, .allowAirPlay])
+            print("Playback OK")
+            try AVAudioSession.sharedInstance().setActive(true)
+            print("Session is Active")
+        } catch {
+            print(error)
+        }
         
         // Modify button for Login
         modifyLoginButton()
@@ -61,6 +71,7 @@ class ViewController: VideoSplashViewController {
         }
         
         if query(user_name: usernameText.text!, user_password: passwordText.text!) {
+            
             performSegue(withIdentifier: "goToHomePageFromLogin", sender: self)
         }
         else {
@@ -148,11 +159,11 @@ class ViewController: VideoSplashViewController {
     // Sqlite3 Functions
     func openDatabase() -> OpaquePointer? {
         var db: OpaquePointer? = nil
-        #warning("Must modify line below for computer to find your own path")
-        let part1DbPath = "/Users/bizetrodriguez/Desktop/Appy/Databases/Appy.sqlite"
         
-        if sqlite3_open(part1DbPath, &db) == SQLITE_OK {
-            print("Successfully opened connection to database at \(part1DbPath)")
+        guard let part1DbPath = Bundle.main.path(forResource: "Appy", ofType: "sqlite") else {fatalError("Could not find video!")}
+        
+        if sqlite3_open(String(part1DbPath), &db) == SQLITE_OK {
+            print("Successfully opened connection to database at \(String(part1DbPath))")
             return db
         } else {
             print("Unable to open database. Verify that you created the directory described " +

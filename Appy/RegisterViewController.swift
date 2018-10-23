@@ -43,11 +43,11 @@ class RegisterViewController: VideoSplashViewController {
     
     func openDatabase() -> OpaquePointer? {
         var db: OpaquePointer? = nil
-        #warning("Must modify line below for computer to find your own path")
-        let part1DbPath = "/Users/bizetrodriguez/Desktop/Appy/Databases/Appy.sqlite"
         
-        if sqlite3_open(part1DbPath, &db) == SQLITE_OK {
-            print("Successfully opened connection to database at \(part1DbPath)")
+        guard let part1DbPath = Bundle.main.path(forResource: "Appy", ofType: "sqlite") else {fatalError("Could not find video!")}
+        
+        if sqlite3_open(String(part1DbPath), &db) == SQLITE_OK {
+            print("Successfully opened connection to database at \(String(part1DbPath))")
             return db
         } else {
             print("Unable to open database. Verify that you created the directory described " +
@@ -74,9 +74,9 @@ class RegisterViewController: VideoSplashViewController {
         sqlite3_finalize(createTableStatement)
     }
     
-    func insert(user_name: String, user_email: String, user_password: String) {
+    func insert(user_name: String, user_email: String, user_password: String) -> Bool {
         var insertStatement: OpaquePointer? = nil
-        
+        var pass = false
         // 1
         if sqlite3_prepare_v2(db, insertStatementString, -1, &insertStatement, nil) == SQLITE_OK {
 //            let id: Int32 = 1
@@ -93,6 +93,7 @@ class RegisterViewController: VideoSplashViewController {
             // 4
             if sqlite3_step(insertStatement) == SQLITE_DONE {
                 print("Successfully inserted row.")
+                pass = true
             } else {
                 print("Could not insert row.")
             }
@@ -101,6 +102,8 @@ class RegisterViewController: VideoSplashViewController {
         }
         // 5
         sqlite3_finalize(insertStatement)
+        
+        return pass
     }
     
 //    func query() {
@@ -234,29 +237,13 @@ class RegisterViewController: VideoSplashViewController {
             passwordConfirmText.layer.borderColor = UIColor.flatSkyBlue()?.cgColor
         }
         
-        //creating a statement
-        print("******************************************************************\n")
-        print("******************************************************************\n")
-        print("******************************************************************\n")
-        
         db = openDatabase()
         createTable()
-//        delete()
-        #warning("Stop from continuing if fail to register")
-        insert(user_name: usernameText.text!, user_email: emailText.text!, user_password: passwordText.text!)
-//        query()
-//        update()
-//        query()
-//        delete()
-//        query()
         
-        print("******************************************************************\n")
-        print("******************************************************************\n")
-        print("******************************************************************\n")
+        if insert(user_name: usernameText.text!, user_email: emailText.text!, user_password: passwordText.text!) {
+            performSegue(withIdentifier: "goToHomePageFromRegister", sender: self)
+        }
         
-        /* End */
-        
-        performSegue(withIdentifier: "goToHomePageFromRegister", sender: self)
     }
     
     @IBAction func pressedLogin(_ sender: UIButton) {

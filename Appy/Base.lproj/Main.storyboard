@@ -209,7 +209,7 @@
                         <outlet property="titleLabel" destination="bnv-ig-qcb" id="AoJ-oP-fY7"/>
                         <outlet property="usernameText" destination="E53-9f-QDh" id="zGe-1q-ZT3"/>
                         <outlet property="viewToShake" destination="8bC-Xf-vdC" id="JKw-m7-3UU"/>
-                        <segue destination="n1W-AZ-6k8" kind="show" identifier="goToHomePageFromLogin" id="mZo-eE-067"/>
+                        <segue destination="Xa6-Tx-fbr" kind="show" identifier="goToHomePageFromLogin" id="mZo-eE-067"/>
                         <segue destination="KI6-m8-khc" kind="presentation" identifier="goToRegister" modalPresentationStyle="fullScreen" modalTransitionStyle="flipHorizontal" id="2Od-IN-frb"/>
                     </connections>
                 </viewController>
@@ -473,7 +473,7 @@
                         <outlet property="registerButton" destination="Ade-Uh-dOw" id="iXa-mk-tp2"/>
                         <outlet property="usernameText" destination="Nae-Mj-8oP" id="2Ot-Mg-MA4"/>
                         <outlet property="viewToShake" destination="wAM-KY-zpp" id="Ukj-tX-OLO"/>
-                        <segue destination="n1W-AZ-6k8" kind="show" identifier="goToHomePageFromRegister" id="2eM-Qq-FCR"/>
+                        <segue destination="Xa6-Tx-fbr" kind="show" identifier="goToHomePageFromRegister" id="2eM-Qq-FCR"/>
                         <segue destination="BYZ-38-t0r" kind="presentation" identifier="goToLoginFromRegister" modalPresentationStyle="fullScreen" modalTransitionStyle="flipHorizontal" id="RDB-II-3OY"/>
                     </connections>
                 </viewController>
@@ -481,7 +481,7 @@
             </objects>
             <point key="canvasLocation" x="-98" y="986"/>
         </scene>
-        <!--Home Page Controller-->
+        <!--Home Page-->
         <scene sceneID="Hs8-s4-65M">
             <objects>
                 <viewController id="n1W-AZ-6k8" customClass="HomePageController" customModule="Appy" customModuleProvider="target" sceneMemberID="viewController">
@@ -491,10 +491,36 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="UPQ-T8-WVq"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Home Page" id="Wnf-jC-flj">
+                        <barButtonItem key="leftBarButtonItem" title="Log Out" id="QrQ-cV-rKZ">
+                            <connections>
+                                <action selector="logoutPressed:" destination="n1W-AZ-6k8" id="gEw-di-H09"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="bZW-oD-nBS"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5kJ-h7-71H" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1694" y="630"/>
+            <point key="canvasLocation" x="2636" y="629.55665024630548"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="QEs-Rn-vgf">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Xa6-Tx-fbr" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Euj-u9-K2e">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="n1W-AZ-6k8" kind="relationship" relationship="rootViewController" id="2fu-Dp-wZl"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gmE-6e-HSU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1693.5999999999999" y="629.55665024630548"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
