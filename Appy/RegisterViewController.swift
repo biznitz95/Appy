@@ -34,11 +34,11 @@ class RegisterViewController: VideoSplashViewController {
     
     let insertStatementString = "INSERT INTO User (user_name, user_email, user_password) VALUES (?,?,?);"
     
-    let queryStatementString = "SELECT * FROM User;"
+//    let queryStatementString = "SELECT * FROM User;"
     
-    let updateStatementString = "UPDATE User SET user_name = 'Chris' WHERE user_id = 1;"
+//    let updateStatementString = "UPDATE User SET user_name = 'Chris' WHERE user_id = 1;"
     
-    let deleteStatementStirng = "DELETE FROM User WHERE user_id = 1;"
+//    let deleteStatementStirng = "DELETE FROM User WHERE user_id = 1;"
     
     func openDatabase() -> OpaquePointer? {
         var db: OpaquePointer? = nil
@@ -102,63 +102,63 @@ class RegisterViewController: VideoSplashViewController {
         sqlite3_finalize(insertStatement)
     }
     
-    func query() {
-        var queryStatement: OpaquePointer? = nil
-        // 1
-        if sqlite3_prepare_v2(db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
-            // 2
-            if sqlite3_step(queryStatement) == SQLITE_ROW {
-                // 3
-                let id = sqlite3_column_int(queryStatement, 0)
-                
-                // 4
-//                let queryResultCol1 = sqlite3_column_text(queryStatement, 1)
-//                let name = String(cString: queryResultCol1!)
-                let name = String(cString: sqlite3_column_text(queryStatement, 1)!)
-                
-                // 5
-                print("Query Result:")
-                print("\(id) | \(name)")
-                
-            } else {
-                print("Query returned no results")
-            }
-        } else {
-            print("SELECT statement could not be prepared")
-        }
-        
-        // 6
-        sqlite3_finalize(queryStatement)
-    }
+//    func query() {
+//        var queryStatement: OpaquePointer? = nil
+//        // 1
+//        if sqlite3_prepare_v2(db, queryStatementString, -1, &queryStatement, nil) == SQLITE_OK {
+//            // 2
+//            if sqlite3_step(queryStatement) == SQLITE_ROW {
+//                // 3
+//                let id = sqlite3_column_int(queryStatement, 0)
+//
+//                // 4
+////                let queryResultCol1 = sqlite3_column_text(queryStatement, 1)
+////                let name = String(cString: queryResultCol1!)
+//                let name = String(cString: sqlite3_column_text(queryStatement, 1)!)
+//
+//                // 5
+//                print("Query Result:")
+//                print("\(id) | \(name)")
+//
+//            } else {
+//                print("Query returned no results")
+//            }
+//        } else {
+//            print("SELECT statement could not be prepared")
+//        }
+//
+//        // 6
+//        sqlite3_finalize(queryStatement)
+//    }
     
-    func update() {
-        var updateStatement: OpaquePointer? = nil
-        if sqlite3_prepare_v2(db, updateStatementString, -1, &updateStatement, nil) == SQLITE_OK {
-            if sqlite3_step(updateStatement) == SQLITE_DONE {
-                print("Successfully updated row.")
-            } else {
-                print("Could not update row.")
-            }
-        } else {
-            print("UPDATE statement could not be prepared")
-        }
-        sqlite3_finalize(updateStatement)
-    }
+//    func update() {
+//        var updateStatement: OpaquePointer? = nil
+//        if sqlite3_prepare_v2(db, updateStatementString, -1, &updateStatement, nil) == SQLITE_OK {
+//            if sqlite3_step(updateStatement) == SQLITE_DONE {
+//                print("Successfully updated row.")
+//            } else {
+//                print("Could not update row.")
+//            }
+//        } else {
+//            print("UPDATE statement could not be prepared")
+//        }
+//        sqlite3_finalize(updateStatement)
+//    }
     
-    func delete() {
-        var deleteStatement: OpaquePointer? = nil
-        if sqlite3_prepare_v2(db, deleteStatementStirng, -1, &deleteStatement, nil) == SQLITE_OK {
-            if sqlite3_step(deleteStatement) == SQLITE_DONE {
-                print("Successfully deleted row.")
-            } else {
-                print("Could not delete row.")
-            }
-        } else {
-            print("DELETE statement could not be prepared")
-        }
-        
-        sqlite3_finalize(deleteStatement)
-    }
+//    func delete() {
+//        var deleteStatement: OpaquePointer? = nil
+//        if sqlite3_prepare_v2(db, deleteStatementStirng, -1, &deleteStatement, nil) == SQLITE_OK {
+//            if sqlite3_step(deleteStatement) == SQLITE_DONE {
+//                print("Successfully deleted row.")
+//            } else {
+//                print("Could not delete row.")
+//            }
+//        } else {
+//            print("DELETE statement could not be prepared")
+//        }
+//
+//        sqlite3_finalize(deleteStatement)
+//    }
 
     
     override func viewDidLoad() {
@@ -237,7 +237,7 @@ class RegisterViewController: VideoSplashViewController {
         createTable()
 //        delete()
         insert(user_name: usernameText.text!, user_email: emailText.text!, user_password: passwordText.text!)
-        query()
+//        query()
 //        update()
 //        query()
 //        delete()
@@ -250,8 +250,6 @@ class RegisterViewController: VideoSplashViewController {
         /* End */
         
         performSegue(withIdentifier: "goToHomePageFromRegister", sender: self)
-        
-        #warning("Implement SQLite part")
     }
     
     @IBAction func pressedLogin(_ sender: UIButton) {
