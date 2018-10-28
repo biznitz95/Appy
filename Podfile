@@ -6,7 +6,5 @@ target 'Appy' do
 
   # Pods for Appy
 	pod 'ChameleonFramework'
-	pod 'VideoSplashKit'
-    pod 'SQLite.swift', '~> 0.11.5'
-    
+	pod 'SQLite.swift', '~> 0.11.5'
 end
