@@ -9,11 +9,15 @@
 /* Begin PBXBuildFile section */
 		1936AB92ED37E010439EA346 /* Pods_Appy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50DF02CB41CDA801F87EA0D1 /* Pods_Appy.framework */; };
 		9E25747521839CCD009C6477 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E25747421839CCD009C6477 /* Database.swift */; };
+		9E27F253218EE04C00FC15D5 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E27F252218EE04C00FC15D5 /* ChatViewController.swift */; };
 		9E4B796B21854F3E0011A782 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4B796A21854F3E0011A782 /* CategoryViewController.swift */; };
 		9E4B796D2185501A0011A782 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4B796C2185501A0011A782 /* ItemViewController.swift */; };
 		9E4B796F2185561C0011A782 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4B796E2185561C0011A782 /* Group.swift */; };
 		9E4B797621855F750011A782 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4B797521855F750011A782 /* Category.swift */; };
 		9E4B797821858A3D0011A782 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4B797721858A3D0011A782 /* Item.swift */; };
+		9E7E546F218EADE80075CE23 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E546E218EADE80075CE23 /* Chat.swift */; };
+		9E7E5471218EAE0C0075CE23 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E5470218EAE0C0075CE23 /* Message.swift */; };
+		9E7E5473218EB4FB0075CE23 /* message.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E7E5472218EB4FB0075CE23 /* message.json */; };
 		9E7ECA092177C1360071DD6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7ECA082177C1360071DD6B /* AppDelegate.swift */; };
 		9E7ECA0B2177C1360071DD6B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7ECA0A2177C1360071DD6B /* ViewController.swift */; };
 		9E7ECA0E2177C1360071DD6B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E7ECA0C2177C1360071DD6B /* Main.storyboard */; };
@@ -29,11 +33,15 @@
 		46BBDB9AFD291A89263D550F /* Pods-Appy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Appy.release.xcconfig"; path = "Pods/Target Support Files/Pods-Appy/Pods-Appy.release.xcconfig"; sourceTree = "<group>"; };
 		50DF02CB41CDA801F87EA0D1 /* Pods_Appy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Appy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E25747421839CCD009C6477 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
+		9E27F252218EE04C00FC15D5 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		9E4B796A21854F3E0011A782 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		9E4B796C2185501A0011A782 /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
 		9E4B796E2185561C0011A782 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		9E4B797521855F750011A782 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		9E4B797721858A3D0011A782 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		9E7E546E218EADE80075CE23 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
+		9E7E5470218EAE0C0075CE23 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		9E7E5472218EB4FB0075CE23 /* message.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = message.json; sourceTree = "<group>"; };
 		9E7ECA052177C1360071DD6B /* Appy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Appy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E7ECA082177C1360071DD6B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9E7ECA0A2177C1360071DD6B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -69,6 +77,7 @@
 				9E7ECA0A2177C1360071DD6B /* ViewController.swift */,
 				9EFC557121784F0300ADE159 /* RegisterViewController.swift */,
 				9EFC556F2178258000ADE159 /* HomePageController.swift */,
+				9E27F252218EE04C00FC15D5 /* ChatViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -89,6 +98,8 @@
 				9E4B796E2185561C0011A782 /* Group.swift */,
 				9E4B797521855F750011A782 /* Category.swift */,
 				9E4B797721858A3D0011A782 /* Item.swift */,
+				9E7E546E218EADE80075CE23 /* Chat.swift */,
+				9E7E5470218EAE0C0075CE23 /* Message.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -104,6 +115,7 @@
 		9E7EC9FC2177C1360071DD6B = {
 			isa = PBXGroup;
 			children = (
+				9E7E5472218EB4FB0075CE23 /* message.json */,
 				9E931979217EAB0100A04686 /* Databases */,
 				9E7ECA072177C1360071DD6B /* Appy */,
 				9E7ECA062177C1360071DD6B /* Products */,
@@ -222,6 +234,7 @@
 				9E7ECA102177C1380071DD6B /* Assets.xcassets in Resources */,
 				9E7ECA0E2177C1360071DD6B /* Main.storyboard in Resources */,
 				9E931978217EAA1100A04686 /* Appy.sqlite in Resources */,
+				9E7E5473218EB4FB0075CE23 /* message.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,11 +250,13 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-Appy/Pods-Appy-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
 				"${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework",
+				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLite.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -274,13 +289,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E4B796F2185561C0011A782 /* Group.swift in Sources */,
+				9E7E546F218EADE80075CE23 /* Chat.swift in Sources */,
 				9E4B797621855F750011A782 /* Category.swift in Sources */,
 				9EEAB9FE2185244500EA5F62 /* ViewFunctions.swift in Sources */,
 				9E4B796D2185501A0011A782 /* ItemViewController.swift in Sources */,
 				9E7ECA0B2177C1360071DD6B /* ViewController.swift in Sources */,
+				9E27F253218EE04C00FC15D5 /* ChatViewController.swift in Sources */,
 				9E4B796B21854F3E0011A782 /* CategoryViewController.swift in Sources */,
 				9E4B797821858A3D0011A782 /* Item.swift in Sources */,
 				9E7ECA092177C1360071DD6B /* AppDelegate.swift in Sources */,
+				9E7E5471218EAE0C0075CE23 /* Message.swift in Sources */,
 				9EFC55702178258000ADE159 /* HomePageController.swift in Sources */,
 				9E25747521839CCD009C6477 /* Database.swift in Sources */,
 				9EFC557221784F0300ADE159 /* RegisterViewController.swift in Sources */,

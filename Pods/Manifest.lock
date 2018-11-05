@@ -2,23 +2,27 @@ PODS:
   - ChameleonFramework (2.1.0):
     - ChameleonFramework/Default (= 2.1.0)
   - ChameleonFramework/Default (2.1.0)
+  - lottie-ios (2.5.0)
   - SQLite.swift (0.11.5):
     - SQLite.swift/standard (= 0.11.5)
   - SQLite.swift/standard (0.11.5)
 
 DEPENDENCIES:
   - ChameleonFramework
+  - lottie-ios
   - SQLite.swift (~> 0.11.5)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - ChameleonFramework
+    - lottie-ios
     - SQLite.swift
 
 SPEC CHECKSUMS:
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
+  lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   SQLite.swift: 6e5356850bb1791459f8c16d6ee9195b28714a2e
 
-PODFILE CHECKSUM: ab9595952ffcdfc291856be6eb364043e5dc856d
+PODFILE CHECKSUM: f19369b830d8bda4b159e79efabe0e80d3bc29e1
 
 COCOAPODS: 1.5.3

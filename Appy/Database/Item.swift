@@ -11,9 +11,9 @@ import Foundation
 class Item {
     var name: String
     var color: String
-    var done: Bool
+    var done: Int32
     
-    init(name: String, color: String, done: Bool = false) {
+    init(name: String, color: String, done: Int32 = 0) {
         self.name = name
         self.color = color
         self.done = done

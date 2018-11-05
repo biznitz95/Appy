@@ -16,6 +16,8 @@ class HomePageController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var myTableView: UITableView!
     
     var groups: [Group] = []
+    var navBarTitle: String?
+    var navBarColor: String?
     
     @IBOutlet weak var addButton: UIBarButtonItem!
     
@@ -41,6 +43,8 @@ class HomePageController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(groups[indexPath.row])
+        navBarTitle = groups[indexPath.row].name
+        navBarColor = groups[indexPath.row].color
         performSegue(withIdentifier: "goToCategoryFromGroup", sender: self)
     }
     
@@ -103,6 +107,15 @@ class HomePageController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
         present(alert, animated: true, completion: nil)
+    }
+    
+    // Pass name of group to category
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let _ = navBarTitle {
+            let destinationVC = segue.destination as! CategoryViewController
+            destinationVC.navBarTitle = navBarTitle
+            destinationVC.navBarColor = navBarColor
+        }
     }
     
 }

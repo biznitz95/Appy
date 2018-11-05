@@ -14,6 +14,7 @@ class Database {
         return openDatabase()
     }()
     
+    /*  USER QUERIES  */
     let queryStatementStringUserLogin = "SELECT * FROM User;"
     let insertStatementStringUser = "INSERT INTO User (user_name, user_email, user_password) VALUES (?,?,?);"
     let createTableUserString = """
@@ -25,6 +26,7 @@ class Database {
     );
     """
     
+    /*  GROUP QUERIES                   */
     let insertStatementStringGroup = "INSERT INTO MyGroup (group_name, user_id, user_name, group_color) VALUES (?,?,?,?);"
     let queryStatementStringGroup = "SELECT * FROM MyGroup;"
     let createTableGroupString = """
@@ -37,11 +39,64 @@ class Database {
     );
     """
     
+    /*  CATEGORY QUERIES                */
+    // Create Table Category
+    let createTableCategoryString = """
+        CREATE TABLE Category (
+            category_id                 INTEGER             PRIMARY KEY         AUTOINCREMENT,
+            category_name               VARCHAR(255)        NOT NULL,
+            category_color              VARCHAR(255)        NOT NULL,
+            group_id                    INTEGER             NOT NULL
+        );
+    """
+    // Insert into Category Table
+    let insertStatementStringCategory = "INSERT INTO Category (category_name, category_color, group_id) VALUES(?,?,?);"
+    // Query from Category
+    let queryStatementStringCategory = "SELECT * FROM Category;"
+    
+    
+    /*  ITEM QUERIES                    */
+    // Create Table Item
+    let createTableItemString = """
+        CREATE TABLE Item (
+            item_id                 INTEGER             PRIMARY KEY         AUTOINCREMENT,
+            item_name               VARCHAR(255)        NOT NULL,
+            item_color              VARCHAR(255)        NOT NULL,
+            item_done               INTEGER             NOT NULL,
+            category_id             INTEGER             NOT NULL
+        );
+    """
+    let insertStatementStringItem = "INSERT INTO Item (item_name, item_color, item_done, category_id) VALUES(?,?,?,?);"
+    // Query from Category
+    let queryStatementStringItem = "SELECT * FROM Item;"
+    
+    /*  CHAT QUERIES                    */
+    let createTableChatString = """
+        CREATE TABLE Chat (
+            chat_id                 INTEGER             PRIMARY KEY         AUTOINCREMENT,
+            chat_name               VARCHAR(255)        NOT NULL,
+            user_id                 INTEGER             NOT NULL,
+            category_id             INTEGER             NOT NULL,
+            group_id                INTEGER             NOT NULL
+        );
+    """
+    
+    /*  MESSAGE QUERIES                 */
+    let createTableMessageString = """
+        CREATE TABLE Message (
+            message_id              INTEGER             PRIMARY KEY         AUTOINCREMENT,
+            message_name            VARCHAR(255)        NOT NULL,
+            user_id                 INTEGER             NOT NULL,
+            chat_id                 INTEGER             NOT NULL,
+            message_time            DATE                NOT NULL
+        );
+    """
+    
     
     func openDatabase() -> OpaquePointer? {
         var db: OpaquePointer? = nil
         
-//        guard let part1DbPath = Bundle.main.path(forResource: "Appy", ofType: "sqlite") else {fatalError("Could not find video!")}
+//        guard let part1DbPath = Bundle.main.path(forResource: "Appy", ofType: "sqlite") else {fatalError("Could not find database!")}
         
         let part1DbPath = "/Users/bizetrodriguez/Desktop/Appy/Databases/Appy.sqlite"
         
@@ -197,6 +252,157 @@ class Database {
             //                } else {
             //                    print("Query returned no results")
             //                }
+        } else {
+            print("SELECT statement could not be prepared")
+        }
+        
+        // 6
+        sqlite3_finalize(queryStatement)
+        
+        return info
+    }
+    
+    func createTableCategory() {
+        // 1
+        var createTableStatement: OpaquePointer? = nil
+        // 2
+        if sqlite3_prepare_v2(db, createTableCategoryString, -1, &createTableStatement, nil) == SQLITE_OK {
+            // 3
+            if sqlite3_step(createTableStatement) == SQLITE_DONE {
+                print("Category table created.")
+            } else {
+                print("Category table could not be created.")
+            }
+        } else {
+            print("CREATE TABLE statement could not be prepared for Category.")
+        }
+        // 4
+        sqlite3_finalize(createTableStatement)
+    }
+    
+    func insertCategory(category_name: String, category_color: String, group_id: Int32) {
+        var insertStatement: OpaquePointer? = nil
+        // 1
+        if sqlite3_prepare_v2(db, insertStatementStringCategory, -1, &insertStatement, nil) == SQLITE_OK {
+            //            let id: Int32 = 1
+            let category_name = category_name as NSString
+            let category_color: NSString = category_color as NSString
+            let group_id: Int32 = group_id
+            // 2
+            //            sqlite3_bind_int(insertStatement, 1, id)
+            // 3
+            sqlite3_bind_text(insertStatement, 1, category_name.utf8String, -1, nil)
+            sqlite3_bind_text(insertStatement, 2, category_color.utf8String, -1, nil)
+            sqlite3_bind_int(insertStatement, 3, group_id)
+            
+            // 4
+            if sqlite3_step(insertStatement) == SQLITE_DONE {
+                print("Successfully inserted row.")
+            } else {
+                print("Could not insert row.")
+            }
+        } else {
+            print("INSERT statement could not be prepared.")
+        }
+        // 5
+        sqlite3_finalize(insertStatement)
+    }
+    
+    func queryCategory() -> [Category] {
+        var queryStatement: OpaquePointer? = nil
+        var info: [Category] = []
+        // 1
+        if sqlite3_prepare_v2(db, queryStatementStringCategory, -1, &queryStatement, nil) == SQLITE_OK {
+            // 2
+            //                if sqlite3_step(queryStatement) == SQLITE_ROW {
+            
+            while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                //                    let id = sqlite3_column_int(queryStatement, 0)
+                
+                let name = String(cString: sqlite3_column_text(queryStatement, 1)!)
+                let color = String(cString: sqlite3_column_text(queryStatement, 2)!)
+                info.append(Category(name: name, color: color))
+                
+                #warning("Make sure only categories associated with certain users appear")
+            }
+            
+        } else {
+            print("SELECT statement could not be prepared")
+        }
+        
+        // 6
+        sqlite3_finalize(queryStatement)
+        
+        return info
+    }
+    
+    func createTableItem() {
+        // 1
+        var createTableStatement: OpaquePointer? = nil
+        // 2
+        if sqlite3_prepare_v2(db, createTableItemString, -1, &createTableStatement, nil) == SQLITE_OK {
+            // 3
+            if sqlite3_step(createTableStatement) == SQLITE_DONE {
+                print("Item table created.")
+            } else {
+                print("Item table could not be created.")
+            }
+        } else {
+            print("CREATE TABLE statement could not be prepared for Item.")
+        }
+        // 4
+        sqlite3_finalize(createTableStatement)
+    }
+    
+    func insertItem(item_name: String, item_color: String, item_done: Int32, category_id: Int32) {
+        var insertStatement: OpaquePointer? = nil
+        // 1
+        if sqlite3_prepare_v2(db, insertStatementStringItem, -1, &insertStatement, nil) == SQLITE_OK {
+            //            let id: Int32 = 1
+            let item_name = item_name as NSString
+            let item_color: NSString = item_color as NSString
+            let item_done: Int32 = item_done
+            let category_id: Int32 = category_id
+            // 2
+            //            sqlite3_bind_int(insertStatement, 1, id)
+            // 3
+            sqlite3_bind_text(insertStatement, 1, item_name.utf8String, -1, nil)
+            sqlite3_bind_text(insertStatement, 2, item_color.utf8String, -1, nil)
+            sqlite3_bind_int(insertStatement, 3, item_done)
+            sqlite3_bind_int(insertStatement, 4, category_id)
+            
+            // 4
+            if sqlite3_step(insertStatement) == SQLITE_DONE {
+                print("Successfully inserted row.")
+            } else {
+                print("Could not insert row.")
+            }
+        } else {
+            print("INSERT statement could not be prepared.")
+        }
+        // 5
+        sqlite3_finalize(insertStatement)
+    }
+    
+    func queryItem() -> [Item] {
+        var queryStatement: OpaquePointer? = nil
+        var info: [Item] = []
+        // 1
+        if sqlite3_prepare_v2(db, queryStatementStringItem, -1, &queryStatement, nil) == SQLITE_OK {
+            // 2
+            //                if sqlite3_step(queryStatement) == SQLITE_ROW {
+            
+            while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                //                    let id = sqlite3_column_int(queryStatement, 0)
+                
+                let name = String(cString: sqlite3_column_text(queryStatement, 1)!)
+                let color = String(cString: sqlite3_column_text(queryStatement, 2)!)
+                let done = Int32(sqlite3_column_int(queryStatement, 3))
+                info.append(Item(name: name, color: color, done: done))
+                
+                #warning("Make sure only categories associated with certain users appear")
+            }
+            
         } else {
             print("SELECT statement could not be prepared")
         }
