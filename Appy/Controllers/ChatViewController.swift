@@ -28,9 +28,7 @@ class ChatViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MessageCell", for: indexPath)
         
-//        cell.textLabel?.text = messages[indexPath.row].name
-//        let color = UIColor.init(hexString: messages[indexPath.row].color)
-//        cell.backgroundColor = color
+        cell.textLabel?.text = messages[indexPath.row].name
         
         return cell
     }
