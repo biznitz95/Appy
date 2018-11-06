@@ -12,7 +12,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Appy" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Appy" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -487,7 +487,7 @@
         <scene sceneID="Hs8-s4-65M">
             <objects>
                 <viewController id="n1W-AZ-6k8" customClass="HomePageController" customModule="Appy" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="y2r-0P-ave" customClass="Home">
+                    <view key="view" contentMode="scaleToFill" id="y2r-0P-ave">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -673,7 +673,7 @@
         <!--Chat-->
         <scene sceneID="lhb-wc-pkF">
             <objects>
-                <viewController id="ZxY-cM-Ecw" sceneMemberID="viewController">
+                <viewController id="ZxY-cM-Ecw" customClass="ChatViewController" customModule="Appy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Fz8-BL-zM9">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -729,6 +729,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="mZo-eE-067"/>
+        <segue reference="2eM-Qq-FCR"/>
     </inferredMetricsTieBreakers>
 </document>

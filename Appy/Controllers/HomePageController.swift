@@ -8,7 +8,6 @@
 
 import UIKit
 import ChameleonFramework
-import SQLite
 
 class HomePageController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -22,9 +21,7 @@ class HomePageController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var addButton: UIBarButtonItem!
     
     var database = Database()
-    
 
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
@@ -45,6 +42,7 @@ class HomePageController: UIViewController, UITableViewDelegate, UITableViewData
         print(groups[indexPath.row])
         navBarTitle = groups[indexPath.row].name
         navBarColor = groups[indexPath.row].color
+        
         performSegue(withIdentifier: "goToCategoryFromGroup", sender: self)
     }
     
@@ -54,7 +52,13 @@ class HomePageController: UIViewController, UITableViewDelegate, UITableViewData
         // Change background color
         myView.backgroundColor = UIColor.flatNavyBlueColorDark()
         
-        groups = database.queryGroup()
+        // Load groups if provided a user_id
+
+        let user_name = database.foo(name: nil)
+        let user_id = database.queryUserID(user_name: user_name)
+        
+        groups = database.queryGroupGivenUserID(user_id: user_id!)
+        
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
@@ -83,10 +87,13 @@ class HomePageController: UIViewController, UITableViewDelegate, UITableViewData
         let action = UIAlertAction(title: "Add", style: .default) { (action) in
             if textField.text! != "" {
                 
-                self.database.createTableGroup()
-                
                 let color: String = (UIColor.randomFlat()?.hexValue())!
-                self.database.insertGroup(group_name: textField.text!, user_id: 0, user_name: "temp", group_color: color)
+
+                let user_name = self.database.foo(name: nil)
+                let user_id = self.database.queryUserID(user_name: user_name)
+                
+                self.database.createTableGroup()
+                self.database.insertGroup(group_name: textField.text!, user_id: Int32(user_id!), user_name: user_name, group_color: color)
                 
                 self.groups.append(Group(groupName: textField.text!, groupColor: color))
                 

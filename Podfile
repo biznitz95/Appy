@@ -7,6 +7,7 @@ target 'Appy' do
   # Pods for Appy
 	pod 'ChameleonFramework'
 	pod 'SQLite.swift', '~> 0.11.5'
-    pod 'lottie-ios'
+    	pod 'lottie-ios'
+	pod 'SwiftKeychainWrapper'
     
 end

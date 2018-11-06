@@ -8,7 +8,6 @@
 
 import UIKit
 import ChameleonFramework
-import SQLite
 
 class RegisterViewController: UIViewController {
     
@@ -98,9 +97,8 @@ class RegisterViewController: UIViewController {
         
         database.createTableUser()
         
-        if database.insertUser(user_name: usernameText.text!,
-                               user_email: emailText.text!,
-                               user_password: passwordText.text!) {
+        if database.insertUser(user_name: usernameText.text!, user_email: emailText.text!, user_password: passwordText.text!) {
+            database.foo(name: usernameText.text!)
             performSegue(withIdentifier: "goToHomePageFromRegister", sender: self)
         }
         
@@ -194,5 +192,6 @@ class RegisterViewController: UIViewController {
         
         viewToShake.layer.add(animation, forKey: "position")
     }
+
 }
 

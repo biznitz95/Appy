@@ -8,7 +8,6 @@
 
 import UIKit
 import ChameleonFramework
-import SQLite
 import Lottie
 
 class ItemViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {

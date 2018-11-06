@@ -8,8 +8,6 @@
 
 import UIKit
 import ChameleonFramework
-import SQLite3
-import AVFoundation
 
 class ViewController: UIViewController {
     
@@ -28,15 +26,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        do {
-            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [.mixWithOthers, .allowAirPlay])
-            print("Playback OK")
-            try AVAudioSession.sharedInstance().setActive(true)
-            print("Session is Active")
-        } catch {
-            print(error)
-        }
-        
         // Change background color
         viewToShake.backgroundColor = UIColor.flatNavyBlueColorDark()
         
@@ -52,9 +41,6 @@ class ViewController: UIViewController {
         
         // Modify textfields
         modifyTextFields()
-        
-        // Add backgroudn video
-//        addVideo(videoName: "test", videoType: "mp4")
         
         // Make keyboard go away if tapped anywhere
         keyboardDismiss(view: viewToShake)
@@ -73,7 +59,9 @@ class ViewController: UIViewController {
             return
         }
         
+        // Validate info to login
         if database.queryUser(user_name: usernameText.text!, user_password: passwordText.text!) {
+            database.foo(name: usernameText.text!)
             performSegue(withIdentifier: "goToHomePageFromLogin", sender: self)
         }
         else {

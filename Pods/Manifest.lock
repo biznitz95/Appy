@@ -6,23 +6,27 @@ PODS:
   - SQLite.swift (0.11.5):
     - SQLite.swift/standard (= 0.11.5)
   - SQLite.swift/standard (0.11.5)
+  - SwiftKeychainWrapper (3.0.1)
 
 DEPENDENCIES:
   - ChameleonFramework
   - lottie-ios
   - SQLite.swift (~> 0.11.5)
+  - SwiftKeychainWrapper
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - ChameleonFramework
     - lottie-ios
     - SQLite.swift
+    - SwiftKeychainWrapper
 
 SPEC CHECKSUMS:
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
   SQLite.swift: 6e5356850bb1791459f8c16d6ee9195b28714a2e
+  SwiftKeychainWrapper: 38952a3636320ae61bad3513cadd870929de7a4a
 
-PODFILE CHECKSUM: f19369b830d8bda4b159e79efabe0e80d3bc29e1
+PODFILE CHECKSUM: e7dc3b1b794f6ffb63b1096e03dfb71e05f2df4a
 
 COCOAPODS: 1.5.3

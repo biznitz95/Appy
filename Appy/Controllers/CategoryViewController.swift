@@ -8,12 +8,11 @@
 
 import UIKit
 import ChameleonFramework
-import SQLite
 
 class CategoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet var myView: UIView!
-    @IBOutlet var myTableView: UITableView!
+    @IBOutlet weak var myTableView: UITableView!
     
     var categories: [Category] = []
     var navBarTitle: String?
@@ -63,7 +62,11 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
             self.navigationController?.navigationBar.isTranslucent = true
         }
         
-        categories = database.queryCategory()
+        let user_name = database.foo(name: nil)
+        let user_id = database.queryUserID(user_name: user_name)
+        let group_id = database.queryGroupID(group_name: navBarTitle!, user_id: user_id!)!
+        
+        categories = database.queryCategoryGiveGroupID(group_id: group_id)
         
         
         myTableView.register(UITableViewCell.self, forCellReuseIdentifier: "categoryCell")
@@ -84,10 +87,14 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         let action = UIAlertAction(title: "Add", style: .default) { (action) in
             if textField.text! != "" {
                 
-                self.database.createTableCategory()
-                
                 let color: String = (UIColor.randomFlat()?.hexValue())!
-                self.database.insertCategory(category_name: textField.text!, category_color: color, group_id: 0)
+                
+                let user_name = self.database.foo(name: nil)
+                let user_id = self.database.queryUserID(user_name: user_name)
+                let group_id = self.database.queryGroupID(group_name: self.navBarTitle!, user_id: Int32(user_id!))
+                
+                self.database.createTableCategory()
+                self.database.insertCategory(category_name: textField.text!, category_color: color, group_id: Int32(group_id!))
                 
                 self.categories.append(Category(name: textField.text!, color: color))
                 
