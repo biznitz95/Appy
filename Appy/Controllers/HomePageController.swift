@@ -17,6 +17,7 @@ class HomePageController: UIViewController, UITableViewDelegate, UITableViewData
     var groups: [Group] = []
     var navBarTitle: String?
     var navBarColor: String?
+    var CATEGORY_NAME: String?
     
     @IBOutlet weak var addButton: UIBarButtonItem!
     
@@ -42,6 +43,7 @@ class HomePageController: UIViewController, UITableViewDelegate, UITableViewData
         print(groups[indexPath.row])
         navBarTitle = groups[indexPath.row].name
         navBarColor = groups[indexPath.row].color
+        CATEGORY_NAME = navBarTitle
         
         performSegue(withIdentifier: "goToCategoryFromGroup", sender: self)
     }
@@ -55,9 +57,9 @@ class HomePageController: UIViewController, UITableViewDelegate, UITableViewData
         // Load groups if provided a user_id
 
         let user_name = database.foo(name: nil)
-        let user_id = database.queryUserID(user_name: user_name)
+        guard let user_id = database.queryUserID(user_name: user_name) else {fatalError("No user_id provided")}
         
-        groups = database.queryGroupGivenUserID(user_id: user_id!)
+        groups = database.queryGroupGivenUserID(user_id: user_id)
         
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -72,7 +74,17 @@ class HomePageController: UIViewController, UITableViewDelegate, UITableViewData
         myTableView.dataSource = self
         myTableView.delegate = self
         self.view.addSubview(myTableView)
+        
+        
     }
+    
+    override func didReceiveMemoryWarning() {
+//        database.close()
+        print("Received memory warning in Homepage")
+//        database.db = database.openDatabase()
+    }
+    
+    
     
     @IBAction func logoutPressed(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
@@ -87,13 +99,12 @@ class HomePageController: UIViewController, UITableViewDelegate, UITableViewData
         let action = UIAlertAction(title: "Add", style: .default) { (action) in
             if textField.text! != "" {
                 
-                let color: String = (UIColor.randomFlat()?.hexValue())!
+                guard let color: String = (UIColor.randomFlat()?.hexValue()) else {fatalError("No color provided")}
 
                 let user_name = self.database.foo(name: nil)
-                let user_id = self.database.queryUserID(user_name: user_name)
+                guard let user_id = self.database.queryUserID(user_name: user_name) else {fatalError("No user_id found")}
                 
-                self.database.createTableGroup()
-                self.database.insertGroup(group_name: textField.text!, user_id: Int32(user_id!), user_name: user_name, group_color: color)
+                self.database.insertGroup(group_name: textField.text!, user_id: Int32(user_id), user_name: user_name, group_color: color)
                 
                 self.groups.append(Group(groupName: textField.text!, groupColor: color))
                 
@@ -122,6 +133,8 @@ class HomePageController: UIViewController, UITableViewDelegate, UITableViewData
             let destinationVC = segue.destination as! CategoryViewController
             destinationVC.navBarTitle = navBarTitle
             destinationVC.navBarColor = navBarColor
+            destinationVC.GROUP_NAME = navBarTitle
+            destinationVC.CATEGORY_NAME = CATEGORY_NAME
         }
     }
     

@@ -8,7 +8,6 @@
 
 import UIKit
 import ChameleonFramework
-import SQLite
 import Lottie
 
 class ChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {

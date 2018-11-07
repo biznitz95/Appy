@@ -23,8 +23,13 @@ class ViewController: UIViewController {
     // Databse for Appy
     var database = Database()
     
+    // Where we'll globally store user info
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        database.createAllTables()
         
         // Change background color
         viewToShake.backgroundColor = UIColor.flatNavyBlueColorDark()
@@ -45,6 +50,10 @@ class ViewController: UIViewController {
         // Make keyboard go away if tapped anywhere
         keyboardDismiss(view: viewToShake)
         
+    }
+    
+    override func didReceiveMemoryWarning() {
+        print("Received memory warning in ViewController")
     }
 
     // User pressed Login

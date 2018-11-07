@@ -24,9 +24,12 @@ class Database {
         return Holder.user_name
     }
     
+    internal let SQLITE_STATIC = unsafeBitCast(0, to: sqlite3_destructor_type.self)
+    internal let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
+    
     /*  USER QUERIES  */
     let createTableUserString = """
-            CREATE TABLE User(
+            CREATE TABLE IF NOT EXISTS User(
             user_id                 INTEGER             PRIMARY KEY         AUTOINCREMENT,
             user_name               VARCHAR(255)        NOT NULL,
             user_email              VARCHAR(255)        NOT NULL,
@@ -51,7 +54,7 @@ class Database {
         );
     """
     let createTableItemString = """
-        CREATE TABLE Item (
+        CREATE TABLE IF NOT EXISTS Item (
             item_id                 INTEGER             PRIMARY KEY         AUTOINCREMENT,
             item_name               VARCHAR(255)        NOT NULL,
             item_color              VARCHAR(255)        NOT NULL,
@@ -60,7 +63,7 @@ class Database {
         );
     """
     let createTableChatString = """
-        CREATE TABLE Chat (
+        CREATE TABLE IF NOT EXISTS Chat (
             chat_id                 INTEGER             PRIMARY KEY         AUTOINCREMENT,
             chat_name               VARCHAR(255)        NOT NULL,
             user_id                 INTEGER             NOT NULL,
@@ -69,7 +72,7 @@ class Database {
         );
     """
     let createTableMessageString = """
-        CREATE TABLE Message (
+        CREATE TABLE IF NOT EXISTS Message (
             message_id              INTEGER             PRIMARY KEY         AUTOINCREMENT,
             message_name            VARCHAR(255)        NOT NULL,
             user_id                 INTEGER             NOT NULL,
@@ -107,12 +110,12 @@ class Database {
     func openDatabase() -> OpaquePointer? {
         var db: OpaquePointer? = nil
         
-        //        guard let part1DbPath = Bundle.main.path(forResource: "Appy", ofType: "sqlite") else {fatalError("Could not find database!")}
+//        guard let part1DbPath = Bundle.main.path(forResource: "Appy", ofType: "sqlite") else {fatalError("Could not find database!")}
+        guard let part1DbPath = copyDatabaseIfNeeded() else {fatalError("Could not load database")}
+//        let part1DbPath = "/Users/bizetrodriguez/Desktop/Appy/Databases/Appy.sqlite"
         
-        let part1DbPath = "/Users/bizetrodriguez/Desktop/Appy/Databases/Appy.sqlite"
-        
-        if sqlite3_open(String(part1DbPath), &db) == SQLITE_OK {
-            print("Successfully opened connection to database at \(String(part1DbPath))")
+        if sqlite3_open(String(part1DbPath.path), &db) == SQLITE_OK {
+            print("Successfully opened connection to database at \(String(part1DbPath.path))")
             return db
         } else {
             print("Unable to open database. Verify that you created the directory described " +
@@ -120,7 +123,7 @@ class Database {
             return nil
         }
     }
-    
+
     func createTableUser() {
         // 1
         var createTableStatement: OpaquePointer? = nil
@@ -158,6 +161,7 @@ class Database {
         } else {
             print("SELECT statement could not be prepared")
         }
+        
         sqlite3_finalize(queryStatement)
         return pass
     }
@@ -173,6 +177,7 @@ class Database {
                 let id = Int32(queryResultCol0)
                 
                 print("Found user_id: \(id)")
+                sqlite3_finalize(queryStatement)
                 return id
             }
             
@@ -194,6 +199,7 @@ class Database {
                 
                 if let _ = sqlite3_column_text(queryStatement, 0) {
                     print("User already exists")
+                    sqlite3_finalize(queryStatement)
                     return true
                 }
             }
@@ -406,6 +412,7 @@ class Database {
                 let id = Int32(queryResultCol0)
                 
                 print("Found id: \(id)")
+                sqlite3_finalize(queryStatement)
                 return id
             }
             
@@ -479,18 +486,36 @@ class Database {
             // 2
             //            sqlite3_bind_int(insertStatement, 1, id)
             // 3
-            sqlite3_bind_text(insertStatement, 1, category_name.utf8String, -1, nil)
-            sqlite3_bind_text(insertStatement, 2, category_color.utf8String, -1, nil)
-            sqlite3_bind_int(insertStatement, 3, group_id)
+//            sqlite3_bind_text(insertStatement, 1, category_name.utf8String, -1, nil)
+//            sqlite3_bind_text(insertStatement, 2, category_color.utf8String, -1, nil)
+//            sqlite3_bind_int(insertStatement, 3, group_id)
+            if sqlite3_bind_text(insertStatement, 1, category_name.utf8String, -1, SQLITE_TRANSIENT) != SQLITE_OK {
+                let errmsg = String(cString: sqlite3_errmsg(db)!)
+                print("failure binding name: \(errmsg)")
+            }
+            
+            if sqlite3_bind_text(insertStatement, 2, category_color.utf8String, -1, SQLITE_TRANSIENT) != SQLITE_OK {
+                let errmsg = String(cString: sqlite3_errmsg(db)!)
+                print("failure binding color: \(errmsg)")
+            }
+            
+            if sqlite3_bind_int(insertStatement, 3, group_id) != SQLITE_OK {
+                let errmsg = String(cString: sqlite3_errmsg(db)!)
+                print("failure binding id: \(errmsg)")
+            }
             
             // 4
             if sqlite3_step(insertStatement) == SQLITE_DONE {
                 print("Successfully inserted row.")
             } else {
                 print("Could not insert row.")
+                let errmsg = String(cString: sqlite3_errmsg(db)!)
+                print("failure inserting foo: \(errmsg)")
             }
         } else {
             print("INSERT statement could not be prepared.")
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("error preparing insert: \(errmsg)")
         }
         // 5
         sqlite3_finalize(insertStatement)
@@ -562,6 +587,7 @@ class Database {
                 let id = Int32(queryResultCol0)
                 
                 print("Found id: \(id)")
+                sqlite3_finalize(queryStatement)
                 return id
             }
             
@@ -692,6 +718,7 @@ class Database {
                 let queryResultCol0 = sqlite3_column_int(queryStatement, 0)
                 let id = Int32(queryResultCol0)
                 
+                sqlite3_finalize(queryStatement)
                 print("Found id: \(id)")
                 return id
             }
@@ -704,8 +731,55 @@ class Database {
         return nil
     }
     
+    func queryItemGivenCategoryID(category_id: Int32) -> [Item] {
+        var queryStatement: OpaquePointer? = nil
+        let queryStatementStringCategoryGivenID = "SELECT * FROM item WHERE category_id = \(category_id);"
+        
+        var info: [Item] = []
+        // 1
+        if sqlite3_prepare_v2(db, queryStatementStringCategoryGivenID, -1, &queryStatement, nil) == SQLITE_OK {
+            // 2
+            //                if sqlite3_step(queryStatement) == SQLITE_ROW {
+            
+            while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                //                    let id = sqlite3_column_int(queryStatement, 0)
+                
+                let name = String(cString: sqlite3_column_text(queryStatement, 1)!)
+                let color = String(cString: sqlite3_column_text(queryStatement, 2)!)
+                let done = Int32(sqlite3_column_int(queryStatement, 3))
+                
+                info.append(Item(name: name, color: color, done: done))
+                
+            }
+            
+        } else {
+            print("SELECT statement could not be prepared")
+        }
+        
+        // 6
+        sqlite3_finalize(queryStatement)
+        
+        return info
+    }
+    
     func updateItem(item_name: String, item_id: Int32) {
         let updateStatementString = "UPDATE Item SET item_name = '\(item_name)' WHERE item_id = \(item_id);"
+        var updateStatement: OpaquePointer? = nil
+        
+        if sqlite3_prepare_v2(db, updateStatementString, -1, &updateStatement, nil) == SQLITE_OK {
+            if sqlite3_step(updateStatement) == SQLITE_DONE {
+                print("Successfully updated row.")
+            } else {
+                print("Could not update row.")
+            }
+        } else {
+            print("UPDATE statement could not be prepared for Item")
+        }
+        sqlite3_finalize(updateStatement)
+    }
+    
+    func updateItemDone(item_id: Int32, item_done: Int32) {
+        let updateStatementString = "UPDATE Item SET item_done = \(item_done) WHERE item_id = \(item_id);"
         var updateStatement: OpaquePointer? = nil
         
         if sqlite3_prepare_v2(db, updateStatementString, -1, &updateStatement, nil) == SQLITE_OK {
@@ -818,6 +892,7 @@ class Database {
                 let queryResultCol0 = sqlite3_column_int(queryStatement, 0)
                 let id = Int32(queryResultCol0)
                 
+                sqlite3_finalize(queryStatement)
                 print("Found id: \(id)")
                 return id
             }
@@ -944,6 +1019,7 @@ class Database {
                 let queryResultCol0 = sqlite3_column_int(queryStatement, 0)
                 let id = Int32(queryResultCol0)
                 
+                sqlite3_finalize(queryStatement)
                 print("Found id: \(id)")
                 return id
             }
@@ -989,6 +1065,15 @@ class Database {
         sqlite3_finalize(deleteStatement)
     }
     
+    func createAllTables() {
+        createTableUser()
+        createTableGroup()
+        createTableCategory()
+        createTableItem()
+        createTableChat()
+        createTableMessage()
+    }
+    
     func close() {
         sqlite3_close(db)
         print("Closing database Appy.sqlite")
@@ -996,6 +1081,38 @@ class Database {
     
     deinit {
         close()
+    }
+    
+    func copyDatabaseIfNeeded() -> URL? {
+        // Move database file from bundle to documents folder
+        
+        let fileManager = FileManager.default
+        
+        let documentsUrl = fileManager.urls(for: .documentDirectory,
+                                            in: .userDomainMask)
+        
+        guard documentsUrl.count != 0 else {
+            return nil // Could not find documents URL
+        }
+        
+        let finalDatabaseURL = documentsUrl.first!.appendingPathComponent("Appy.sqlite")
+        
+        if !( (try? finalDatabaseURL.checkResourceIsReachable()) ?? false) {
+            print("DB does not exist in documents folder")
+            
+            let documentsURL = Bundle.main.resourceURL?.appendingPathComponent("Appy.sqlite")
+            
+            do {
+                try fileManager.copyItem(atPath: (documentsURL?.path)!, toPath: finalDatabaseURL.path)
+            } catch let error as NSError {
+                print("Couldn't copy file to final location! Error:\(error.description)")
+            }
+            
+        } else {
+            print("Database file found at path: \(finalDatabaseURL.path)")
+        }
+        
+        return finalDatabaseURL
     }
 }
 

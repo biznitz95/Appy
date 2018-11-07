@@ -15,8 +15,11 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var myTableView: UITableView!
     
     var categories: [Category] = []
+    
     var navBarTitle: String?
     var navBarColor: String?
+    var GROUP_NAME: String?
+    var CATEGORY_NAME: String?
     
     // Create instance of Appy database
     var database = Database()
@@ -39,8 +42,8 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(categories[indexPath.row])
-        navBarTitle = categories[indexPath.row].name
         navBarColor = categories[indexPath.row].color
+        CATEGORY_NAME = categories[indexPath.row].name
         performSegue(withIdentifier: "goToItemFromCategory", sender: self)
     }
     
@@ -63,8 +66,9 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         let user_name = database.foo(name: nil)
-        let user_id = database.queryUserID(user_name: user_name)
-        let group_id = database.queryGroupID(group_name: navBarTitle!, user_id: user_id!)!
+        guard let user_id = database.queryUserID(user_name: user_name) else {fatalError("No user_id provided.")}
+        guard let barTitle = navBarTitle else {fatalError("Empty navBarTitle.")}
+        guard let group_id = database.queryGroupID(group_name: barTitle, user_id: user_id) else {fatalError("No group_id found")}
         
         categories = database.queryCategoryGiveGroupID(group_id: group_id)
         
@@ -79,6 +83,10 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         self.view.addSubview(myTableView)
     }
     
+    override func didReceiveMemoryWarning() {
+        print("Recevied memory warning in CategoryViewController")
+    }
+    
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         var textField  = UITextField()
         
@@ -87,14 +95,14 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         let action = UIAlertAction(title: "Add", style: .default) { (action) in
             if textField.text! != "" {
                 
-                let color: String = (UIColor.randomFlat()?.hexValue())!
+                guard let color: String = (UIColor.randomFlat()?.hexValue()) else {fatalError("No hex color created.")}
                 
                 let user_name = self.database.foo(name: nil)
-                let user_id = self.database.queryUserID(user_name: user_name)
-                let group_id = self.database.queryGroupID(group_name: self.navBarTitle!, user_id: Int32(user_id!))
+                guard let user_id = self.database.queryUserID(user_name: user_name) else {fatalError("No user_id provided.")}
+                guard let barTitle = self.navBarTitle else {fatalError("Empty navBarTitle.")}
+                guard let group_id = self.database.queryGroupID(group_name: barTitle, user_id: Int32(user_id)) else {fatalError("No group_id provided")}
                 
-                self.database.createTableCategory()
-                self.database.insertCategory(category_name: textField.text!, category_color: color, group_id: Int32(group_id!))
+                self.database.insertCategory(category_name: textField.text!, category_color: color, group_id: Int32(group_id))
                 
                 self.categories.append(Category(name: textField.text!, color: color))
                 
@@ -124,6 +132,8 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
             let destinationVC = segue.destination as! ItemViewController
             destinationVC.navBarTitle = navBarTitle
             destinationVC.navBarColor = navBarColor
+            destinationVC.CATEGORY_NAME = CATEGORY_NAME
+            destinationVC.GROUP_NAME = GROUP_NAME
         }
     }
     

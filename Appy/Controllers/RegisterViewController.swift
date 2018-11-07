@@ -37,6 +37,10 @@ class RegisterViewController: UIViewController {
         keyboardDismiss()
     }
     
+    override func didReceiveMemoryWarning() {
+        print("Received memory warning in RegisterController")
+    }
+    
     @IBAction func pressedRegister(_ sender: UIButton) {
         
         /* Start */
