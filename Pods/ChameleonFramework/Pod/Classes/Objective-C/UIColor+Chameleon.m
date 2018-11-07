@@ -891,7 +891,7 @@
             rgba[3] = 1.0f;
             break;
         }
-        case kCGColorSpaceModelXYZ:
+//        case kCGColorSpaceModelXYZ:
             
             break;
     }

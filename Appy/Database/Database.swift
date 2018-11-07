@@ -14,6 +14,7 @@ class Database {
         return openDatabase()
     }()
     
+    @discardableResult
     func foo(name: String?) -> String {
         struct Holder {
             static var user_name = ""
