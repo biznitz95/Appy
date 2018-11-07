@@ -499,7 +499,7 @@
                                 </constraints>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="checkmark" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="ftS-OC-yLK">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleAspectFit" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" accessoryType="checkmark" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="ftS-OC-yLK">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ftS-OC-yLK" id="VlA-r4-SyK">
@@ -507,6 +507,10 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <accessibilityTraits key="traits" updatesFrequently="YES"/>
+                                        </accessibility>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -520,7 +524,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="UPQ-T8-WVq"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Groups" id="Wnf-jC-flj">
+                    <navigationItem key="navigationItem" title="Groups" largeTitleDisplayMode="always" id="Wnf-jC-flj">
                         <barButtonItem key="leftBarButtonItem" title="Log Out" id="QrQ-cV-rKZ">
                             <connections>
                                 <action selector="logoutPressed:" destination="n1W-AZ-6k8" id="gEw-di-H09"/>
@@ -534,6 +538,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="addButton" destination="bZW-oD-nBS" id="Dse-G2-x8O"/>
+                        <outlet property="logoutButton" destination="QrQ-cV-rKZ" id="WTx-aj-rc0"/>
                         <outlet property="myTableView" destination="hsz-qC-xlq" id="xjT-qQ-A6g"/>
                         <outlet property="myView" destination="y2r-0P-ave" id="OSp-Ht-PP4"/>
                         <segue destination="9SX-xS-AeW" kind="show" identifier="goToCategoryFromGroup" id="joJ-yK-0AZ"/>

@@ -13,17 +13,7 @@ class Database {
     lazy var db: OpaquePointer? = {
         return openDatabase()
     }()
-    
-    func foo(name: String?) -> String {
-        struct Holder {
-            static var user_name = ""
-        }
-        if let _ = name {
-            Holder.user_name = name!
-        }
-        return Holder.user_name
-    }
-    
+
     internal let SQLITE_STATIC = unsafeBitCast(0, to: sqlite3_destructor_type.self)
     internal let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
     
@@ -358,7 +348,6 @@ class Database {
                 let color = String(cString: sqlite3_column_text(queryStatement, 4)!)
                 info.append(Group(groupName: name, groupColor: color))
                 
-                #warning("Make sure only groups associated with certain users appear")
             }
             
             //                } else {
@@ -390,7 +379,6 @@ class Database {
                 let color = String(cString: sqlite3_column_text(queryStatement, 4)!)
                 info.append(Group(groupName: name, groupColor: color))
                 
-                #warning("Make sure only groups associated with certain users appear")
             }
         } else {
             print("SELECT statement could not be prepared")
@@ -696,7 +684,6 @@ class Database {
                 let done = Int32(sqlite3_column_int(queryStatement, 3))
                 info.append(Item(name: name, color: color, done: done))
                 
-                #warning("Make sure only categories associated with certain users appear")
             }
             
         } else {
