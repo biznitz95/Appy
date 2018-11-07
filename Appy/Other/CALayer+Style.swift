@@ -9,6 +9,7 @@
 import UIKit
 
 extension CALayer {
+    // Use a double // for comments to devs or /// for official documentation.
     
     /// Updates the layer's border according to the specified parameters.
     func styleBorder(cornerRadius: CGFloat, width: CGFloat, color: CGColor) {

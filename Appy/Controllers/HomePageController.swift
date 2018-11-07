@@ -9,45 +9,34 @@
 import UIKit
 import ChameleonFramework
 
-class HomePageController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class HomePageController: UIViewController {
+    
+    // MARK: - Outlets
     
     @IBOutlet var myView: UIView!
     @IBOutlet weak var myTableView: UITableView!
+    @IBOutlet weak var addButton: UIBarButtonItem!
+
+    // MVC pattern: Model View Controller. Put the properties in the model and
+    // have the model interact with functions. Might also be helpful to lookup
+    // LCOM4 (Cohesion Theory)
+//    struct Model {
+//        var groups: [Group] = []
+//        var navBarTitle: String?
+//        var navBarColor: String?
+//    }
+    
+    // MARK: - Internal Variables
     
     var groups: [Group] = []
     var navBarTitle: String?
     var navBarColor: String?
     var CATEGORY_NAME: String?
     
-    @IBOutlet weak var addButton: UIBarButtonItem!
-    
     var database = Database()
+    
+    // MARK: - View Life Cycle
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        
-        cell.textLabel?.text = groups[indexPath.row].name
-        let color = UIColor.init(hexString: groups[indexPath.row].color)
-        cell.backgroundColor = color
-        
-        return cell
-    }
-    
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return groups.count
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(groups[indexPath.row])
-        navBarTitle = groups[indexPath.row].name
-        navBarColor = groups[indexPath.row].color
-        CATEGORY_NAME = navBarTitle
-        
-        performSegue(withIdentifier: "goToCategoryFromGroup", sender: self)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,7 +50,6 @@ class HomePageController: UIViewController, UITableViewDelegate, UITableViewData
         
         groups = database.queryGroupGivenUserID(user_id: user_id)
         
-        
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.isTranslucent = true
@@ -74,17 +62,20 @@ class HomePageController: UIViewController, UITableViewDelegate, UITableViewData
         myTableView.dataSource = self
         myTableView.delegate = self
         self.view.addSubview(myTableView)
-        
-        
     }
     
-    override func didReceiveMemoryWarning() {
-//        database.close()
-        print("Received memory warning in Homepage")
-//        database.db = database.openDatabase()
+    // Pass name of group to category
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let _ = navBarTitle {
+            let destinationVC = segue.destination as! CategoryViewController
+            destinationVC.navBarTitle = navBarTitle
+            destinationVC.navBarColor = navBarColor
+            destinationVC.GROUP_NAME = navBarTitle
+            destinationVC.CATEGORY_NAME = CATEGORY_NAME
+        }
     }
     
-    
+    // MARK: Actions
     
     @IBAction func logoutPressed(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
@@ -127,16 +118,41 @@ class HomePageController: UIViewController, UITableViewDelegate, UITableViewData
         present(alert, animated: true, completion: nil)
     }
     
-    // Pass name of group to category
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let _ = navBarTitle {
-            let destinationVC = segue.destination as! CategoryViewController
-            destinationVC.navBarTitle = navBarTitle
-            destinationVC.navBarColor = navBarColor
-            destinationVC.GROUP_NAME = navBarTitle
-            destinationVC.CATEGORY_NAME = CATEGORY_NAME
-        }
+}
+
+// MARK: - UITableViewDataSource
+
+extension HomePageController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        
+        cell.textLabel?.text = groups[indexPath.row].name
+        let color = UIColor.init(hexString: groups[indexPath.row].color)
+        cell.backgroundColor = color
+        
+        return cell
+    }
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return groups.count
+    }
+
+}
+
+// MARK: - UITableViewDelegate
+
+extension HomePageController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(groups[indexPath.row])
+        navBarTitle = groups[indexPath.row].name
+        navBarColor = groups[indexPath.row].color
+        CATEGORY_NAME = navBarTitle
+        
+        performSegue(withIdentifier: "goToCategoryFromGroup", sender: self)
     }
     
 }
-

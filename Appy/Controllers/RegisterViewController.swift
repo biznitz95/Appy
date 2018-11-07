@@ -125,7 +125,8 @@ final class RegisterViewController: UIViewController {
     // Textfields modifications
     private func configureTextFields() {
         // Looks like a lot of repeated code: perhaps we can do something about
-        // that...
+        // that...see NSMutableAttributeString+Style.swift
+        // Easy to identify extensions in filename with the + symbol.
         emailText.attributedPlaceholder = NSMutableAttributedString(textStyled: "Email")
         usernameText.attributedPlaceholder = NSMutableAttributedString(textStyled: "Username")
         passwordText.attributedPlaceholder = NSMutableAttributedString(textStyled: "Password")
