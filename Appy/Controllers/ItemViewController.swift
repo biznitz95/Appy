@@ -15,13 +15,10 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet var myTableView: UITableView!
     @IBOutlet var animationView: LOTAnimationView!
     
-    var navBarTitle: String?
-    var navBarColor: String?
-    var CATEGORY_NAME: String?
-    var GROUP_NAME: String?
-    
     var items = [Item]()
     var database = Database()
+    
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,23 +33,19 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
         animationView.play()
         
         // Change nav bar title
-        if let _ = navBarTitle {
-            self.navigationItem.title = navBarTitle
+        if let title = defaults.string(forKey: "category_name") {
+            self.navigationItem.title = title
         }
-        if let _ = navBarColor {
-            _ = UIColor.init(hexString: navBarColor)
+        if let color = defaults.string(forKey: "category_color") {
+            _ = UIColor.init(hexString: color)
             
             self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
             self.navigationController?.navigationBar.shadowImage = UIImage()
             self.navigationController?.navigationBar.isTranslucent = true
         }
         
-        let user_name = database.foo(name: nil)
-        guard let user_id = database.queryUserID(user_name: user_name) else {fatalError("No user_id provided.")}
-        guard let category_name = CATEGORY_NAME else {fatalError("Empty navBarTitle.")}
-        guard let group_name = GROUP_NAME else {fatalError("No group_name")}
-        guard let group_id = database.queryGroupID(group_name: group_name, user_id: user_id) else {fatalError("No group_id found")}
-        guard let category_id = database.queryCategoryID(category_name: category_name, group_id: group_id) else {fatalError("No category id found")}
+        
+        let category_id = Int32(defaults.integer(forKey: "category_id"))
         
         items = database.queryItemGivenCategoryID(category_id: category_id)
         
@@ -78,6 +71,8 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
         cell.textLabel?.text = items[indexPath.row].name
         let color = UIColor.init(hexString: items[indexPath.row].color)
         cell.backgroundColor = color
+        cell.textLabel?.textColor = UIColor.init(contrastingBlackOrWhiteColorOn: color, isFlat: true)
+        cell.selectionStyle = .none
         if items[indexPath.row].done == 1 {
             cell.accessoryType = .checkmark
         }
@@ -89,14 +84,11 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(items[indexPath.row].name)
-        let user_name = self.database.foo(name: nil)
-        guard let user_id = self.database.queryUserID(user_name: user_name) else {fatalError("No user_id provided.")}
-        guard let category_name = self.CATEGORY_NAME else {fatalError("Empty navBarTitle.")}
-        guard let group_name = self.GROUP_NAME else {fatalError("No group_name")}
-        guard let group_id = self.database.queryGroupID(group_name: group_name, user_id: user_id) else {fatalError("No group_id found")}
-        guard let category_id = self.database.queryCategoryID(category_name: category_name, group_id: group_id) else {fatalError("No category id found")}
+        
+        let category_id = Int32(self.defaults.integer(forKey: "category_id"))
         
         guard let item_id = database.queryItemID(item_name: items[indexPath.row].name, category_id: category_id) else {fatalError("Could not find item id")}
+        
         if items[indexPath.row].done == 1 {
             items[indexPath.row].done = 0
             database.updateItemDone(item_id: item_id, item_done: 0)
@@ -119,12 +111,7 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
                 
                 self.database.createTableItem()
                 
-                let user_name = self.database.foo(name: nil)
-                guard let user_id = self.database.queryUserID(user_name: user_name) else {fatalError("No user_id provided.")}
-                guard let category_name = self.CATEGORY_NAME else {fatalError("Empty navBarTitle.")}
-                guard let group_name = self.GROUP_NAME else {fatalError("No group_name")}
-                guard let group_id = self.database.queryGroupID(group_name: group_name, user_id: user_id) else {fatalError("No group_id found")}
-                guard let category_id = self.database.queryCategoryID(category_name: category_name, group_id: group_id) else {fatalError("No category id found")}
+                let category_id = Int32(self.defaults.integer(forKey: "category_id"))
                 
                 let color: String = (UIColor.randomFlat()?.hexValue())!
                 self.database.insertItem(item_name: textField.text!, item_color: color, item_done: 0, category_id: category_id)

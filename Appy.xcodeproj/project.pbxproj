@@ -15,6 +15,10 @@
 		9E4B796F2185561C0011A782 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4B796E2185561C0011A782 /* Group.swift */; };
 		9E4B797621855F750011A782 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4B797521855F750011A782 /* Category.swift */; };
 		9E4B797821858A3D0011A782 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4B797721858A3D0011A782 /* Item.swift */; };
+		9E5701BA2193649100595449 /* CALayer+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E5701B92193649100595449 /* CALayer+Style.swift */; };
+		9E5701BC219364C600595449 /* NSMutableAttributedString+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E5701BB219364C600595449 /* NSMutableAttributedString+Style.swift */; };
+		9E5701BE2193652600595449 /* View+ShakeAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E5701BD2193652600595449 /* View+ShakeAnimation.swift */; };
+		9E5701C021936AC200595449 /* todo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9E5701BF21936AC200595449 /* todo.txt */; };
 		9E7E546F218EADE80075CE23 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E546E218EADE80075CE23 /* Chat.swift */; };
 		9E7E5471218EAE0C0075CE23 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E5470218EAE0C0075CE23 /* Message.swift */; };
 		9E7E5473218EB4FB0075CE23 /* message.json in Resources */ = {isa = PBXBuildFile; fileRef = 9E7E5472218EB4FB0075CE23 /* message.json */; };
@@ -40,6 +44,10 @@
 		9E4B796E2185561C0011A782 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		9E4B797521855F750011A782 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		9E4B797721858A3D0011A782 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		9E5701B92193649100595449 /* CALayer+Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Style.swift"; sourceTree = "<group>"; };
+		9E5701BB219364C600595449 /* NSMutableAttributedString+Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Style.swift"; sourceTree = "<group>"; };
+		9E5701BD2193652600595449 /* View+ShakeAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ShakeAnimation.swift"; sourceTree = "<group>"; };
+		9E5701BF21936AC200595449 /* todo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = todo.txt; sourceTree = "<group>"; };
 		9E7E546E218EADE80075CE23 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		9E7E5470218EAE0C0075CE23 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		9E7E5472218EB4FB0075CE23 /* message.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = message.json; sourceTree = "<group>"; };
@@ -111,6 +119,9 @@
 			isa = PBXGroup;
 			children = (
 				9EEAB9FD2185244500EA5F62 /* ViewFunctions.swift */,
+				9E5701B92193649100595449 /* CALayer+Style.swift */,
+				9E5701BB219364C600595449 /* NSMutableAttributedString+Style.swift */,
+				9E5701BD2193652600595449 /* View+ShakeAnimation.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -118,6 +129,7 @@
 		9E7EC9FC2177C1360071DD6B = {
 			isa = PBXGroup;
 			children = (
+				9E5701BF21936AC200595449 /* todo.txt */,
 				9E7E5472218EB4FB0075CE23 /* message.json */,
 				9E931979217EAB0100A04686 /* Databases */,
 				9E7ECA072177C1360071DD6B /* Appy */,
@@ -237,6 +249,7 @@
 				9E7ECA102177C1380071DD6B /* Assets.xcassets in Resources */,
 				9E7ECA0E2177C1360071DD6B /* Main.storyboard in Resources */,
 				9E931978217EAA1100A04686 /* Appy.sqlite in Resources */,
+				9E5701C021936AC200595449 /* todo.txt in Resources */,
 				9E7E5473218EB4FB0075CE23 /* message.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -300,9 +313,12 @@
 				9ED4557B2190B99000B06B7B /* User.swift in Sources */,
 				9E4B797821858A3D0011A782 /* Item.swift in Sources */,
 				9E7ECA092177C1360071DD6B /* AppDelegate.swift in Sources */,
+				9E5701BA2193649100595449 /* CALayer+Style.swift in Sources */,
 				9E7E5471218EAE0C0075CE23 /* Message.swift in Sources */,
 				9EFC55702178258000ADE159 /* HomePageController.swift in Sources */,
+				9E5701BE2193652600595449 /* View+ShakeAnimation.swift in Sources */,
 				9E25747521839CCD009C6477 /* Database.swift in Sources */,
+				9E5701BC219364C600595449 /* NSMutableAttributedString+Style.swift in Sources */,
 				9EFC557221784F0300ADE159 /* RegisterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -453,7 +469,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 48ZHJ48H3S;
 				INFOPLIST_FILE = Appy/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BizetRodriguez.Appy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -469,7 +488,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 48ZHJ48H3S;
 				INFOPLIST_FILE = Appy/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BizetRodriguez.Appy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;

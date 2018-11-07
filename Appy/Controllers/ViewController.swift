@@ -24,7 +24,7 @@ class ViewController: UIViewController {
     var database = Database()
     
     // Where we'll globally store user info
-    
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +70,13 @@ class ViewController: UIViewController {
         
         // Validate info to login
         if database.queryUser(user_name: usernameText.text!, user_password: passwordText.text!) {
-            database.foo(name: usernameText.text!)
+//            database.foo(name: usernameText.text!)
+            
+            let user_id = database.queryUserID(user_name: usernameText.text!)
+            
+            defaults.set(usernameText.text!, forKey: "user_name")
+            defaults.set(user_id, forKey: "user_id")
+            
             performSegue(withIdentifier: "goToHomePageFromLogin", sender: self)
         }
         else {
