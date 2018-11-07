@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AudioToolbox
 
 extension UIView {
     
@@ -18,6 +19,7 @@ extension UIView {
         animation.fromValue = NSValue(cgPoint: CGPoint(x: center.x - 10, y: center.y))
         animation.toValue = NSValue(cgPoint: CGPoint(x: center.x + 10, y: center.y))
         layer.add(animation, forKey: "position")
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
     
     

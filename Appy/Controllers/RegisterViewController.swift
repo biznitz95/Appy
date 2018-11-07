@@ -36,11 +36,12 @@ final class RegisterViewController: UIViewController {
         return [emailText, usernameText, passwordText, passwordConfirmText]
     }
     
-    
     // Store user defaults here like name, id, etc...
     private let defaults = UserDefaults.standard
     
     private var skyBlueColor: CGColor { return UIColor.flatSkyBlue()!.cgColor }
+    private var skyBlueDarkColor: UIColor { return UIColor.flatSkyBlueColorDark() }
+    private var powderBlueColor: UIColor { return UIColor.flatPowderBlue() }
     
     // MARK: - View Life Cycle
     
@@ -53,6 +54,7 @@ final class RegisterViewController: UIViewController {
         database.createAllTables()
         
         configureButtons()
+        
         configureTextFields()
         
         viewToShake.keyboardDismiss()
@@ -109,33 +111,24 @@ final class RegisterViewController: UIViewController {
     // MARK: - Private Methods
     
     private func configureButtons() {
-        loginButton.layer.cornerRadius = Constants.cornerRadius
-        // Inference: The login button's attribute is taking a UIColor, so it
-        // can infer that it will only accept UIColor types.
-        loginButton.backgroundColor = .flatSkyBlueColorDark()
+        loginButton.modifyButton(radius: Constants.cornerRadius, color: skyBlueDarkColor)
         
-        registerButton.layer.cornerRadius = Constants.cornerRadius
-        registerButton.backgroundColor = .flatSkyBlueColorDark()
-        
-        forgotButton.layer.cornerRadius = Constants.cornerRadius
-        forgotButton.tintColor = .flatPowderBlue()
+        registerButton.modifyButton(radius: Constants.cornerRadius, color: skyBlueDarkColor)
+
+        forgotButton.modifyButtonTint(radius: Constants.cornerRadius, color: powderBlueColor)
     }
     
     // Textfields modifications
     private func configureTextFields() {
-        emailText.attributedPlaceholder = NSMutableAttributedString(textStyled: "Email")
-        usernameText.attributedPlaceholder = NSMutableAttributedString(textStyled: "Username")
-        passwordText.attributedPlaceholder = NSMutableAttributedString(textStyled: "Password")
-        passwordConfirmText.attributedPlaceholder = NSMutableAttributedString(textStyled: "Confirm Password")
         
         for textField in textFields {
-            textField.backgroundColor = .clear
-            textField.layer.styleBorder(cornerRadius: Constants.cornerRadius,
-                                        width: Constants.borderWidth,
-                                        color: skyBlueColor)
-            guard let string = textField.placeholder else {fatalError("No placeholder text found")}
-            textField.attributedPlaceholder = NSMutableAttributedString(textStyled: string)
+            textField.modifyTextField(
+                radius: Constants.cornerRadius,
+                width: Constants.borderWidth,
+                color: skyBlueColor
+            )
         }
+        
     }
 
 }

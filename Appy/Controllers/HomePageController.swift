@@ -13,10 +13,10 @@ class HomePageController: UIViewController {
     
     // MARK: - Outlets
     
-    @IBOutlet var myView: UIView!
-    @IBOutlet weak var myTableView: UITableView!
-    @IBOutlet var logoutButton: UIBarButtonItem!
-    @IBOutlet weak var addButton: UIBarButtonItem!
+    @IBOutlet private var myView: UIView!
+    @IBOutlet private weak var myTableView: UITableView!
+    @IBOutlet private var logoutButton: UIBarButtonItem!
+    @IBOutlet private weak var addButton: UIBarButtonItem!
     
     // MARK: - Internal Variables
     

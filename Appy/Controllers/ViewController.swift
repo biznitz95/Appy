@@ -11,66 +11,78 @@ import ChameleonFramework
 
 class ViewController: UIViewController {
     
-    // Connections to controller
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var usernameText: UITextField!
-    @IBOutlet weak var passwordText: UITextField!
-    @IBOutlet weak var loginButton: UIButton!
-    @IBOutlet weak var registerButton: UIButton!
-    @IBOutlet weak var forgotButton: UIButton!
-    @IBOutlet var viewToShake: UIView!
+    // MARK: - Outlets
     
-    // Databse for Appy
-    var database = Database()
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var usernameText: UITextField!
+    @IBOutlet private weak var passwordText: UITextField!
+    @IBOutlet private weak var loginButton: UIButton!
+    @IBOutlet private weak var registerButton: UIButton!
+    @IBOutlet private weak var forgotButton: UIButton!
+    @IBOutlet private var viewToShake: UIView!
     
-    // Where we'll globally store user info
+    // MARK: - Private Variables
+    
+    private enum Constants {
+        static let cornerRadius: CGFloat = 5
+        static let borderWidth: CGFloat = 1
+        static let backgroundColor = UIColor.clear
+    }
+    
+    private var database = Database()
+    
     let defaults = UserDefaults.standard
+    
+    private var textFields: [UITextField] {
+        return [usernameText, passwordText]
+    }
+    
+    private var buttons: [UIButton] {
+        return [loginButton, registerButton, forgotButton]
+    }
+    
+    // Colors
+    private var skyBlueColor: CGColor { return UIColor.flatSkyBlue()!.cgColor }
+    private var skyBlueDarkColor: UIColor { return UIColor.flatSkyBlueColorDark() }
+    private var powderBlueColor: UIColor { return UIColor.flatPowderBlue() }
+    
+    // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Create all tables needed 
         database.createAllTables()
         
         // Change background color
         viewToShake.backgroundColor = UIColor.flatNavyBlueColorDark()
         
-        
-        // Modify button for Login
-        modifyLoginButton()
-        
-        // Modify button for Register
-        modifyCreateButton()
-        
-        // Modify forgot button
-        modifyForgotButton()
+        // Modify buttons
+        modifyButtons()
         
         // Modify textfields
         modifyTextFields()
         
         // Make keyboard go away if tapped anywhere
-        keyboardDismiss(view: viewToShake)
-        
-    }
-    
-    override func didReceiveMemoryWarning() {
-        print("Received memory warning in ViewController")
+        viewToShake.keyboardDismiss()
     }
 
-    // User pressed Login
+    // MARK: - Actions
+    
     @IBAction func pressedLogin(_ sender: UIButton) {
         
-        if (usernameText.text) == "" || (passwordText.text) == "" {
-            usernameText.layer.borderColor = UIColor.flatRed()?.cgColor
-            passwordText.layer.borderColor = UIColor.flatRed()?.cgColor
-            
-            shake(viewToShake: viewToShake)
-            
-            return
+        // Validate fields are not empty
+        for field in textFields {
+            guard !field.text!.isEmpty else {
+                field.layer.borderColor = UIColor.red.cgColor
+                field.shake()
+                return
+            }
+            field.layer.borderColor = skyBlueColor
         }
         
         // Validate info to login
         if database.queryUser(user_name: usernameText.text!, user_password: passwordText.text!) {
-//            database.foo(name: usernameText.text!)
             
             let user_id = database.queryUserID(user_name: usernameText.text!)
             
@@ -81,61 +93,45 @@ class ViewController: UIViewController {
         }
         else {
             usernameText.layer.borderColor = UIColor.flatRed()?.cgColor
+            usernameText.shake()
             passwordText.layer.borderColor = UIColor.flatRed()?.cgColor
-            shake(viewToShake: viewToShake)
+            passwordText.shake()
         }
     }
     
-    // User pressed Register
     @IBAction func pressedRegister(_ sender: UIButton) {
         performSegue(withIdentifier: "goToRegister", sender: self)
     }
     
-    @IBAction func pressedForgot(_ sender: UIButton) {
-        // Possible future feature
-    }
+    @IBAction func pressedForgot(_ sender: UIButton) { }
     
-    // Login button modifications
-    func modifyLoginButton() -> Void {
-        loginButton.layer.cornerRadius = 5
-        loginButton.backgroundColor = UIColor.flatSkyBlueColorDark()
-    }
+    // MARK: - Private Methods
     
-    func modifyCreateButton() -> Void {
-        registerButton.layer.cornerRadius = 5
-        registerButton.backgroundColor = UIColor.flatSkyBlueColorDark()
-    }
-    
-    func modifyForgotButton() -> Void {
-        forgotButton.layer.cornerRadius = 5
-        forgotButton.tintColor = UIColor.flatPowderBlue()
-    }
-    
-    // Textfields modifications
-    func modifyTextFields() -> Void {
-        var stringTitle = NSMutableAttributedString()
-        let usernameString  = "Username" // PlaceHolderText
-        let passwordString = "Password"
+    // Modify textfields style
+    private func modifyTextFields() -> Void {
+        usernameText.modifyTextField(
+            radius: Constants.cornerRadius,
+            width: Constants.borderWidth,
+            color: skyBlueColor
+        )
         
-        stringTitle = NSMutableAttributedString(string:usernameString, attributes: [NSAttributedString.Key.font:UIFont(name: "Courier", size: 18.0)!]) // Font
-        stringTitle.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.white, range:NSRange(location:0,length:usernameString.count))    // Color
-        usernameText.attributedPlaceholder = stringTitle
-        
-        stringTitle = NSMutableAttributedString(string:passwordString, attributes: [NSAttributedString.Key.font:UIFont(name: "Courier", size: 18.0)!]) // Font
-        stringTitle.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.white, range:NSRange(location:0,length:usernameString.count))    // Color
-        passwordText.attributedPlaceholder = stringTitle
-        //
-        
-        passwordText.layer.cornerRadius = 5
-        passwordText.backgroundColor = .clear
-        passwordText.layer.borderWidth = 1
-        passwordText.layer.borderColor = UIColor.flatSkyBlue()?.cgColor
-        
-        usernameText.layer.cornerRadius = 5
-        usernameText.backgroundColor = .clear
-        usernameText.layer.borderWidth = 1
-        usernameText.layer.borderColor = UIColor.flatSkyBlue()?.cgColor
+        passwordText.modifyTextField(
+            radius: Constants.cornerRadius,
+            width: Constants.borderWidth,
+            color: skyBlueColor
+        )
     }
 
+    // Button Modifications
+    private func modifyButtons() {
+        // Modify button for Login
+        loginButton.modifyButton(radius: Constants.cornerRadius, color: skyBlueDarkColor)
+        
+        // Modify button for Register
+        registerButton.modifyButton(radius: Constants.cornerRadius, color: skyBlueDarkColor)
+        
+        // Modify forgot button
+        forgotButton.modifyButtonTint(radius: Constants.cornerRadius, color: powderBlueColor)
+    }
 }
 
