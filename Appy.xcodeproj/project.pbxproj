@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		014F05AF219292A5009030A8 /* NSMutableAttributedString+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F05AE219292A5009030A8 /* NSMutableAttributedString+Style.swift */; };
+		014F05B121929432009030A8 /* CALayer+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F05B021929432009030A8 /* CALayer+Style.swift */; };
+		014F05B3219299BC009030A8 /* View+ShakeAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014F05B2219299BC009030A8 /* View+ShakeAnimation.swift */; };
 		1936AB92ED37E010439EA346 /* Pods_Appy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50DF02CB41CDA801F87EA0D1 /* Pods_Appy.framework */; };
 		9E25747521839CCD009C6477 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E25747421839CCD009C6477 /* Database.swift */; };
 		9E27F253218EE04C00FC15D5 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E27F252218EE04C00FC15D5 /* ChatViewController.swift */; };
@@ -31,6 +34,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		014F05AE219292A5009030A8 /* NSMutableAttributedString+Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Style.swift"; sourceTree = "<group>"; };
+		014F05B021929432009030A8 /* CALayer+Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Style.swift"; sourceTree = "<group>"; };
+		014F05B2219299BC009030A8 /* View+ShakeAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ShakeAnimation.swift"; sourceTree = "<group>"; };
 		46BBDB9AFD291A89263D550F /* Pods-Appy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Appy.release.xcconfig"; path = "Pods/Target Support Files/Pods-Appy/Pods-Appy.release.xcconfig"; sourceTree = "<group>"; };
 		50DF02CB41CDA801F87EA0D1 /* Pods_Appy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Appy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E25747421839CCD009C6477 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
@@ -111,6 +117,9 @@
 			isa = PBXGroup;
 			children = (
 				9EEAB9FD2185244500EA5F62 /* ViewFunctions.swift */,
+				014F05AE219292A5009030A8 /* NSMutableAttributedString+Style.swift */,
+				014F05B021929432009030A8 /* CALayer+Style.swift */,
+				014F05B2219299BC009030A8 /* View+ShakeAnimation.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -291,16 +300,19 @@
 			files = (
 				9E4B796F2185561C0011A782 /* Group.swift in Sources */,
 				9E7E546F218EADE80075CE23 /* Chat.swift in Sources */,
+				014F05B121929432009030A8 /* CALayer+Style.swift in Sources */,
 				9E4B797621855F750011A782 /* Category.swift in Sources */,
 				9EEAB9FE2185244500EA5F62 /* ViewFunctions.swift in Sources */,
 				9E4B796D2185501A0011A782 /* ItemViewController.swift in Sources */,
 				9E7ECA0B2177C1360071DD6B /* ViewController.swift in Sources */,
+				014F05AF219292A5009030A8 /* NSMutableAttributedString+Style.swift in Sources */,
 				9E27F253218EE04C00FC15D5 /* ChatViewController.swift in Sources */,
 				9E4B796B21854F3E0011A782 /* CategoryViewController.swift in Sources */,
 				9ED4557B2190B99000B06B7B /* User.swift in Sources */,
 				9E4B797821858A3D0011A782 /* Item.swift in Sources */,
 				9E7ECA092177C1360071DD6B /* AppDelegate.swift in Sources */,
 				9E7E5471218EAE0C0075CE23 /* Message.swift in Sources */,
+				014F05B3219299BC009030A8 /* View+ShakeAnimation.swift in Sources */,
 				9EFC55702178258000ADE159 /* HomePageController.swift in Sources */,
 				9E25747521839CCD009C6477 /* Database.swift in Sources */,
 				9EFC557221784F0300ADE159 /* RegisterViewController.swift in Sources */,
@@ -453,11 +465,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 48ZHJ48H3S;
 				INFOPLIST_FILE = Appy/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BizetRodriguez.Appy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -469,11 +484,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 48ZHJ48H3S;
 				INFOPLIST_FILE = Appy/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.BizetRodriguez.Appy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
