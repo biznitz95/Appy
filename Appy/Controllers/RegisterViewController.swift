@@ -54,7 +54,8 @@ final class RegisterViewController: UIViewController {
         
         configureButtons()
         configureTextFields()
-        dismissKeyboard()
+        
+        viewToShake.keyboardDismiss()
     }
     
     // MARK: - Actions
@@ -135,12 +136,6 @@ final class RegisterViewController: UIViewController {
             guard let string = textField.placeholder else {fatalError("No placeholder text found")}
             textField.attributedPlaceholder = NSMutableAttributedString(textStyled: string)
         }
-    }
-    
-    private func dismissKeyboard() {
-        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
-        tap.cancelsTouchesInView = false
-        self.view.addGestureRecognizer(tap)
     }
 
 }

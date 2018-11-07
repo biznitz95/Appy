@@ -20,4 +20,11 @@ extension UIView {
         layer.add(animation, forKey: "position")
     }
     
+    
+    func keyboardDismiss() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIView.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        self.addGestureRecognizer(tap)
+    }
+
 }

@@ -17,3 +17,5 @@ Look into:
     6) What is convenience init
 
     7) Transform the dismisskeyboard() to work like shake() in View+ShakeAnimation.swift
+
+    8) Look into AutoLayout Stack Views
