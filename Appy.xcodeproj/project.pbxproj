@@ -118,10 +118,10 @@
 		9E4B797321855E100011A782 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				9EEAB9FD2185244500EA5F62 /* ViewFunctions.swift */,
 				9E5701B92193649100595449 /* CALayer+Style.swift */,
 				9E5701BB219364C600595449 /* NSMutableAttributedString+Style.swift */,
 				9E5701BD2193652600595449 /* View+ShakeAnimation.swift */,
+				9EEAB9FD2185244500EA5F62 /* ViewFunctions.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
