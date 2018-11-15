@@ -10,15 +10,22 @@ import UIKit
 import ChameleonFramework
 import Lottie
 
-class ItemViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    @IBOutlet var myView: UIView!
-    @IBOutlet var myTableView: UITableView!
-    @IBOutlet var animationView: LOTAnimationView!
+class ItemViewController: UIViewController {
+    
+    // MARK: - Outlets
+    
+    @IBOutlet private var myView: UIView!
+    @IBOutlet private var myTableView: UITableView!
+    @IBOutlet private var animationView: LOTAnimationView!
+    
+    // MARK: - Private Intern Variables
     
     var items = [Item]()
     var database = Database()
     
     let defaults = UserDefaults.standard
+    
+    // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,79 +33,23 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Change background color
         myView.backgroundColor = UIColor.flatNavyBlueColorDark()
         
+        myView.keyboardDismiss()
+        
         // Animation set
-        animationView.setAnimation(named: "message")
-        animationView.loopAnimation = true
-        animationView.contentMode = .scaleAspectFit
-        animationView.play()
+        animationView.playAnimation(image: "message")
         
         // Change nav bar title
         if let title = defaults.string(forKey: "category_name") {
             self.navigationItem.title = title
         }
-        if let color = defaults.string(forKey: "category_color") {
-            _ = UIColor.init(hexString: color)
-            
-            self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-            self.navigationController?.navigationBar.shadowImage = UIImage()
-            self.navigationController?.navigationBar.isTranslucent = true
-        }
-        
         
         let category_id = Int32(defaults.integer(forKey: "category_id"))
-        
         items = database.queryItemGivenCategoryID(category_id: category_id)
         
-        myTableView.register(UITableViewCell.self, forCellReuseIdentifier: "ItemCell")
-        myTableView.backgroundColor = UIColor.flatNavyBlueColorDark()
-        myTableView.separatorStyle = .none
-        //        myTableView.layer.opacity = 0.5
-        myTableView.rowHeight = 80
+        myTableView.modifyTableViewStyle(forCell: "ItemCell")
         myTableView.dataSource = self
         myTableView.delegate = self
         self.view.addSubview(myTableView)
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return items.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath)
-        
-        cell.textLabel?.text = items[indexPath.row].name
-        let color = UIColor.init(hexString: items[indexPath.row].color)
-        cell.backgroundColor = color
-        cell.textLabel?.textColor = UIColor.init(contrastingBlackOrWhiteColorOn: color, isFlat: true)
-        cell.selectionStyle = .none
-        if items[indexPath.row].done == 1 {
-            cell.accessoryType = .checkmark
-        }
-        else {
-            cell.accessoryType = .none
-        }
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(items[indexPath.row].name)
-        
-        let category_id = Int32(self.defaults.integer(forKey: "category_id"))
-        
-        guard let item_id = database.queryItemID(item_name: items[indexPath.row].name, category_id: category_id) else {fatalError("Could not find item id")}
-        
-        if items[indexPath.row].done == 1 {
-            items[indexPath.row].done = 0
-            database.updateItemDone(item_id: item_id, item_done: 0)
-        }
-        else {
-            items[indexPath.row].done = 1
-            database.updateItemDone(item_id: item_id, item_done: 1)
-        }
-        
-        tableView.reloadData()
     }
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
@@ -136,7 +87,84 @@ class ItemViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     @IBAction func messagePressed(_ sender: UIButton) {
+        guard let chat_name = defaults.string(forKey: "category_name") else {fatalError("Failed to get category_name for chat_name")}
+        
+        let user_id = Int32(defaults.integer(forKey: "user_id"))
+        let category_id = Int32(defaults.integer(forKey: "category_id"))
+        let group_id = Int32(defaults.integer(forKey: "group_id"))
+        
+        
+        database.insertChat(chat_name: chat_name, user_id: user_id, category_id: category_id, group_id: group_id)
+        
+        let chat_id = database.queryChatID(chat_name: chat_name, user_id: user_id, group_id: group_id, category_id: category_id)
+        
+        defaults.set(chat_name, forKey: "chat_name")
+        defaults.set(chat_id, forKey: "chat_id")
+        
         performSegue(withIdentifier: "goToChatFromItem", sender: self)
     }
 }
 
+// MARK: - UITableViewDelegate
+
+extension ItemViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return items.count
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let category_id = Int32(self.defaults.integer(forKey: "category_id"))
+        
+        guard let item_id = database.queryItemID(item_name: items[indexPath.row].name, category_id: category_id) else {fatalError("Could not find item id")}
+        
+        if items[indexPath.row].done == 1 {
+            items[indexPath.row].done = 0
+            database.updateItemDone(item_id: item_id, item_done: 0)
+        }
+        else {
+            items[indexPath.row].done = 1
+            database.updateItemDone(item_id: item_id, item_done: 1)
+        }
+        
+        tableView.reloadData()
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            let item_name = items[indexPath.row].name
+            let category_id = Int32(defaults.integer(forKey: "category_id"))
+            guard let item_id = database.queryItemID(item_name: item_name, category_id: category_id) else {fatalError("Failed to get item_id")}
+            
+            database.deleteItem(item_id: item_id)
+            
+            self.items.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+}
+
+// MARK: - UITableViewDataSource
+
+extension ItemViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath)
+        
+        cell.textLabel?.text = items[indexPath.row].name
+        let color = UIColor.init(hexString: items[indexPath.row].color)
+        cell.backgroundColor = color
+        cell.textLabel?.textColor = UIColor.init(contrastingBlackOrWhiteColorOn: color, isFlat: true)
+        cell.selectionStyle = .none
+        if items[indexPath.row].done == 1 {
+            cell.accessoryType = .checkmark
+        }
+        else {
+            cell.accessoryType = .none
+        }
+        return cell
+    }
+}

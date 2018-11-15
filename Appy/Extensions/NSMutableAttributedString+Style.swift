@@ -21,5 +21,4 @@ extension NSMutableAttributedString {
                                              size: Constants.fontSize)!,
                                .foregroundColor: UIColor.white])
     }
-    
 }

@@ -39,6 +39,7 @@ final class RegisterViewController: UIViewController {
     // Store user defaults here like name, id, etc...
     private let defaults = UserDefaults.standard
     
+    // Colors
     private var skyBlueColor: CGColor { return UIColor.flatSkyBlue()!.cgColor }
     private var skyBlueDarkColor: UIColor { return UIColor.flatSkyBlueColorDark() }
     private var powderBlueColor: UIColor { return UIColor.flatPowderBlue() }

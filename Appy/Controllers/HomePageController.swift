@@ -33,28 +33,19 @@ class HomePageController: UIViewController {
         // Change background color
         myView.backgroundColor = UIColor.flatNavyBlueColorDark()
         
+        myView.keyboardDismiss()
+        
         // Load groups if provided a user_id
         let user_id = Int32(defaults.integer(forKey: "user_id"))
-        
         groups = database.queryGroupGivenUserID(user_id: user_id)
         
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
-        
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font :UIFont(name: "Courier", size: 24.0)!]
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.flatSkyBlue()]
+        self.navigationController?.navigationBar.modifyBar()
 
-        myTableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
-        myTableView.backgroundColor = UIColor.flatNavyBlueColorDark()
-        myTableView.separatorStyle = .none
-        //        myTableView.layer.opacity = 0.5
-        myTableView.rowHeight = 80
+        myTableView.modifyTableViewStyle(forCell: "Cell")
         myTableView.dataSource = self
         myTableView.delegate = self
         
         self.view.addSubview(myTableView)
-        
         
     }
     
@@ -109,11 +100,11 @@ extension HomePageController: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
-        cell.textLabel?.text = groups[indexPath.row].name
-        let color = UIColor.init(hexString: groups[indexPath.row].color)
-        cell.backgroundColor = color
-        cell.textLabel?.textColor = UIColor.init(contrastingBlackOrWhiteColorOn: color, isFlat: true)
-        cell.selectionStyle = .none
+        let name = groups[indexPath.row].name
+        let color = groups[indexPath.row].color
+        
+        cell.modifyTableViewCellStyle(name: name, color: color)
+        
         return cell
     }
     
@@ -122,6 +113,38 @@ extension HomePageController: UITableViewDataSource {
         return groups.count
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            let user_id = Int32(defaults.integer(forKey: "user_id"))
+            let group_name = groups[indexPath.row].name
+            guard let group_id = database.queryGroupID(group_name: group_name, user_id: user_id) else {fatalError("Error getting group_id from database")}
+            
+            database.deleteGroup(group_id: group_id)
+            
+            let categories = database.queryCategoryGiveGroupID(group_id: group_id)
+            
+            for category in categories {
+                let category_name = category.name
+                guard let category_id = database.queryCategoryID(category_name: category_name, group_id: group_id) else {fatalError("Failed to get category_id")}
+                
+                database.deleteCategory(category_id: category_id)
+                
+                let items = database.queryItemGivenCategoryID(category_id: category_id)
+                
+                // Delete items inside the category being deleted
+                for item in items {
+                    guard let item_id = database.queryItemID(item_name: item.name, category_id: category_id) else {fatalError("Failed to get item_id in category delete section")}
+    
+                    database.deleteItem(item_id: item_id)
+                }
+            }
+
+
+            self.groups.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
 }
 
 // MARK: - UITableViewDelegate
@@ -129,7 +152,6 @@ extension HomePageController: UITableViewDataSource {
 extension HomePageController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(groups[indexPath.row])
         
         let user_id = Int32(defaults.integer(forKey: "user_id"))
         let group_name = groups[indexPath.row].name

@@ -40,7 +40,8 @@ class Database {
             category_id                 INTEGER             PRIMARY KEY         AUTOINCREMENT,
             category_name               VARCHAR(255)        NOT NULL,
             category_color              VARCHAR(255)        NOT NULL,
-            group_id                    INTEGER             NOT NULL
+            group_id                    INTEGER             NOT NULL,
+            allowed_group_id            INTEGER
         );
     """
     let createTableItemString = """
@@ -58,7 +59,9 @@ class Database {
             chat_name               VARCHAR(255)        NOT NULL,
             user_id                 INTEGER             NOT NULL,
             category_id             INTEGER             NOT NULL,
-            group_id                INTEGER             NOT NULL
+            group_id                INTEGER             NOT NULL,
+            allowed_group_id        INTEGER,
+            allowed_user_id         INTEGER
         );
     """
     let createTableMessageString = """
@@ -166,7 +169,6 @@ class Database {
                 let queryResultCol0 = sqlite3_column_int(queryStatement, 0)
                 let id = Int32(queryResultCol0)
                 
-                print("Found user_id: \(id)")
                 sqlite3_finalize(queryStatement)
                 return id
             }
@@ -338,21 +340,12 @@ class Database {
         var info: [Group] = []
         // 1
         if sqlite3_prepare_v2(db, queryStatementStringGroup, -1, &queryStatement, nil) == SQLITE_OK {
-            // 2
-            //                if sqlite3_step(queryStatement) == SQLITE_ROW {
-            
             while (sqlite3_step(queryStatement) == SQLITE_ROW) {
-                //                    let id = sqlite3_column_int(queryStatement, 0)
-                
                 let name = String(cString: sqlite3_column_text(queryStatement, 1)!)
                 let color = String(cString: sqlite3_column_text(queryStatement, 4)!)
                 info.append(Group(groupName: name, groupColor: color))
                 
             }
-            
-            //                } else {
-            //                    print("Query returned no results")
-            //                }
         } else {
             print("SELECT statement could not be prepared")
         }
@@ -399,7 +392,6 @@ class Database {
                 let queryResultCol0 = sqlite3_column_int(queryStatement, 0)
                 let id = Int32(queryResultCol0)
                 
-                print("Found id: \(id)")
                 sqlite3_finalize(queryStatement)
                 return id
             }
@@ -574,7 +566,6 @@ class Database {
                 let queryResultCol0 = sqlite3_column_int(queryStatement, 0)
                 let id = Int32(queryResultCol0)
                 
-                print("Found id: \(id)")
                 sqlite3_finalize(queryStatement)
                 return id
             }
@@ -706,7 +697,6 @@ class Database {
                 let id = Int32(queryResultCol0)
                 
                 sqlite3_finalize(queryStatement)
-                print("Found id: \(id)")
                 return id
             }
             
@@ -844,8 +834,10 @@ class Database {
         sqlite3_finalize(insertStatement)
     }
     
-    func queryChat(){ // //"INSERT INTO Item (chat_name, user_id, category_id, group_id)
+    func queryChat() -> [Chat] { // //"INSERT INTO Item (chat_name, user_id, category_id, group_id)
         var queryStatement: OpaquePointer? = nil
+        var chats = [Chat]()
+        
         // 1
         if sqlite3_prepare_v2(db, queryStatementStringChat, -1, &queryStatement, nil) == SQLITE_OK {
             // 2
@@ -856,10 +848,7 @@ class Database {
                 let category_id = Int32(sqlite3_column_int(queryStatement, 3))
                 let group_id = Int32(sqlite3_column_int(queryStatement, 4))
                 
-                print("Chat Name: \(name)")
-                print("User ID: \(user_id)")
-                print("Category ID: \(category_id)")
-                print("Group ID: \(group_id)")
+                chats.append(Chat(chat_name: name, user_id: user_id, category_id: category_id, group_id: group_id))
             }
             
         } else {
@@ -868,6 +857,36 @@ class Database {
         
         // 6
         sqlite3_finalize(queryStatement)
+        
+        return chats
+    }
+    
+    func queryChatGivenID(chat_id: Int32) -> Chat? { // //"INSERT INTO Item (chat_name, user_id, category_id, group_id)
+        var queryStatement: OpaquePointer? = nil
+        let queryStatementStringChatGivenID = "SELECT * FROM Chat WHERE chat_id = \(chat_id);"
+        // 1
+        if sqlite3_prepare_v2(db, queryStatementStringChatGivenID, -1, &queryStatement, nil) == SQLITE_OK {
+            // 2
+            
+            while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                let name = String(cString: sqlite3_column_text(queryStatement, 1)!)
+                let user_id = Int32(sqlite3_column_int(queryStatement, 2))
+                let category_id = Int32(sqlite3_column_int(queryStatement, 3))
+                let group_id = Int32(sqlite3_column_int(queryStatement, 4))
+                
+                sqlite3_finalize(queryStatement)
+                
+                return Chat(chat_name: name, user_id: user_id, category_id: category_id, group_id: group_id)
+            }
+            
+        } else {
+            print("SELECT statement could not be prepared for Chat")
+        }
+        
+        // 6
+        sqlite3_finalize(queryStatement)
+        
+        return nil
     }
     
     func queryChatID(chat_name: String, user_id: Int32, group_id: Int32, category_id: Int32) -> Int32? {
@@ -971,8 +990,9 @@ class Database {
         sqlite3_finalize(insertStatement)
     }
     
-    func queryMessage(){
+    func queryMessages() -> [Message] {
         var queryStatement: OpaquePointer? = nil
+        var messages = [Message]()
         // 1
         if sqlite3_prepare_v2(db, queryStatementStringMessage, -1, &queryStatement, nil) == SQLITE_OK {
             // 2
@@ -982,11 +1002,14 @@ class Database {
                 let user_id = Int32(sqlite3_column_int(queryStatement, 2))
                 let chat_id = Int32(sqlite3_column_int(queryStatement, 3))
                 let time = Double(sqlite3_column_double(queryStatement, 4))
+                let date = NSDate(timeIntervalSince1970: time)
                 
                 print("Message Name: \(name)")
                 print("User ID: \(user_id)")
                 print("Chat ID: \(chat_id)")
                 print("Time: \(NSDate(timeIntervalSince1970: time))")
+                
+                messages.append(Message(name: name, user_id: user_id, chat_id: chat_id, message_time: date as Date))
             }
             
         } else {
@@ -995,6 +1018,42 @@ class Database {
         
         // 6
         sqlite3_finalize(queryStatement)
+        
+        return messages
+    }
+    
+    func queryMessagesGivenIDS(chat_id: Int32) -> [Message] {
+        var queryStatement: OpaquePointer? = nil
+        let queryStatementStringMessageGivenIDS = " SELECT * FROM Message WHERE chat_id = \(chat_id);"
+        var messages = [Message]()
+        
+        // 1
+        if sqlite3_prepare_v2(db, queryStatementStringMessageGivenIDS, -1, &queryStatement, nil) == SQLITE_OK {
+            // 2
+            
+            while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                let name = String(cString: sqlite3_column_text(queryStatement, 1)!)
+                let user_id = Int32(sqlite3_column_int(queryStatement, 2))
+                let chat_id = Int32(sqlite3_column_int(queryStatement, 3))
+                let time = Double(sqlite3_column_double(queryStatement, 4))
+                let date = NSDate(timeIntervalSince1970: time)
+                
+                print("Message Name: \(name)")
+                print("User ID: \(user_id)")
+                print("Chat ID: \(chat_id)")
+                print("Time: \(NSDate(timeIntervalSince1970: time))")
+                
+                messages.append(Message(name: name, user_id: user_id, chat_id: chat_id, message_time: date as Date))
+            }
+            
+        } else {
+            print("SELECT statement could not be prepared for Message.")
+        }
+        
+        // 6
+        sqlite3_finalize(queryStatement)
+        
+        return messages
     }
     
     func queryMessageID(message_name: String, user_id: Int32, chat_id: Int32) -> Int32? {
