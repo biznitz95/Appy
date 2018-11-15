@@ -85,9 +85,11 @@ class ViewController: UIViewController {
         if database.queryUser(user_name: usernameText.text!, user_password: passwordText.text!) {
             
             let user_id = database.queryUserID(user_name: usernameText.text!)
+            let user_password = passwordText.text!
             
             defaults.set(usernameText.text!, forKey: "user_name")
             defaults.set(user_id, forKey: "user_id")
+            defaults.set(user_password, forKey: "user_password")
             
             performSegue(withIdentifier: "goToHomePageFromLogin", sender: self)
         }
@@ -133,5 +135,6 @@ class ViewController: UIViewController {
         // Modify forgot button
         forgotButton.modifyButtonTint(radius: Constants.cornerRadius, color: powderBlueColor)
     }
+    
 }
 
