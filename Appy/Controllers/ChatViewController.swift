@@ -18,6 +18,7 @@ class ChatViewController: UIViewController {
     private var chat: Chat?
     private var database = Database()
     private let defaults = UserDefaults.standard
+    private var keyboardHeight = CGFloat(0)
     
     // MARK: - Outlets
     
@@ -25,6 +26,9 @@ class ChatViewController: UIViewController {
     @IBOutlet private var myTableView: UITableView!
     @IBOutlet var messageTextField: UITextField!
     @IBOutlet var sendButton: UIButton!
+    @IBOutlet var bottomHeight: NSLayoutConstraint!
+    @IBOutlet var messageView: UIView!
+    
     
     // MARK: - App Life Cycle
     
@@ -57,7 +61,10 @@ class ChatViewController: UIViewController {
         
         // Allow keyboard to go away when user taps outside keyboard
         myView.keyboardDismiss()
-    }
+        
+        messageTextField.delegate = self
+        
+       }
     
     // MARK: - Actions
     
@@ -101,6 +108,19 @@ class ChatViewController: UIViewController {
         
         myTableView.reloadData()
     }
+    
+    // MARK: - Private Functions
+    
+    private func setUpObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            keyboardHeight = keyboardRectangle.height
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -125,6 +145,8 @@ extension ChatViewController: UITableViewDataSource {
             cell.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMaxXMaxYCorner]
             cell.backgroundColor = UIColor.flatPowderBlueColorDark()
         }
+        
+        cell.selectionStyle = .none
         
         return cell
     }
@@ -156,4 +178,33 @@ extension ChatViewController: UITableViewDataSource {
 
 extension ChatViewController: UITableViewDelegate {
 
+}
+
+extension ChatViewController: UITextFieldDelegate {
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+//        UIView.animate(withDuration: 0.2) {
+//            self.messageView.translatesAutoresizingMaskIntoConstraints = false
+//            self.messageView.centerYAnchor.constraint(equalToSystemSpacingBelow: self.view.centerYAnchor, multiplier: 0)
+//        print(keyboardHeight)
+        
+//        messageTextField.becomeFirstResponder()
+        
+//        setUpObserver()
+        
+        UIView.animate(withDuration: 0.2) {
+            self.bottomHeight.constant = 335.0
+        }
+        
+        
+        print("Editing had begun!")
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        
+        UIView.animate(withDuration: 0.2) {
+            self.bottomHeight.constant = 0.0
+        }
+        
+    }
 }
