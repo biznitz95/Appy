@@ -762,7 +762,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="bottomHeight" destination="Duk-h6-pox" id="jLL-FH-UZb"/>
                         <outlet property="messageTextField" destination="ABd-sR-o6F" id="CuP-td-s7F"/>
+                        <outlet property="messageView" destination="aNP-g9-Igr" id="Nz1-P0-ARt"/>
                         <outlet property="myTableView" destination="X1o-d0-y8W" id="9pf-41-4YB"/>
                         <outlet property="myView" destination="Fz8-BL-zM9" id="E1L-v6-8Bm"/>
                         <outlet property="sendButton" destination="qCB-MQ-tmN" id="kW9-uC-Jj5"/>
