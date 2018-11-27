@@ -12,4 +12,3 @@ Look into:
         private var skyBlueColor: CGColor { return UIColor.flatSkyBlue()!.cgColor }
 
     8) Look into AutoLayout Stack Views
-
