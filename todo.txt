@@ -7,15 +7,9 @@ Look into:
         because it doesn't need to look further when methods are called.
         ex: final class RegisterViewController: UIViewController {
 
-    3)  What is @discardableResult
 
     4)  Force casting
         private var skyBlueColor: CGColor { return UIColor.flatSkyBlue()!.cgColor }
 
-    5) Doing things like extension UIView to avoid function calling seperately
-
-    6) What is convenience init
-
-    7) Transform the dismisskeyboard() to work like shake() in View+ShakeAnimation.swift
-
     8) Look into AutoLayout Stack Views
+

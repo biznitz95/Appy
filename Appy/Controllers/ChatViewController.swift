@@ -20,6 +20,7 @@ class ChatViewController: UIViewController {
     private var database = Database()
     private let defaults = UserDefaults.standard
     private var keyboardHeight = CGFloat(0)
+    private var timer = Timer()
     
     // MARK: - Outlets
     
@@ -29,6 +30,7 @@ class ChatViewController: UIViewController {
     @IBOutlet var sendButton: UIButton!
     @IBOutlet var bottomHeight: NSLayoutConstraint!
     @IBOutlet var messageView: UIView!
+    
     
     
     // MARK: - App Life Cycle
@@ -68,7 +70,9 @@ class ChatViewController: UIViewController {
         
         messageTextField.delegate = self
         
-       }
+        scheduledTimerWithTimeInterval()
+        
+        }
     
     // MARK: - Actions
     
@@ -147,6 +151,23 @@ class ChatViewController: UIViewController {
             let keyboardRectangle = keyboardFrame.cgRectValue
             keyboardHeight = keyboardRectangle.height
         }
+    }
+    
+    func scheduledTimerWithTimeInterval(){
+        // Scheduling timer to Call the function "updateCounting" with the interval of 1 seconds
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(update), userInfo: nil, repeats: true)
+    }
+    
+    @objc func update(){
+        // Get chat_id and find messages with that chat_id
+        let user_id = Int32(defaults.integer(forKey: "user_id"))
+        let group_id = Int32(defaults.integer(forKey: "group_id"))
+        let category_id = Int32(defaults.integer(forKey: "category_id"))
+        let chat_id = Int32(defaults.integer(forKey: "chat_id"))
+        messages = database.queryMessagesGivenIDS(chat_id: chat_id, user_id: user_id, group_id: group_id, category_id: category_id)
+        myTableView.reloadData()
+        
+        print("Reloading data...\n")
     }
 }
 
