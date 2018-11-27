@@ -79,9 +79,8 @@ class ChatViewController: UIViewController {
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         var textField  = UITextField()
         let errorView = LOTAnimationView(name: "error")
+        let checkView = LOTAnimationView(name: "check")
         let HUD = JGProgressHUD(style: .dark)
-        HUD.indicatorView = JGProgressHUDImageIndicatorView(contentView: errorView)
-        
         
         
         let alert = UIAlertController(title: "Add New Member to the chat and category", message: "", preferredStyle: .alert)
@@ -92,10 +91,14 @@ class ChatViewController: UIViewController {
                 let main_user_id = Int32(self.defaults.integer(forKey: "user_id"))
                 guard let user_id = self.database.queryUserID(user_name: textField.text!) else {
                     
+                    
+                    HUD.indicatorView = JGProgressHUDImageIndicatorView(contentView: errorView)
                     errorView.playAnimation(image: "error", loop: false)
                     HUD.show(in: self.view)
                     let time = Double(errorView.animationDuration)
                     HUD.dismiss(afterDelay: time, animated: true)
+                    
+                    self.view.shake()
                     
                     return;
                     
@@ -103,9 +106,14 @@ class ChatViewController: UIViewController {
                 let category_id = Int32(self.defaults.integer(forKey: "category_id"))
                 let chat_id = Int32(self.defaults.integer(forKey: "chat_id"))
                 
-                print("The chat id in this chat is: \(chat_id)")
                 
                 self.database.insertIntoPermission(main_user_id: main_user_id, user_id: user_id, category_id: category_id, chat_id: chat_id)
+                
+                HUD.indicatorView = JGProgressHUDImageIndicatorView(contentView: checkView)
+                checkView.playAnimation(image: "check", loop: false)
+                HUD.show(in: self.view)
+                let time = Double(checkView.animationDuration)
+                HUD.dismiss(afterDelay: time, animated: true)
                 
                 self.myTableView.reloadData()
             }
@@ -142,17 +150,6 @@ class ChatViewController: UIViewController {
     
     // MARK: - Private Functions
     
-    private func setUpObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-    }
-    
-    @objc func keyboardWillShow(_ notification: Notification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            keyboardHeight = keyboardRectangle.height
-        }
-    }
-    
     func scheduledTimerWithTimeInterval(){
         // Scheduling timer to Call the function "updateCounting" with the interval of 1 seconds
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(update), userInfo: nil, repeats: true)
@@ -167,7 +164,6 @@ class ChatViewController: UIViewController {
         messages = database.queryMessagesGivenIDS(chat_id: chat_id, user_id: user_id, group_id: group_id, category_id: category_id)
         myTableView.reloadData()
         
-        print("Reloading data...\n")
     }
 }
 
@@ -232,21 +228,22 @@ extension ChatViewController: UITableViewDelegate {
 extension ChatViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-//        UIView.animate(withDuration: 0.2) {
-//            self.messageView.translatesAutoresizingMaskIntoConstraints = false
-//            self.messageView.centerYAnchor.constraint(equalToSystemSpacingBelow: self.view.centerYAnchor, multiplier: 0)
-//        print(keyboardHeight)
-        
-//        messageTextField.becomeFirstResponder()
-        
-//        setUpObserver()
-        
         UIView.animate(withDuration: 0.2) {
-            self.bottomHeight.constant = 335.0
+            self.messageView.translatesAutoresizingMaskIntoConstraints = false
+            self.messageView.centerYAnchor.constraint(equalToSystemSpacingBelow: self.view.centerYAnchor, multiplier: 0)
+            print(self.keyboardHeight)
+        
+            self.self.messageTextField.becomeFirstResponder()
+        
+            self.keyboardHeight = CGFloat(self.defaults.float(forKey: "keyboardHeight"))
+        
+            UIView.animate(withDuration: 0.2) {
+                self.bottomHeight.constant = self.keyboardHeight
+            }
+        
+        
+            print("Editing had begun!")
         }
-        
-        
-        print("Editing had begun!")
     }
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {

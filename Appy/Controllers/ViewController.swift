@@ -46,6 +46,8 @@ class ViewController: UIViewController {
     private var skyBlueDarkColor: UIColor { return UIColor.flatSkyBlueColorDark() }
     private var powderBlueColor: UIColor { return UIColor.flatPowderBlue() }
     
+    var start = true
+    
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
@@ -65,6 +67,8 @@ class ViewController: UIViewController {
         
         // Make keyboard go away if tapped anywhere
         viewToShake.keyboardDismiss()
+        
+        setUpObserver()
     }
 
     // MARK: - Actions
@@ -107,7 +111,25 @@ class ViewController: UIViewController {
     
     @IBAction func pressedForgot(_ sender: UIButton) { }
     
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            
+            if start {
+                defaults.set(keyboardHeight, forKey: "keyboardHeight")
+            }
+            start = false
+            
+            print(keyboardHeight)
+        }
+    }
+    
     // MARK: - Private Methods
+    
+    private func setUpObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
     
     // Modify textfields style
     private func modifyTextFields() -> Void {
