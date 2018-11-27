@@ -22,7 +22,6 @@ class HomePageController: UIViewController {
     
     var groups: [Group] = []
     let defaults = UserDefaults.standard
-    
     var database = Database()
     
     // MARK: - View Life Cycle
@@ -46,6 +45,23 @@ class HomePageController: UIViewController {
         myTableView.delegate = self
         
         self.view.addSubview(myTableView)
+        
+        let permissions = database.queryPermission(user_id: user_id)
+        
+        if !permissions.isEmpty {
+            for permission in permissions {
+                guard let main_user_id = permission.main_user_id else { fatalError("Did not provide main_user_id")}
+                guard let category_id = permission.category_id else {fatalError()}
+                guard let chat_id = permission.chat_id else {fatalError()}
+                
+                addNewCategory(main_user_id: main_user_id, user_id: user_id, category_id: category_id, chat_id: chat_id)
+                
+                permission.setGroupId(group_id: 0)
+            }
+        }
+        else {
+            print("Permission in empty")
+        }
         
     }
     
@@ -89,6 +105,41 @@ class HomePageController: UIViewController {
         }
         
         present(alert, animated: true, completion: nil)
+    }
+    
+    func addNewCategory(main_user_id: Int32, user_id: Int32, category_id: Int32, chat_id: Int32) {
+        var textField  = UITextField()
+        var group_chosen: String = ""
+        
+        let alert = UIAlertController(title: "Choose Group To Join Category With", message: "", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Add", style: .default) { (action) in
+            if textField.text! != "" {
+                
+                group_chosen = textField.text!
+                
+                guard let newGroupID = self.database.queryGroupID(group_name: group_chosen, user_id: user_id) else { fatalError("Could not retrieve group_id")}
+                
+                self.database.updatePermission(main_user_id: main_user_id, user_id: user_id, group_id: newGroupID, category_id: category_id, chat_id: chat_id)
+                
+                self.myTableView.reloadData()
+            }
+        }
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .default) { (cancel) in
+            self.myTableView.reloadData()
+        }
+        
+        alert.addAction(action)
+        alert.addAction(cancel)
+        
+        alert.addTextField { (field) in
+            textField = field
+            field.placeholder = "Create New Group"
+        }
+        
+        present(alert, animated: true, completion: nil)
+        
     }
 }
 

@@ -36,8 +36,11 @@ class CategoryViewController: UIViewController {
         navigationItem.title = title        
         
         let group_id = Int32(defaults.integer(forKey: "group_id"))
+        let user_id = Int32(defaults.integer(forKey: "user_id"))
+        categories = database.queryCategoryGiveGroupID(group_id: group_id, user_id: user_id)
         
-        categories = database.queryCategoryGiveGroupID(group_id: group_id)
+        // Add categoies
+        categories += database.queryCategoryGivenPermission(user_id: user_id, group_id: group_id)
         
         
         myTableView.modifyTableViewStyle(forCell: "categoryCell")
@@ -142,15 +145,25 @@ extension CategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         // get category name, color and id
+        let user_id = Int32(defaults.integer(forKey: "user_id"))
         let group_id = Int32(defaults.integer(forKey: "group_id"))
         let category_name = categories[indexPath.row].name
         let category_color = categories[indexPath.row].color
-        guard let category_id = database.queryCategoryID(category_name: category_name, group_id: group_id) else {fatalError("Could not get category_id from database")}
+        
+        
+        if let category_id = database.queryCategoryID(category_name: category_name, group_id: group_id, user_id: user_id) {
+            defaults.set(category_id, forKey: "category_id")
+        }
+        else if let category_id = database.queryCategoryIDUsingPermission(category_name: category_name, group_id: group_id, user_id: user_id) {
+            defaults.set(category_id, forKey: "category_id")
+        }
+        else {
+            fatalError("Could not get category_id from database")
+        }
         
         // get category name, color and id to defaults
         defaults.set(category_name, forKey: "category_name")
         defaults.set(category_color, forKey: "category_color")
-        defaults.set(category_id, forKey: "category_id")
         
         performSegue(withIdentifier: "goToItemFromCategory", sender: self)
     }

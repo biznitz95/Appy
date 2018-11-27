@@ -9,6 +9,7 @@
 import UIKit
 import ChameleonFramework
 import Lottie
+import JGProgressHUD
 
 class ChatViewController: UIViewController {
 
@@ -52,8 +53,11 @@ class ChatViewController: UIViewController {
         self.view.addSubview(myTableView)
         
         // Get chat_id and find messages with that chat_id
+        let user_id = Int32(defaults.integer(forKey: "user_id"))
+        let group_id = Int32(defaults.integer(forKey: "group_id"))
+        let category_id = Int32(defaults.integer(forKey: "category_id"))
         let chat_id = Int32(defaults.integer(forKey: "chat_id"))
-        messages = database.queryMessagesGivenIDS(chat_id: chat_id)
+        messages = database.queryMessagesGivenIDS(chat_id: chat_id, user_id: user_id, group_id: group_id, category_id: category_id)
         
         // Set the title for the chat based off the category name
         guard let title = defaults.string(forKey: "chat_name") else {fatalError("Failed to get group_name for chat")}
@@ -70,11 +74,34 @@ class ChatViewController: UIViewController {
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         var textField  = UITextField()
+        let errorView = LOTAnimationView(name: "error")
+        let HUD = JGProgressHUD(style: .dark)
+        HUD.indicatorView = JGProgressHUDImageIndicatorView(contentView: errorView)
+        
+        
         
         let alert = UIAlertController(title: "Add New Member to the chat and category", message: "", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Add", style: .default) { (action) in
             if textField.text! != "" {
+                
+                let main_user_id = Int32(self.defaults.integer(forKey: "user_id"))
+                guard let user_id = self.database.queryUserID(user_name: textField.text!) else {
+                    
+                    errorView.playAnimation(image: "error", loop: false)
+                    HUD.show(in: self.view)
+                    let time = Double(errorView.animationDuration)
+                    HUD.dismiss(afterDelay: time, animated: true)
+                    
+                    return;
+                    
+                }
+                let category_id = Int32(self.defaults.integer(forKey: "category_id"))
+                let chat_id = Int32(self.defaults.integer(forKey: "chat_id"))
+                
+                print("The chat id in this chat is: \(chat_id)")
+                
+                self.database.insertIntoPermission(main_user_id: main_user_id, user_id: user_id, category_id: category_id, chat_id: chat_id)
                 
                 self.myTableView.reloadData()
             }
@@ -138,12 +165,13 @@ extension ChatViewController: UITableViewDataSource {
         if message.user_id == user_id {
             cell.textLabel?.textAlignment = .right
             cell.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMinXMaxYCorner]
-            cell.backgroundColor = UIColor.flatPowderBlue()
+            cell.backgroundColor = UIColor.flatBlueColorDark()
+            cell.textLabel?.textColor = .white
         }
         else {
             cell.textLabel?.textAlignment = .left
             cell.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner, .layerMaxXMaxYCorner]
-            cell.backgroundColor = UIColor.flatPowderBlueColorDark()
+            cell.backgroundColor = UIColor.flatPowderBlue()
         }
         
         cell.selectionStyle = .none
