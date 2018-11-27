@@ -43,8 +43,11 @@ class ItemViewController: UIViewController {
             self.navigationItem.title = title
         }
         
+        let user_id = Int32(defaults.integer(forKey: "user_id"))
         let category_id = Int32(defaults.integer(forKey: "category_id"))
-        items = database.queryItemGivenCategoryID(category_id: category_id)
+        let group_id = Int32(defaults.integer(forKey: "group_id"))
+        
+        items = database.queryItemGivenCategoryID(category_id: category_id, user_id: user_id, group_id: group_id)
         
         myTableView.modifyTableViewStyle(forCell: "ItemCell")
         myTableView.dataSource = self
@@ -93,14 +96,17 @@ class ItemViewController: UIViewController {
         let category_id = Int32(defaults.integer(forKey: "category_id"))
         let group_id = Int32(defaults.integer(forKey: "group_id"))
         
-        
-        database.insertChat(chat_name: chat_name, user_id: user_id, category_id: category_id, group_id: group_id)
-        
-        let chat_id = database.queryChatID(chat_name: chat_name, user_id: user_id, group_id: group_id, category_id: category_id)
-        
-        defaults.set(chat_name, forKey: "chat_name")
-        defaults.set(chat_id, forKey: "chat_id")
-        
+        if let chat_id = database.queryCheckForChat(user_id: user_id, group_id: group_id, category_id: category_id) {
+            defaults.set(chat_name, forKey: "chat_name")
+            defaults.set(chat_id, forKey: "chat_id")
+        }
+        else {
+            database.insertChat(chat_name: chat_name, user_id: user_id, category_id: category_id, group_id: group_id)
+            let chat_id = database.queryChatID(chat_name: chat_name, user_id: user_id, group_id: group_id, category_id: category_id)
+            defaults.set(chat_name, forKey: "chat_name")
+            defaults.set(chat_id, forKey: "chat_id")
+        }
+          
         performSegue(withIdentifier: "goToChatFromItem", sender: self)
     }
 }

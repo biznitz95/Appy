@@ -7,4 +7,5 @@ target 'Appy' do
   # Pods for Appy
 	pod 'ChameleonFramework'
     	pod 'lottie-ios'
+	pod 'JGProgressHUD'
 end

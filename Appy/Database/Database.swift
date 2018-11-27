@@ -40,8 +40,7 @@ class Database {
             category_id                 INTEGER             PRIMARY KEY         AUTOINCREMENT,
             category_name               VARCHAR(255)        NOT NULL,
             category_color              VARCHAR(255)        NOT NULL,
-            group_id                    INTEGER             NOT NULL,
-            allowed_group_id            INTEGER
+            group_id                    INTEGER             NOT NULL
         );
     """
     let createTableItemString = """
@@ -59,9 +58,7 @@ class Database {
             chat_name               VARCHAR(255)        NOT NULL,
             user_id                 INTEGER             NOT NULL,
             category_id             INTEGER             NOT NULL,
-            group_id                INTEGER             NOT NULL,
-            allowed_group_id        INTEGER,
-            allowed_user_id         INTEGER
+            group_id                INTEGER             NOT NULL
         );
     """
     let createTableMessageString = """
@@ -72,6 +69,16 @@ class Database {
             chat_id                 INTEGER             NOT NULL,
             message_time            DATE                NOT NULL
         );
+    """
+    
+    let createTablePermissionString = """
+        CREATE TABLE IF NOT EXISTS Permission (
+            main_user_id            INTEGER,
+            user_id                 INTEGER,
+            group_id                INTEGER,
+            category_id             INTEGER,
+            chat_id                 INTEGER
+        )
     """
     
     /*  USER QUERIES  */
@@ -99,16 +106,17 @@ class Database {
     let insertStatementStringMessage = "INSERT INTO Message (message_name, user_id, chat_id, message_time) VALUES(?,?,?,?);"
     let queryStatementStringMessage = "SELECT * FROM Message;"
     
-    
     func openDatabase() -> OpaquePointer? {
         var db: OpaquePointer? = nil
         
 //        guard let part1DbPath = Bundle.main.path(forResource: "Appy", ofType: "sqlite") else {fatalError("Could not find database!")}
-        guard let part1DbPath = copyDatabaseIfNeeded() else {fatalError("Could not load database")}
-//        let part1DbPath = "/Users/bizetrodriguez/Desktop/Appy/Databases/Appy.sqlite"
+//        guard let part1DbPath = copyDatabaseIfNeeded() else {fatalError("Could not load database")}
+        let part1DbPath = "/Users/bizetrodriguez/Desktop/Appy/Databases/Appy.sqlite"
         
-        if sqlite3_open(String(part1DbPath.path), &db) == SQLITE_OK {
-            print("Successfully opened connection to database at \(String(part1DbPath.path))")
+//        if sqlite3_open(String(part1DbPath.path), &db) == SQLITE_OK {
+        if sqlite3_open(part1DbPath, &db) == SQLITE_OK {
+//            print("Successfully opened connection to database at \(String(part1DbPath.path))")
+            print("Successfully opened connection to database at \(part1DbPath)")
             return db
         } else {
             print("Unable to open database. Verify that you created the directory described " +
@@ -528,9 +536,9 @@ class Database {
         return info
     }
     
-    func queryCategoryGiveGroupID(group_id: Int32) -> [Category] {
+    func queryCategoryGiveGroupID(group_id: Int32, user_id: Int32 = -1, main_user_id: Int32 = -1) -> [Category] {
         var queryStatement: OpaquePointer? = nil
-        let queryStatementStringCategoryGivenID = "SELECT * FROM Category WHERE group_id = \(group_id);"
+        let queryStatementStringCategoryGivenID = "SELECT * FROM Category WHERE Category.group_id = \(group_id);"
         
         var info: [Category] = []
         // 1
@@ -557,8 +565,70 @@ class Database {
         return info
     }
     
-    func queryCategoryID(category_name: String, group_id: Int32) -> Int32? {
-        let queryStatementStringCategoryID = "SELECT category_id FROM Category WHERE category_name = '\(category_name)' AND group_id = \(group_id)"
+    func queryCategoryGivenPermission(user_id: Int32, group_id: Int32, main_user_id: Int32 = -1) -> [Category] {
+        var queryStatement: OpaquePointer? = nil
+        let queryStatementStringCategoryGivenPermission = """
+        SELECT Category.category_name, Category.category_color
+        FROM Category, Permission
+        WHERE Permission.user_id = \(user_id) AND Permission.group_id = \(group_id) AND Permission.category_id = Category.category_id;
+        """
+        
+        var info: [Category] = []
+        
+        if sqlite3_prepare_v2(db, queryStatementStringCategoryGivenPermission, -1, &queryStatement, nil) == SQLITE_OK {
+            
+            while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                let name = String(cString: sqlite3_column_text(queryStatement, 0)!)
+                let color = String(cString: sqlite3_column_text(queryStatement, 1)!)
+                
+                info.append(Category(name: name, color: color))
+            }
+        }
+        else {
+            print("SELECT statement could not be prepared")
+        }
+        
+        sqlite3_finalize(queryStatement)
+        
+        return info
+    }
+    
+    func queryCategoryID(category_name: String, group_id: Int32, user_id: Int32 = -1) -> Int32? {
+        let queryStatementStringCategoryID = "SELECT category_id FROM Category WHERE category_name = '\(category_name)' AND  group_id = \(group_id)"
+        var queryStatement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, queryStatementStringCategoryID, -1, &queryStatement, nil) == SQLITE_OK {
+            
+            while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                let queryResultCol0 = sqlite3_column_int(queryStatement, 0)
+                let id = Int32(queryResultCol0)
+                
+                sqlite3_finalize(queryStatement)
+                return id
+            }
+            
+        } else {
+            print("SELECT statement could not be prepared for Group")
+        }
+        sqlite3_finalize(queryStatement)
+        print("Could not find id using normal queryCategoryID.")
+        return nil
+    }
+    
+    func queryCategoryIDUsingPermission(category_name: String, group_id: Int32, user_id: Int32 = -1) -> Int32? {
+        let queryStatementStringCategoryID = """
+        SELECT Category.category_id
+        FROM Category
+        WHERE
+            Category.category_id = ( SELECT Category.category_id
+                FROM Category, Permission
+                WHERE
+                    Permission.group_id = \(group_id) AND
+                    Permission.user_id = \(user_id) AND
+                    Category.category_id = Permission.category_id AND
+                    Category.category_name = '\(category_name)'
+            )
+        """
+
         var queryStatement: OpaquePointer? = nil
         if sqlite3_prepare_v2(db, queryStatementStringCategoryID, -1, &queryStatement, nil) == SQLITE_OK {
             
@@ -708,9 +778,11 @@ class Database {
         return nil
     }
     
-    func queryItemGivenCategoryID(category_id: Int32) -> [Item] {
+    
+    /* queryItemgivenCategoryID seems to work fine for now */
+    func queryItemGivenCategoryID(category_id: Int32, user_id: Int32 = -1, group_id: Int32 = -1) -> [Item] {
         var queryStatement: OpaquePointer? = nil
-        let queryStatementStringCategoryGivenID = "SELECT * FROM item WHERE category_id = \(category_id);"
+        let queryStatementStringCategoryGivenID = "SELECT * FROM Item WHERE category_id = \(category_id);"
         
         var info: [Item] = []
         // 1
@@ -911,6 +983,45 @@ class Database {
         return nil
     }
     
+    func queryCheckForChat(user_id: Int32, group_id: Int32, category_id: Int32) -> Int32? {
+        let queryStatementStringChatID = """
+            SELECT Chat.chat_id
+            FROM Chat
+            WHERE
+                (user_id = \(user_id) AND
+                group_id = \(group_id) AND
+                category_id = \(category_id)) OR
+                Chat.chat_id = (
+                    SELECT Permission.chat_id
+                    FROM Permission
+                    WHERE
+                        Permission.user_id = \(user_id) AND
+                        Permission.group_id = \(group_id) AND
+                        Permission.category_id = \(category_id)
+                    )
+        """
+        
+        var queryStatement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, queryStatementStringChatID, -1, &queryStatement, nil) == SQLITE_OK {
+            
+            while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                let queryResultCol0 = sqlite3_column_int(queryStatement, 0)
+                let id = Int32(queryResultCol0)
+                
+                sqlite3_finalize(queryStatement)
+                print("Found chat id: \(id)")
+                return id
+            }
+            
+        } else {
+            print("SELECT statement could not be prepared for Chat")
+        }
+        sqlite3_finalize(queryStatement)
+        print("Could not find chat id!")
+        return nil
+    }
+    
+    
     func updateChat(chat_name: String, chat_id: Int32) {
         let updateStatementString = "UPDATE Chat SET chat_name = '\(chat_name)' WHERE chat_id = \(chat_id);"
         var updateStatement: OpaquePointer? = nil
@@ -1022,9 +1133,13 @@ class Database {
         return messages
     }
     
-    func queryMessagesGivenIDS(chat_id: Int32) -> [Message] {
+    #warning("Fix queryMessagesGivenIDS query")
+    func queryMessagesGivenIDS(chat_id: Int32, user_id: Int32 = -1, group_id: Int32 = -1, category_id: Int32 = -1) -> [Message] {
         var queryStatement: OpaquePointer? = nil
+//        let queryStatementStringMessageGivenIDS = " SELECT * FROM Message, Permission WHERE Message.chat_id = \(chat_id) OR ( Permission.chat_id = \(chat_id) AND Permission.user_id = \(user_id) AND Permission.category_id = \(category_id));"
+        
         let queryStatementStringMessageGivenIDS = " SELECT * FROM Message WHERE chat_id = \(chat_id);"
+        
         var messages = [Message]()
         
         // 1
@@ -1037,11 +1152,6 @@ class Database {
                 let chat_id = Int32(sqlite3_column_int(queryStatement, 3))
                 let time = Double(sqlite3_column_double(queryStatement, 4))
                 let date = NSDate(timeIntervalSince1970: time)
-                
-                print("Message Name: \(name)")
-                print("User ID: \(user_id)")
-                print("Chat ID: \(chat_id)")
-                print("Time: \(NSDate(timeIntervalSince1970: time))")
                 
                 messages.append(Message(name: name, user_id: user_id, chat_id: chat_id, message_time: date as Date))
             }
@@ -1111,6 +1221,91 @@ class Database {
         sqlite3_finalize(deleteStatement)
     }
     
+    func createTablePermission() {
+        // 1
+        var createTableStatement: OpaquePointer? = nil
+        // 2
+        if sqlite3_prepare_v2(db, createTablePermissionString, -1, &createTableStatement, nil) == SQLITE_OK {
+            // 3
+            if sqlite3_step(createTableStatement) == SQLITE_DONE {
+                print("Perimission table created.")
+            } else {
+                print("Perimission table could not be created.")
+            }
+        } else {
+            print("CREATE TABLE statement could not be prepared for Message.")
+        }
+        // 4
+        sqlite3_finalize(createTableStatement)
+    }
+    
+    func insertIntoPermission(main_user_id: Int32, user_id: Int32, category_id: Int32, chat_id: Int32) {
+        var insertStatement: OpaquePointer? = nil
+        let insertStatementStringPermission = "INSERT INTO Permission (main_user_id, user_id, group_id, category_id, chat_id) VALUES(\(main_user_id), \(user_id), -1, \(category_id),\(chat_id));"
+        
+        
+        if sqlite3_prepare_v2(db, insertStatementStringPermission, -1, &insertStatement, nil) == SQLITE_OK {
+
+            if sqlite3_step(insertStatement) == SQLITE_DONE {
+                print("Successfully inserted row.")
+            } else {
+                print("Could not insert row.")
+            }
+        } else {
+            print("INSERT statement could not be prepared.")
+        }
+        // 5
+        sqlite3_finalize(insertStatement)
+    }
+    
+    func queryPermission(user_id: Int32) -> [Permission] {
+        var permissions: [Permission] = []
+        
+        let queryStatementStringMessageID = "SELECT * FROM Permission WHERE user_id = \(user_id); "
+        
+        var queryStatement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, queryStatementStringMessageID, -1, &queryStatement, nil) == SQLITE_OK {
+            
+            while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                let main_user_id = Int32(sqlite3_column_int(queryStatement, 0))
+                let user_id = Int32(sqlite3_column_int(queryStatement, 1))
+                let group_id = Int32(sqlite3_column_int(queryStatement, 2))
+                let category_id = Int32(sqlite3_column_int(queryStatement, 3))
+                let chat_id = Int32(sqlite3_column_int(queryStatement, 4))
+                
+                if group_id == -1 {
+                    
+                    permissions.append(Permission(main_user_id: main_user_id, user_id: user_id, group_id: group_id, category_id: category_id, chat_id: chat_id))
+                }
+            }
+            
+            sqlite3_finalize(queryStatement)
+            return permissions
+            
+        } else {
+            print("SELECT statement could not be prepared for Message")
+        }
+        sqlite3_finalize(queryStatement)
+        print("Could not find id!")
+        return permissions
+    }
+    
+    func updatePermission(main_user_id: Int32, user_id: Int32, group_id: Int32, category_id: Int32, chat_id: Int32) {
+        let updateStatementString = "UPDATE Permission SET group_id = \(group_id) WHERE main_user_id = \(main_user_id) AND user_id = \(user_id) AND category_id = \(category_id) AND chat_id = \(chat_id);"
+        var updateStatement: OpaquePointer? = nil
+        
+        if sqlite3_prepare_v2(db, updateStatementString, -1, &updateStatement, nil) == SQLITE_OK {
+            if sqlite3_step(updateStatement) == SQLITE_DONE {
+                print("Successfully updated row.")
+            } else {
+                print("Could not update row.")
+            }
+        } else {
+            print("UPDATE statement could not be prepared for Message")
+        }
+        sqlite3_finalize(updateStatement)
+    }
+    
     func createAllTables() {
         createTableUser()
         createTableGroup()
@@ -1118,6 +1313,7 @@ class Database {
         createTableItem()
         createTableChat()
         createTableMessage()
+        createTablePermission()
     }
     
     func close() {

@@ -2,21 +2,25 @@ PODS:
   - ChameleonFramework (2.1.0):
     - ChameleonFramework/Default (= 2.1.0)
   - ChameleonFramework/Default (2.1.0)
+  - JGProgressHUD (2.0.3)
   - lottie-ios (2.5.0)
 
 DEPENDENCIES:
   - ChameleonFramework
+  - JGProgressHUD
   - lottie-ios
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - ChameleonFramework
+    - JGProgressHUD
     - lottie-ios
 
 SPEC CHECKSUMS:
   ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
+  JGProgressHUD: 12b20a8f4ffe05258f8635c1ab92816e451f904d
   lottie-ios: d699fdee68d7b63e721d949388b015fef1aaa4ac
 
-PODFILE CHECKSUM: f16ad30b225229e6fe142ecc5d7f43e625d11fd0
+PODFILE CHECKSUM: cf196835e6ccd4f8fb10ce7610200c2b7a8ddc4e
 
 COCOAPODS: 1.5.3

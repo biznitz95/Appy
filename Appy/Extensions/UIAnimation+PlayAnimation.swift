@@ -11,9 +11,9 @@ import Lottie
 
 extension LOTAnimationView {
     
-    func playAnimation(image: String) {
+    func playAnimation(image: String, loop: Bool = true) {
         self.setAnimation(named: image)
-        self.loopAnimation = true
+        self.loopAnimation = loop
         self.contentMode = .scaleAspectFit
         self.play()
     }
