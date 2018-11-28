@@ -110,11 +110,11 @@ class Database {
         var db: OpaquePointer? = nil
         
 //        guard let part1DbPath = Bundle.main.path(forResource: "Appy", ofType: "sqlite") else {fatalError("Could not find database!")}
-//        guard let part1DbPath = copyDatabaseIfNeeded() else {fatalError("Could not load database")}
-        let part1DbPath = "/Users/bizetrodriguez/Desktop/Appy/Databases/Appy.sqlite"
+        guard let part1DbPath = copyDatabaseIfNeeded() else {fatalError("Could not load database")}
+//        let part1DbPath = "/Users/bizetrodriguez/Desktop/Appy/Databases/Appy.sqlite"
         
-//        if sqlite3_open(String(part1DbPath.path), &db) == SQLITE_OK {
-        if sqlite3_open(part1DbPath, &db) == SQLITE_OK {
+        if sqlite3_open(String(part1DbPath.path), &db) == SQLITE_OK {
+//        if sqlite3_open(part1DbPath, &db) == SQLITE_OK {
 //            print("Successfully opened connection to database at \(String(part1DbPath.path))")
             print("Successfully opened connection to database at \(part1DbPath)")
             return db
@@ -1256,6 +1256,36 @@ class Database {
         }
         // 5
         sqlite3_finalize(insertStatement)
+    }
+    
+    func checkForAlreadyExistingUserInPermission(main_user_id: Int32, user_id: Int32, category_id: Int32, chat_id: Int32) -> Bool {
+        let queryStatementStringExistingCheckInPermission = """
+            SELECT *
+            FROM Permission
+            WHERE
+                user_id = \(user_id) AND main_user_id = \(main_user_id) AND category_id = \(category_id) AND chat_id = \(chat_id)
+            ;
+        """
+
+        var queryStatement: OpaquePointer? = nil
+        if sqlite3_prepare_v2(db, queryStatementStringExistingCheckInPermission, -1, &queryStatement, nil) == SQLITE_OK {
+            
+            while (sqlite3_step(queryStatement) == SQLITE_ROW) {
+                let queryResultCol0 = sqlite3_column_int(queryStatement, 1)
+                let id = Int32(queryResultCol0)
+                
+                sqlite3_finalize(queryStatement)
+                print("Found user: \(id)! Returning true")
+                return true
+            }
+            
+        } else {
+            print("SELECT statement could not be prepared for Message")
+        }
+        sqlite3_finalize(queryStatement)
+        print("Could not find id!")
+        
+        return false
     }
     
     func queryPermission(user_id: Int32) -> [Permission] {

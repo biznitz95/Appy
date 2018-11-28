@@ -22,6 +22,7 @@ class ItemViewController: UIViewController {
     
     var items = [Item]()
     var database = Database()
+    var timer = Timer()
     
     let defaults = UserDefaults.standard
     
@@ -40,7 +41,7 @@ class ItemViewController: UIViewController {
         
         // Change nav bar title
         if let title = defaults.string(forKey: "category_name") {
-            self.navigationItem.title = title
+            self.navigationItem.title = title + " Items"
         }
         
         let user_id = Int32(defaults.integer(forKey: "user_id"))
@@ -53,6 +54,23 @@ class ItemViewController: UIViewController {
         myTableView.dataSource = self
         myTableView.delegate = self
         self.view.addSubview(myTableView)
+        
+        scheduledTimerWithTimeInterval()
+    }
+    
+    func scheduledTimerWithTimeInterval(){
+        // Scheduling timer to Call the function "updateCounting" with the interval of 1 seconds
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(update), userInfo: nil, repeats: true)
+    }
+    
+    @objc func update(){
+        // Get chat_id and find messages with that chat_id
+        let user_id = Int32(defaults.integer(forKey: "user_id"))
+        let group_id = Int32(defaults.integer(forKey: "group_id"))
+        let category_id = Int32(defaults.integer(forKey: "category_id"))
+        items = database.queryItemGivenCategoryID(category_id: category_id, user_id: user_id, group_id: group_id)
+        myTableView.reloadData()
+        
     }
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {

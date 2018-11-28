@@ -54,16 +54,11 @@ class ChatViewController: UIViewController {
         myTableView.delegate = self
         self.view.addSubview(myTableView)
         
-        // Get chat_id and find messages with that chat_id
-        let user_id = Int32(defaults.integer(forKey: "user_id"))
-        let group_id = Int32(defaults.integer(forKey: "group_id"))
-        let category_id = Int32(defaults.integer(forKey: "category_id"))
-        let chat_id = Int32(defaults.integer(forKey: "chat_id"))
-        messages = database.queryMessagesGivenIDS(chat_id: chat_id, user_id: user_id, group_id: group_id, category_id: category_id)
+        // Get chat_id and find messages with that chat_id to load onto tableView
+        update()
         
         // Set the title for the chat based off the category name
-        guard let title = defaults.string(forKey: "chat_name") else {fatalError("Failed to get group_name for chat")}
-        self.navigationItem.title = title + " Chat"
+        setTitle()
         
         // Allow keyboard to go away when user taps outside keyboard
         myView.keyboardDismiss()
@@ -78,43 +73,30 @@ class ChatViewController: UIViewController {
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         var textField  = UITextField()
-        let errorView = LOTAnimationView(name: "error")
-        let checkView = LOTAnimationView(name: "check")
-        let HUD = JGProgressHUD(style: .dark)
-        
         
         let alert = UIAlertController(title: "Add New Member to the chat and category", message: "", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Add", style: .default) { (action) in
             if textField.text! != "" {
-                
+                let user_name = self.defaults.string(forKey: "user_name")
                 let main_user_id = Int32(self.defaults.integer(forKey: "user_id"))
                 guard let user_id = self.database.queryUserID(user_name: textField.text!) else {
-                    
-                    
-                    HUD.indicatorView = JGProgressHUDImageIndicatorView(contentView: errorView)
-                    errorView.playAnimation(image: "error", loop: false)
-                    HUD.show(in: self.view)
-                    let time = Double(errorView.animationDuration)
-                    HUD.dismiss(afterDelay: time, animated: true)
-                    
-                    self.view.shake()
-                    
-                    return;
-                    
+                    showError(view: self.view, textLabel: "Could not find user: \(textField.text!)")
+                    return
                 }
                 let category_id = Int32(self.defaults.integer(forKey: "category_id"))
                 let chat_id = Int32(self.defaults.integer(forKey: "chat_id"))
                 
-                
-                self.database.insertIntoPermission(main_user_id: main_user_id, user_id: user_id, category_id: category_id, chat_id: chat_id)
-                
-                HUD.indicatorView = JGProgressHUDImageIndicatorView(contentView: checkView)
-                checkView.playAnimation(image: "check", loop: false)
-                HUD.show(in: self.view)
-                let time = Double(checkView.animationDuration)
-                HUD.dismiss(afterDelay: time, animated: true)
-                
+                if user_name! == textField.text! {
+                    showError(view: self.view, textLabel: "Can't add yourself.")
+                }
+                else if !self.database.checkForAlreadyExistingUserInPermission(main_user_id: main_user_id, user_id: user_id, category_id: category_id, chat_id: chat_id) {
+                    self.database.insertIntoPermission(main_user_id: main_user_id, user_id: user_id, category_id: category_id, chat_id: chat_id)
+                    showCheck(view: self.view, textLabel: "Sent request to: \(textField.text!)")
+                }
+                else {
+                    showError(view: self.view, textLabel: "User request already sent.")
+                }
                 self.myTableView.reloadData()
             }
         }
@@ -164,6 +146,15 @@ class ChatViewController: UIViewController {
         messages = database.queryMessagesGivenIDS(chat_id: chat_id, user_id: user_id, group_id: group_id, category_id: category_id)
         myTableView.reloadData()
         
+    }
+    
+    func setTitle() {
+        if let title = defaults.string(forKey: "chat_name") {
+            self.navigationItem.title = title + " Chat"
+        }
+        else {
+            showError(view: view)
+        }
     }
 }
 
@@ -224,6 +215,8 @@ extension ChatViewController: UITableViewDataSource {
 extension ChatViewController: UITableViewDelegate {
 
 }
+
+// MARK: - UITextFieldDelegate
 
 extension ChatViewController: UITextFieldDelegate {
     
