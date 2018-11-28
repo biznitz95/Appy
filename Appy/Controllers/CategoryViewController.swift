@@ -118,22 +118,41 @@ extension CategoryViewController: UITableViewDataSource {
             
             let category_name = categories[indexPath.row].name
             let group_id = Int32(defaults.integer(forKey: "group_id"))
-            
-            guard let category_id = database.queryCategoryID(category_name: category_name, group_id: group_id) else {fatalError("Failed to get category_id")}
-            
-            database.deleteCategory(category_id: category_id)
-            
-            let items = database.queryItemGivenCategoryID(category_id: category_id)
-            
-            // Delete items inside the category being deleted
-            for item in items {
-                guard let item_id = database.queryItemID(item_name: item.name, category_id: category_id) else {fatalError("Failed to get item_id in category delete section")}
+            let user_id = Int32(defaults.integer(forKey: "user_id"))
+            if let category_id = database.queryCategoryID(category_name: category_name, group_id: group_id) {
+                database.deleteCategory(category_id: category_id)
                 
-                database.deleteItem(item_id: item_id)
+                let items = database.queryItemGivenCategoryID(category_id: category_id)
+                
+                // Delete items inside the category being deleted
+                for item in items {
+                    guard let item_id = database.queryItemID(item_name: item.name, category_id: category_id) else {fatalError("Failed to get item_id in category delete section")}
+                    
+                    database.deleteItem(item_id: item_id)
+                }
+                
+                self.categories.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
             }
-            
-            self.categories.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            else if let category_id = database.queryCategoryIDUsingPermission(category_name: category_name, group_id: group_id, user_id: user_id) {
+                database.deleteCategory(category_id: category_id)
+                
+                let items = database.queryItemGivenCategoryID(category_id: category_id)
+                
+                // Delete items inside the category being deleted
+                for item in items {
+                    guard let item_id = database.queryItemID(item_name: item.name, category_id: category_id) else {fatalError("Failed to get item_id in category delete section")}
+                    
+                    database.deleteItem(item_id: item_id)
+                }
+                
+                self.categories.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
+            else {
+                showError(view: self.view, textLabel: "Could not delete category due to id error")
+                return
+            }
         }
     }
 }

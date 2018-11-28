@@ -12,3 +12,13 @@ Look into:
         private var skyBlueColor: CGColor { return UIColor.flatSkyBlue()!.cgColor }
 
     8) Look into AutoLayout Stack Views
+
+To do:
+
+    1) Lock user interaction when they tap on a tableviewcell
+
+    2) Add progressHUD When tap on tableviewcell or adding anything
+
+    3) Create checkInPermission for already existing request or already existing user including main user
+
+    4) Method for deleting entire category or group and not having other users crash

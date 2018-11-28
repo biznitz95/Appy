@@ -111,7 +111,7 @@ class HomePageController: UIViewController {
         var textField  = UITextField()
         var group_chosen: String = ""
         
-        let alert = UIAlertController(title: "Choose Group To Join Category With", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Choose Group To Add Cateogory You Were Invited To", message: "", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Add", style: .default) { (action) in
             if textField.text! != "" {
@@ -121,8 +121,6 @@ class HomePageController: UIViewController {
                 guard let newGroupID = self.database.queryGroupID(group_name: group_chosen, user_id: user_id) else { fatalError("Could not retrieve group_id")}
                 
                 self.database.updatePermission(main_user_id: main_user_id, user_id: user_id, group_id: newGroupID, category_id: category_id, chat_id: chat_id)
-                
-                self.myTableView.reloadData()
             }
         }
         
