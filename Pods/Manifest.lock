@@ -11,7 +11,7 @@ DEPENDENCIES:
   - lottie-ios
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - ChameleonFramework
     - JGProgressHUD
     - lottie-ios
@@ -23,4 +23,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: cf196835e6ccd4f8fb10ce7610200c2b7a8ddc4e
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.8.4

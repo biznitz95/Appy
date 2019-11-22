@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Register View Controller-->
+        <scene sceneID="fBA-Gt-6c9">
+            <objects>
+                <viewController storyboardIdentifier="UIViewController-KI6-m8-khc" id="KI6-m8-khc" customClass="RegisterViewController" customModule="Appy" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleAspectFit" id="wAM-KY-zpp" customClass="RegisterView" customModule="Appy" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleAspectFit" axis="vertical" distribution="fillEqually" alignment="center" spacing="56" translatesAutoresizingMaskIntoConstraints="NO" id="k09-zw-QMB">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Appy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Rs-xl-C0r">
+                                        <rect key="frame" x="20.5" y="0.0" width="373" height="53.5"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="48"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4Az-8M-ura" customClass="CustomTextField" customModule="Appy" customModuleProvider="target">
+                                        <rect key="frame" x="20.5" y="109.5" width="373" height="53"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" enablesReturnKeyAutomatically="YES" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="email"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.2064" green="0.59855999999999998" blue="0.85999999999999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z08-YZ-fPo" customClass="CustomTextField" customModule="Appy" customModuleProvider="target">
+                                        <rect key="frame" x="20.5" y="218.5" width="373" height="53.5"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" enablesReturnKeyAutomatically="YES" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="username"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.2064" green="0.59855999999999998" blue="0.85999999999999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="57f-Qs-rQO" customClass="CustomTextField" customModule="Appy" customModuleProvider="target">
+                                        <rect key="frame" x="28.5" y="328" width="357" height="53"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" enablesReturnKeyAutomatically="YES" secureTextEntry="YES" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="new-password"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.2064" green="0.59855999999999998" blue="0.85999999999999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z7v-tR-QLw" customClass="CustomTextField" customModule="Appy" customModuleProvider="target">
+                                        <rect key="frame" x="28.5" y="437" width="357" height="53.5"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" enablesReturnKeyAutomatically="YES" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no" textContentType="new-password"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" red="0.2064" green="0.59855999999999998" blue="0.85999999999999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                                <real key="value" value="1"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="80C-QX-Pd6" customClass="RoundCornersButton" customModule="Appy" customModuleProvider="target">
+                                        <rect key="frame" x="28.5" y="546.5" width="357" height="53"/>
+                                        <color key="backgroundColor" red="0.16059999999999999" green="0.50224000000000002" blue="0.72999999999999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                        <state key="normal" title="Register">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="pressedRegister:" destination="KI6-m8-khc" eventType="touchUpInside" id="StE-pe-hvY"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zmy-k7-gEn" customClass="RoundCornersButton" customModule="Appy" customModuleProvider="target">
+                                        <rect key="frame" x="28.5" y="655.5" width="357" height="53.5"/>
+                                        <color key="backgroundColor" red="0.16059999999999999" green="0.50224000000000002" blue="0.72999999999999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                        <state key="normal" title="Login">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="pressedLogin:" destination="KI6-m8-khc" eventType="touchUpInside" id="VCv-MH-XmI"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKM-4E-GIF">
+                                        <rect key="frame" x="28.5" y="765" width="357" height="53"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" title="Forgot Username or Password"/>
+                                        <connections>
+                                            <action selector="pressedForgot:" destination="KI6-m8-khc" eventType="touchUpInside" id="ScZ-lR-joq"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="Zmy-k7-gEn" firstAttribute="width" secondItem="SKM-4E-GIF" secondAttribute="width" id="BCf-nO-rnd"/>
+                                    <constraint firstItem="4Az-8M-ura" firstAttribute="width" secondItem="z08-YZ-fPo" secondAttribute="width" id="BRg-7X-u7t"/>
+                                    <constraint firstItem="z7v-tR-QLw" firstAttribute="width" secondItem="80C-QX-Pd6" secondAttribute="width" id="Bsa-sb-smN"/>
+                                    <constraint firstItem="9Rs-xl-C0r" firstAttribute="width" secondItem="4Az-8M-ura" secondAttribute="width" id="GTN-Gn-m52"/>
+                                    <constraint firstItem="z08-YZ-fPo" firstAttribute="width" secondItem="57f-Qs-rQO" secondAttribute="width" multiplier="1.04412" id="I7p-4b-FF6"/>
+                                    <constraint firstItem="80C-QX-Pd6" firstAttribute="width" secondItem="Zmy-k7-gEn" secondAttribute="width" id="dKd-38-FQg"/>
+                                    <constraint firstItem="57f-Qs-rQO" firstAttribute="width" secondItem="z7v-tR-QLw" secondAttribute="width" id="nSB-kR-tly"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.16500000000000001" green="0.23250000000000001" blue="0.29999999999999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="lps-ei-IbL" firstAttribute="bottom" secondItem="k09-zw-QMB" secondAttribute="bottom" id="E0e-It-D1Y"/>
+                            <constraint firstItem="lps-ei-IbL" firstAttribute="trailing" secondItem="k09-zw-QMB" secondAttribute="trailing" id="GNo-DH-YKc"/>
+                            <constraint firstItem="9Rs-xl-C0r" firstAttribute="width" secondItem="wAM-KY-zpp" secondAttribute="width" multiplier="0.9" id="KQG-IW-plO"/>
+                            <constraint firstItem="k09-zw-QMB" firstAttribute="leading" secondItem="lps-ei-IbL" secondAttribute="leading" id="eX7-RP-w2g"/>
+                            <constraint firstItem="k09-zw-QMB" firstAttribute="top" secondItem="lps-ei-IbL" secondAttribute="top" id="mp6-cZ-SID"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="lps-ei-IbL"/>
+                        <connections>
+                            <outlet property="emailText" destination="4Az-8M-ura" id="tBn-Hr-CQo"/>
+                            <outlet property="forgotButton" destination="SKM-4E-GIF" id="FbY-s0-jqx"/>
+                            <outlet property="loginButton" destination="Zmy-k7-gEn" id="ufC-ar-Kzd"/>
+                            <outlet property="passwordConfirmText" destination="z7v-tR-QLw" id="vxS-5f-2M0"/>
+                            <outlet property="passwordText" destination="57f-Qs-rQO" id="dnf-qa-Kfu"/>
+                            <outlet property="registerButton" destination="80C-QX-Pd6" id="tU9-Fu-fpE"/>
+                            <outlet property="usernameText" destination="z08-YZ-fPo" id="cut-gU-dv9"/>
+                        </connections>
+                    </view>
+                    <connections>
+                        <segue destination="U1Q-je-Agh" kind="show" identifier="goToHomePageFromRegister" id="2eM-Qq-FCR"/>
+                        <segue destination="mIF-XQ-rwJ" kind="presentation" identifier="goToLoginFromRegister" modalPresentationStyle="fullScreen" modalTransitionStyle="flipHorizontal" id="RDB-II-3OY"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="t5w-rs-ImV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-98" y="986"/>
+        </scene>
+        <!--Login-->
+        <scene sceneID="JoL-uf-Qsa">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Login" id="mIF-XQ-rwJ" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SfQ-qH-ddG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-79.200000000000003" y="133.00492610837438"/>
+        </scene>
+        <!--UINavigationController-Xa6-Tx-fbr-->
+        <scene sceneID="cU5-9Y-oWf">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="UINavigationController-Xa6-Tx-fbr" storyboardName="Main" referencedIdentifier="UINavigationController-Xa6-Tx-fbr" id="U1Q-je-Agh" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HT2-Q5-TBQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1693.5999999999999" y="629.55665024630548"/>
+        </scene>
+    </scenes>
+</document>

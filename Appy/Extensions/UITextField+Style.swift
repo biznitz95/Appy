@@ -10,10 +10,4 @@ import UIKit
 import ChameleonFramework
 
 extension UITextField {
-    func modifyTextField(radius: CGFloat, width: CGFloat, color: CGColor) {
-        self.backgroundColor = .clear
-        self.layer.styleBorder(cornerRadius: radius, width: width, color: color)
-        guard let string = self.placeholder else {fatalError("No placeholder text found")}
-        self.attributedPlaceholder = NSMutableAttributedString(textStyled: string)
-    }
 }
